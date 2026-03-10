@@ -462,6 +462,33 @@ const TEAM_ABBREVIATIONS: Record<string, string> = {
 };
 
 /**
+ * Country names → ISO slug codes used in Polymarket sports event slugs.
+ * Applied during keyword extraction so "Malaysia vs Bahrain" → keywords
+ * include "mys" and "bhr", matching slugs like `crint-mys-bhr-2026-03-10`.
+ */
+const COUNTRY_TO_SLUG_CODE: Record<string, string> = {
+	// Cricket-playing nations (primary use case — international cricket slugs)
+	malaysia: 'mys', bahrain: 'bhr', india: 'ind', australia: 'aus',
+	england: 'eng', pakistan: 'pak', bangladesh: 'bgd', nepal: 'npl',
+	oman: 'omn', namibia: 'nam', ireland: 'ire', scotland: 'sco',
+	zimbabwe: 'zim', afghanistan: 'afg', kenya: 'ken', uganda: 'uga',
+	singapore: 'sgp', hongkong: 'hkg', qatar: 'qat', kuwait: 'kwt',
+	bermuda: 'bmu', botswana: 'bwa', cameroon: 'cmr', ghana: 'gha',
+	guernsey: 'ggy', jersey: 'jey', nigeria: 'nga', rwanda: 'rwa',
+	tanzania: 'tza', thailand: 'tha', vanuatu: 'vut', samoa: 'wsm',
+	fiji: 'fji', png: 'png', suriname: 'sur', argentina: 'arg',
+	// Multi-word country names
+	'new zealand': 'nzl', 'south africa': 'rsa', 'sri lanka': 'slk',
+	'west indies': 'win', 'united arab emirates': 'uae', 'saudi arabia': 'ksa',
+	'papua new guinea': 'png',
+	// Soccer/football nations used in Polymarket slugs
+	brazil: 'bra', mexico: 'mex', japan: 'jpn', korea: 'kor',
+	china: 'chn', turkey: 'tur', russia: 'rus', portugal: 'por',
+	denmark: 'den', norway: 'nor', sweden: 'swe', finland: 'fin',
+	croatia: 'cro', serbia: 'srb', ukraine: 'ukr',
+};
+
+/**
  * Category keywords → Gamma API tag slugs.
  * "show me politics" → fetch events tagged "politics".
  */
@@ -840,6 +867,24 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		}
 
 		// ──────────────────────────────────────────────────────────────────────
+		// SPORTS-FIRST — for vs-queries, run sports search BEFORE slug/text
+		// search. This prevents irrelevant slug results from short-circuiting
+		// the precise series-based sports search.
+		// Only triggered for queries containing "vs"/"versus" — category
+		// queries like "show me sports" skip this and go to slug/text.
+		// ──────────────────────────────────────────────────────────────────────
+		const lowerSearchTerms = searchTerms.toLowerCase();
+		const isSportsFirstCandidate = lowerSearchTerms.includes(' vs ') || lowerSearchTerms.includes(' versus ');
+		if (isSportsFirstCandidate) {
+			console.log(`[search] Attempting sports-first search for vs-query: "${searchTerms}"`);
+			const sportsFirstResults = await this.searchSportsMarkets(searchTerms);
+			if (sportsFirstResults.length > 0) {
+				console.log(`[search] Sports-first found ${sportsFirstResults.length} markets, returning`);
+				return sportsFirstResults;
+			}
+		}
+
+		// ──────────────────────────────────────────────────────────────────────
 		// PARALLEL SEARCH: Run slug candidates + events text_query concurrently
 		// then merge results for best coverage.
 		// ──────────────────────────────────────────────────────────────────────
@@ -909,16 +954,16 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 			return this.scoreAndSortEventMarkets(mergedMarkets, searchTerms);
 		}
 
-		// ──────────────────────────────────────────────────────────────────────
-		// 4. SPORTS-AWARE SEARCH — promoted above sub-tag matching so that
-		//    sports queries (vs-queries, team names) don't get swallowed by
-		//    generic tag matches ("nba" → returns all NBA events, not the game).
-		// ──────────────────────────────────────────────────────────────────────
-		console.log(`[search] Attempting sports-aware search for: "${searchTerms}"`);
-		const sportsResults = await this.searchSportsMarkets(searchTerms);
-		if (sportsResults.length > 0) {
-			console.log(`[search] Sports search found ${sportsResults.length} markets, returning as primary results`);
-			return sportsResults;
+		// Sports search fallback — for non-vs queries that weren't handled by
+		// sports-first above (e.g. "NBA championship", "cricket world cup").
+		// Vs-queries already attempted sports search above, so skip for them.
+		if (!isSportsFirstCandidate) {
+			console.log(`[search] Attempting sports fallback for: "${searchTerms}"`);
+			const sportsResults = await this.searchSportsMarkets(searchTerms);
+			if (sportsResults.length > 0) {
+				console.log(`[search] Sports fallback found ${sportsResults.length} markets`);
+				return sportsResults;
+			}
 		}
 
 		// ──────────────────────────────────────────────────────────────────────
@@ -1231,6 +1276,26 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 			}
 		}
 
+		// Cricket country-name detection: if query mentions country names that
+		// are commonly associated with cricket (Malaysia, Bahrain, Nepal, etc.),
+		// search ALL cricket-tagged sports. This catches international cricket
+		// matches whose slugs use ISO country codes (mys, bhr, etc.) that
+		// aren't in SPORT_ALIASES.
+		if (detectedSports.length === 0) {
+			const CRICKET_TAG_ID = '517';
+			const queryWords = lowerQuery.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length >= 2);
+			const hasCricketCountry = queryWords.some(w => COUNTRY_TO_SLUG_CODE[w] !== undefined);
+			if (hasCricketCountry) {
+				const cricketSports = sportsMeta
+					.filter(s => s.tags.includes(CRICKET_TAG_ID))
+					.map(s => s.sport);
+				if (cricketSports.length > 0) {
+					console.log(`[search] Cricket country detected, searching cricket sports: ${cricketSports.join(', ')}`);
+					detectedSports = cricketSports;
+				}
+			}
+		}
+
 		// If still no sport detected, require a vs-query to continue.
 		if (detectedSports.length === 0 && !isVsQuery) {
 			return [];
@@ -1262,8 +1327,12 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 			'jap', 'kor', 'nor', 'efl', 'ssc',
 			// Combat / Racket / Other
 			'ufc', 'zuffa', 'atp', 'wta',
-			// Cricket
+			// Cricket (including international and domestic sub-leagues)
 			'ipl', 'odi', 't20', 'test', 'kbo', 'wbc',
+			'crint', 'crind', 'craus', 'creng', 'crpak', 'crsou', 'crnew', 'cruae',
+			'crban', 'cricipl', 'cricpsl', 'criccpl', 'cricsm', 'cricsa20',
+			'cricbbl', 'crict20blast', 'cricbpl', 'crict20lpl', 'cricilt20',
+			'cricmlc', 'cricss', 'crichkt20w', 'cricpakt20cup', 'cricps',
 			// Rugby
 			'ruprem', 'rutopft', 'rusixnat', 'ruurc', 'rusrp',
 			// Hockey
@@ -1327,6 +1396,15 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		for (const [fullName, abbr] of Object.entries(TEAM_ABBREVIATIONS)) {
 			if (lowerQuery.includes(fullName) && !queryKeywords.includes(abbr)) {
 				queryKeywords.push(abbr);
+			}
+		}
+
+		// Expand country names to ISO slug codes (e.g., "Malaysia" → "mys")
+		// so keywords can match event slugs like `crint-mys-bhr-2026-03-10`.
+		for (const kw of [...queryKeywords]) {
+			const code = COUNTRY_TO_SLUG_CODE[kw];
+			if (code && !queryKeywords.includes(code)) {
+				queryKeywords.push(code);
 			}
 		}
 
@@ -1488,8 +1566,12 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 					const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
 					const statusDiff = rank(a.status) - rank(b.status);
 					if (statusDiff !== 0) return statusDiff;
-					// Tiebreaker: most recent event first (so today's live match beats Feb 28)
-					return slugDate(b).localeCompare(slugDate(a));
+					// Tiebreaker 1: most recent event first (so today's live match beats Feb 28)
+					const dateDiff = slugDate(b).localeCompare(slugDate(a));
+					if (dateDiff !== 0) return dateDiff;
+					// Tiebreaker 2: highest volume first — ensures the winner/moneyline market
+					// sorts above low-volume O/U or spread markets from the same event.
+					return (b.volume || 0) - (a.volume || 0);
 				});
 				console.log(`[search] Series search found ${seriesMarkets.length} markets for "${query}"`);
 				return seriesMarkets;

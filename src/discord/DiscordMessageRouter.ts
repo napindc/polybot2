@@ -32,6 +32,8 @@ export type RouteResult =
 		readonly outcomeLabel?: string;
 		readonly action: TradeAction;
 		readonly amountDollars: string;
+		/** Optional market context shown in the confirm embed (odds, volume, position size). */
+		readonly marketInfo?: string;
 	};
 
 /**
@@ -496,6 +498,14 @@ export class DiscordMessageRouter {
 
 		const isMarketInCommand = /\bmarket\s+in\b/i.test(message);
 		const hasBetVerb = /\b(bet|buy|sell|trade|exit|close)\b/.test(normalized);
+
+		// ── Sell-without-amount path ──────────────────────────────────────
+		// "sell on Grizzlies 76ers 76ers" — no dollar amount, user wants to
+		// close their entire position. Look up the position via data API.
+		if (isSell && !amountMatch) {
+			return this.handleSellWithoutAmount(message, normalized, discordUserId);
+		}
+
 		// Allow proceeding without a standard direction word (yes/no/up/down) when a bet verb
 		// is present — the outcome can be resolved later via fuzzy matching against market
 		// outcome labels (e.g., "Thunder", "OKC" for sports markets).
@@ -590,7 +600,34 @@ export class DiscordMessageRouter {
 
 			if (queryStr) {
 				const candidates = await this.deps.readService.searchMarketsByText(queryStr);
-				selectedMarket = candidates[0] ?? null;
+
+				// Extract the trailing potential outcome label from the raw message so we can
+				// prefer a market whose outcomes actually contain it.
+				// e.g. "bet $1 on Grizzlies 76ers 76ers" → trailingCandidateLabel = "76ers"
+				const trailingCandidateLabel = normalized.match(/\b([a-z0-9][\w]*)\s*$/)?.[1]?.trim() ?? '';
+
+				if (trailingCandidateLabel && candidates.length > 1) {
+					// Try to find a candidate whose outcome labels include the trailing word.
+					// This prevents landing on an O/U market when the user specified a team name.
+					const TRADE_ABBR_MAP: Record<string, string> = {
+						okc: 'thunder', nyk: 'knicks', lal: 'lakers', bos: 'celtics',
+						gsw: 'warriors', mil: 'bucks', bkn: 'nets', lac: 'clippers',
+						den: 'nuggets', mia: 'heat', chi: 'bulls', phx: 'suns',
+						sas: 'spurs', det: 'pistons', tor: 'raptors', atl: 'hawks',
+						por: 'blazers', ind: 'pacers', cle: 'cavaliers', was: 'wizards',
+						nop: 'pelicans', uta: 'jazz', sac: 'kings', mem: 'grizzlies',
+						hou: 'rockets', orl: 'magic', cha: 'hornets', phi: '76ers',
+						dal: 'mavericks', min: 'timberwolves',
+					};
+					const expandedLabel = TRADE_ABBR_MAP[trailingCandidateLabel] ?? trailingCandidateLabel;
+					const outcomeMatch = candidates.find(c => {
+						const labels = (c.outcomes as string[]).map((o: string) => o.toLowerCase());
+						return labels.some(l => l.includes(expandedLabel) || expandedLabel.includes(l));
+					});
+					selectedMarket = outcomeMatch ?? candidates[0] ?? null;
+				} else {
+					selectedMarket = candidates[0] ?? null;
+				}
 			}
 		}
 
@@ -604,8 +641,10 @@ export class DiscordMessageRouter {
 		// "Thunder", "Knicks") instead of YES/NO.
 		if (!resolvedOutcome && selectedMarket) {
 			const outcomeLabels = (selectedMarket.outcomes as string[]).map((o: string) => o.toLowerCase());
-			// Extract the last word(s) after stripping amount/action as a potential outcome label
-			const trailingMatch = normalized.match(/\b([a-z0-9][\w\s\-]*?)\s*$/);
+			// Extract ONLY the last word as a potential outcome label.
+			// Using a greedy last-word regex to avoid multi-word captures like
+			// "grizzlies 76ers 76ers" which would incorrectly match "grizzlies" via .includes().
+			const trailingMatch = normalized.match(/\b([a-z0-9]\w*)\s*$/);
 			let trailingLabel = trailingMatch?.[1]?.trim() ?? '';
 
 			// Map common sports abbreviations to full team names
@@ -720,6 +759,213 @@ export class DiscordMessageRouter {
 			amountDollars: (amountCentsNum / 100).toFixed(2),
 		};
 	}
+
+	/**
+	 * Handles sell commands without an explicit dollar amount.
+	 * e.g. "sell on Grizzlies 76ers 76ers" or "sell Celtics Spurs Celtics"
+	 *
+	 * Flow:
+	 * 1. Parse the market search query and trailing outcome label
+	 * 2. Search for the market
+	 * 3. Resolve outcome from the trailing word
+	 * 4. Look up the user's position size on that market/outcome
+	 * 5. Sell the entire position
+	 */
+	private async handleSellWithoutAmount(
+		message: string,
+		normalized: string,
+		discordUserId: DiscordUserId,
+	): Promise<RouteResult | null> {
+		// Strip sell/exit/close verb and optional leading "on" to get market query
+		let queryStr = message.trim();
+		queryStr = queryStr.replace(/^\s*(sell|exit|close)\b\s*/i, '').trim();
+		queryStr = queryStr.replace(/^\s*on\b\s*/i, '').trim();
+
+		if (!queryStr || queryStr.length < 3) {
+			return { type: 'text', content: 'Please specify what to sell. Example: `sell Grizzlies 76ers 76ers`' };
+		}
+
+		// Extract trailing word as the candidate outcome label
+		const trailingMatch = normalized.match(/\b([a-z0-9]\w*)\s*$/);
+		const trailingLabel = trailingMatch?.[1]?.trim() ?? '';
+
+		// Team abbreviation map
+		const TEAM_ABBR_MAP: Record<string, string> = {
+			okc: 'thunder', nyk: 'knicks', lal: 'lakers', bos: 'celtics',
+			gsw: 'warriors', mil: 'bucks', bkn: 'nets', lac: 'clippers',
+			den: 'nuggets', mia: 'heat', chi: 'bulls', phx: 'suns',
+			sas: 'spurs', det: 'pistons', tor: 'raptors', atl: 'hawks',
+			por: 'blazers', ind: 'pacers', cle: 'cavaliers', was: 'wizards',
+			nop: 'pelicans', uta: 'jazz', sac: 'kings', mem: 'grizzlies',
+			hou: 'rockets', orl: 'magic', cha: 'hornets', phi: '76ers',
+			dal: 'mavericks', min: 'timberwolves',
+			kc: 'chiefs', buf: 'bills', sf: 'niners', bal: 'ravens',
+		};
+		const expandedLabel = TEAM_ABBR_MAP[trailingLabel] ?? trailingLabel;
+
+		// Search for the market
+		const candidates = await this.deps.readService.searchMarketsByText(queryStr);
+		if (candidates.length === 0) {
+			return { type: 'text', content: 'I could not find an active matching market right now. Please specify the market more clearly.' };
+		}
+
+		// Prefer a candidate whose outcome labels include the trailing word
+		let selectedMarket: Market | null = null;
+		if (expandedLabel && candidates.length > 1) {
+			const outcomeMatch = candidates.find(c => {
+				const labels = (c.outcomes as string[]).map((o: string) => o.toLowerCase());
+				return labels.some(l => l.includes(expandedLabel) || expandedLabel.includes(l));
+			});
+			selectedMarket = outcomeMatch ?? candidates[0];
+		} else {
+			selectedMarket = candidates[0];
+		}
+
+		if (!selectedMarket) {
+			return { type: 'text', content: 'I could not find an active matching market right now.' };
+		}
+
+		// Resolve outcome from trailing label
+		let resolvedOutcome: 'YES' | 'NO' | null = null;
+		const outcomeLabels = (selectedMarket.outcomes as string[]).map((o: string) => o.toLowerCase());
+
+		// Check standard direction words first
+		if (/^(up|yes|long)$/.test(expandedLabel)) resolvedOutcome = 'YES';
+		else if (/^(down|no|short)$/.test(expandedLabel)) resolvedOutcome = 'NO';
+
+		// Then fuzzy-match against market outcome labels
+		if (!resolvedOutcome && expandedLabel) {
+			const matchIdx = outcomeLabels.findIndex(
+				(o: string) => o.includes(expandedLabel) || expandedLabel.includes(o),
+			);
+			if (matchIdx === 0) resolvedOutcome = 'YES';
+			else if (matchIdx >= 1) resolvedOutcome = 'NO';
+		}
+
+		if (!resolvedOutcome) {
+			const labels = (selectedMarket.outcomes as string[]).join(' / ');
+			return { type: 'text', content: `I could not determine which outcome you want to sell. Try ending with one of: **${labels}**` };
+		}
+
+		// Look up user's position on this market to determine sell amount
+		const walletAddr = process.env.POLYMARKET_PROXY_WALLET ?? '';
+		if (!walletAddr) {
+			return { type: 'text', content: 'Trading wallet not configured. Cannot look up positions.' };
+		}
+
+		// Determine the token ID for the resolved outcome
+		// YES = outcomes[0] = token 0, NO = outcomes[1] = token 1
+		const outcomeIndex = resolvedOutcome === 'YES' ? 0 : 1;
+		const outcomeLabel = (selectedMarket.outcomes as string[])[outcomeIndex];
+
+		let positionSize = 0;
+		try {
+			const posResp = await fetch(
+				`https://data-api.polymarket.com/positions?user=${encodeURIComponent(walletAddr)}&sizeThreshold=0`,
+			);
+			if (posResp.ok) {
+				const positions = (await posResp.json()) as Array<{
+					market?: string; conditionId?: string; asset?: string;
+					size?: number; outcome?: string; title?: string;
+				}>;
+
+				// Match position by market question/title and outcome
+				const marketQuestion = selectedMarket.question.toLowerCase();
+				const pos = positions.find(p => {
+					const titleMatch = p.title?.toLowerCase().includes(marketQuestion.substring(0, 30).toLowerCase())
+						|| marketQuestion.includes(p.title?.toLowerCase() ?? '___');
+					const outcomeMatch = p.outcome?.toLowerCase() === outcomeLabel.toLowerCase();
+					return titleMatch && outcomeMatch;
+				});
+
+				if (pos && pos.size) {
+					positionSize = pos.size;
+					console.log(`[sell-no-amount] Found position: ${positionSize} shares of ${outcomeLabel} on "${selectedMarket.question}"`);
+				} else {
+					console.log(`[sell-no-amount] No matching position found. Checked ${positions.length} positions for "${marketQuestion.substring(0, 40)}" / ${outcomeLabel}`);
+				}
+			}
+		} catch (err) {
+			console.error('[sell-no-amount] Position lookup failed:', err);
+		}
+
+		if (positionSize <= 0) {
+			return { type: 'text', content: `You don't appear to have a position on **${outcomeLabel}** in **${selectedMarket.question}**.` };
+		}
+
+		// Convert position size to cents: position size from data API is in shares,
+		// and we sell at current market price. Use the price * shares to estimate dollar value.
+		const currentPrice = selectedMarket.outcomePrices[outcomeIndex] ?? 0.5;
+		const estimatedValueDollars = positionSize * currentPrice;
+		const amountCents = Math.max(Math.round(estimatedValueDollars * 100), 100) as UsdCents; // min $1
+
+		const pseudoIntent = {
+			intent: 'place_bet' as const,
+			userId: discordUserId,
+			marketId: selectedMarket.id as MarketId,
+			outcome: resolvedOutcome,
+			action: 'SELL' as TradeAction,
+			amountCents,
+			rawText: message,
+		};
+
+		const baseValidationContext = await this.deps.buildValidationContext(discordUserId);
+		const validationContext: ValidationContext = {
+			...baseValidationContext,
+			marketLookup: (marketId) => {
+				if (marketId !== pseudoIntent.marketId) {
+					return baseValidationContext.marketLookup(marketId);
+				}
+				return { id: selectedMarket!.id, status: selectedMarket!.status };
+			},
+		};
+
+		const validation = validateAgentOutput(pseudoIntent, validationContext);
+		if (!validation.ok) {
+			return { type: 'text', content: mapValidationErrorToUserMessage(validation.error.code) };
+		}
+
+		const polymarketAccountId = validationContext.polymarketAccountId as NonNullable<
+			ValidationContext['polymarketAccountId']
+		>;
+
+		const identity: UserIdentity = {
+			discordUserId,
+			polymarketAccountId,
+		};
+
+		const tradeRequest = {
+			...buildTradeRequest(pseudoIntent, {
+				identity,
+				market: selectedMarket,
+				nowMs: this.deps.nowMs(),
+			}),
+			sellShares: positionSize, // pass exact share count so execution skips dollar→share conversion
+		};
+
+		const amountCentsNum = Number(pseudoIntent.amountCents);
+		const confirmId = this.storePendingTrade(async () => {
+			const tradeResult = await this.deps.trader.placeTrade(tradeRequest);
+			return formatTradeResultMessage(tradeResult, {
+				marketQuestion: selectedMarket!.question,
+				outcome: pseudoIntent.outcome,
+				outcomeLabel: (selectedMarket!.outcomes as string[])[pseudoIntent.outcome === 'YES' ? 0 : 1],
+				action: 'SELL',
+				amountCents: amountCentsNum,
+			});
+		});
+
+		return {
+			type: 'confirm',
+			confirmId,
+			marketQuestion: selectedMarket.question,
+			outcome: pseudoIntent.outcome,
+			outcomeLabel: (selectedMarket.outcomes as string[])[pseudoIntent.outcome === 'YES' ? 0 : 1] ?? pseudoIntent.outcome,
+			action: 'SELL',
+			amountDollars: (amountCentsNum / 100).toFixed(2),
+			marketInfo: `Position: ${positionSize.toFixed(2)} shares @ ${(currentPrice * 100).toFixed(0)}¢`,
+		};
+	}
 }
 
 function formatTradeResultMessage(
@@ -754,14 +1000,19 @@ function formatTradeResultMessage(
 		INVALID_AMOUNT: 'Invalid amount — Polymarket minimum order is $5.',
 		INVALID_MARKET: 'Market not found or not tradeable on Polymarket.',
 		MARKET_NOT_ACTIVE: 'Market is not currently accepting orders.',
-		UPSTREAM_UNAVAILABLE: 'Polymarket API is temporarily unavailable. Try again shortly.',
 		RATE_LIMITED: 'Rate limited — please wait a moment and try again.',
 		LIMIT_EXCEEDED: 'Daily spending limit exceeded.',
 		ABUSE_BLOCKED: 'Trade blocked by risk controls.',
 		INTERNAL_ERROR: 'Internal error — please try again.',
 	};
 
-	const msg = errorMessages[result.errorCode] ?? `Trade failed: ${result.errorCode}`;
+	// For UPSTREAM_UNAVAILABLE, prefer the specific message from the execution layer
+	// (e.g. "Order not filled — you may not have a position") over the generic fallback.
+	const upstreamMsg = result.errorCode === 'UPSTREAM_UNAVAILABLE'
+		? (result.message ?? 'Polymarket API is temporarily unavailable. Try again shortly.')
+		: null;
+
+	const msg = upstreamMsg ?? errorMessages[result.errorCode] ?? `Trade failed: ${result.errorCode}`;
 	return `❌ **Trade failed** — ${msg}`;
 }
 
@@ -778,7 +1029,9 @@ function isDeterministicWriteMessage(message: string): boolean {
 
 	const hasTradeVerb = /\b(bet|place|buy|sell|exit|close|trade|market)\b/.test(normalized);
 	const hasAmount = /(\$\s*\d+(?:\.\d{1,2})?)|(\b\d+(?:\.\d{1,2})?\s*(dollars?|usd|bucks?)\b)/.test(normalized);
-	return hasTradeVerb && hasAmount;
+	// Sell/exit/close without an amount = position-close command — always handle as write
+	const isSellNoAmount = /\b(sell|exit|close)\b/.test(normalized) && !hasAmount;
+	return (hasTradeVerb && hasAmount) || isSellNoAmount;
 }
 
 function pickBestNaturalTradeMarket(

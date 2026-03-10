@@ -155,6 +155,7 @@ client.on('messageCreate', async (message) => {
         { name: '📊 Market', value: result.marketQuestion, inline: false },
         { name: '🎯 Side', value: outcomeLabel, inline: true },
         { name: '💵 Amount', value: `$${result.amountDollars}`, inline: true },
+        ...(result.marketInfo ? [{ name: '📈 Market Info', value: result.marketInfo, inline: false }] : []),
       )
       .setFooter({ text: result.action === 'BUY' ? 'Expires in 60 seconds — this is not using your money, this is using the Professor\'s money.' : 'Expires in 60 seconds — only you can confirm this trade.' });
 

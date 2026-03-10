@@ -93,11 +93,13 @@ Any user can check any wallet's balance by including a `0x` address:
 User @mentions bot → Message Router → READ or WRITE pipeline
 
 READ (default):
-  1. Extract search keywords (AI or regex)
-  2. Search Polymarket events/markets API
-  3. Fetch prices, volume, status
-  4. Generate conversational response (Gemini)
-  5. Reply in Discord
+  1. Direct lookup: detect Polymarket URL or condition ID → instant match
+  2. Extract keywords + predict slugs (AI or regex fallback)
+  3. Parallel search: slug candidates + events text_query (via Promise.all)
+  4. Merge, deduplicate, and rank with TF-IDF scoring
+  5. Sports-aware fallback: series-based search with fuzzy team matching
+  6. Generate conversational response (Gemini)
+  7. Reply in Discord
 
 WRITE (trade commands):
   1. Parse intent via AI or deterministic regex fallback
@@ -120,7 +122,7 @@ Gemini is used for **three things**, all non-authoritative:
 
 | Use | File | What happens without it |
 |-----|------|------------------------|
-| **Keyword extraction** | `PolymarketApiReadProvider.ts` | Falls back to regex prefix stripping |
+| **Keyword extraction + slug prediction** | `PolymarketApiReadProvider.ts` | Falls back to regex prefix stripping |
 | **Conversational responses** | `aiReadExplainer.ts` | Falls back to structured data template |
 | **Intent parsing** (WRITE) | `intentParser.ts` | Deterministic regex handles common patterns |
 
@@ -135,8 +137,8 @@ src/
 ├── types.ts                 # Branded types (MarketId, UsdCents, TradeAction, etc.)
 │
 ├── read/                    # READ pipeline
-│   ├── geminiClient.ts      # Shared Gemini client with 6-key rotation
-│   ├── PolymarketApiReadProvider.ts  # Gamma API client + timed market resolution
+│   ├── aiClient.ts          # Shared AI client with 6-key rotation
+│   ├── PolymarketApiReadProvider.ts  # Gamma API client + multi-strategy search pipeline
 │   ├── PolymarketReadService.ts      # Service layer
 │   └── aiReadExplainer.ts   # AI response generator + fallback
 │
@@ -165,8 +167,7 @@ src/
 │
 ├── storage/                 # Persistence
 │   ├── limits.ts            # Per-user daily spend tracking ($5/day)
-│   ├── redisClient.ts       # Redis client (optional, falls back to in-memory)
-│   └── SupabaseAccountLinkStore.ts  # Supabase-backed account links
+│   └── redisClient.ts       # Redis client (optional, falls back to in-memory)
 │
 ├── server/                  # Auth HTTP server
 │   └── authServer.ts        # Express server for wallet-link flow
@@ -174,6 +175,13 @@ src/
 public/                      # Web UI
 ├── connect.html
 └── trade-confirm.html
+
+tests/                       # Integration tests (Vitest, real Gamma API)
+├── integration/
+│   ├── search.test.ts       # API-level search tests
+│   ├── top-result-quality.test.ts  # End-to-end top result correctness
+│   ├── comprehensive-search.test.ts  # Full coverage across all categories
+│   └── bot-search.test.ts   # Bot-level search integration
 ```
 
 ## Tech Stack
@@ -187,7 +195,8 @@ public/                      # Web UI
 | Market Data | Polymarket Gamma API (public, no auth) |
 | Wallet/Signing | ethers v6 (Gnosis Safe signature type) |
 | Auth Server | Express v5, CORS-restricted |
-| Persistence | Supabase (`@supabase/supabase-js`) + Redis (optional) |
+| Persistence | Redis via ioredis (optional in-memory fallback) |
+| Testing | Vitest v4 (integration tests against real Gamma API) |
 | Config | dotenv |
 
 ## Security

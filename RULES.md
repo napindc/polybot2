@@ -59,6 +59,15 @@ These rules are strictly enforced in deterministic backend code (not prompts). A
 - Never expose sensitive system details, stack traces, or internal error codes to users.
 - Distinct error messages for: invalid amount, market not found, market not active, rate limited, limit exceeded, upstream unavailable, internal error.
 
+### 10. Search Pipeline Design Principles
+- **Shared stopwords only**: All search paths use the single `COMMON_STOPWORDS` constant. Domain-specific terms (`game`, `match`, `win`, `score`) are NOT in the shared set — they are meaningful in sports/esports queries.
+- **Parallel search**: Slug candidates and events `text_query` run concurrently via `Promise.all()`. Never run them sequentially.
+- **TF-IDF scoring**: All result ranking uses IDF-weighted keyword matching. Rare keywords score higher than common ones.
+- **Direct lookup first**: Polymarket URLs and condition IDs are resolved before any search logic runs.
+- **AI for all queries ≥ 2 words**: AI keyword extraction and slug prediction is called for all non-trivial queries, including vs-queries. Only single-word queries bypass AI.
+- **No early exits during search**: Multiple strategies are tried and their results merged. A single strategy returning results does NOT prevent others from running.
+- **Conservative stopword removal**: When in doubt, do NOT add a word to the shared stopword list. False negatives (missing a result) are worse than false positives (extra noise in keywords).
+
 ---
 
 ## Security Rules (Enforced in Code)

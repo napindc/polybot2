@@ -20,6 +20,8 @@ export interface ExecuteTradeParams {
 	readonly outcome: TradeRequest['outcome'];
 	readonly action: TradeAction;
 	readonly amountCents: UsdCents;
+	/** When selling an entire position, the exact share count to sell (bypasses dollar→share conversion). */
+	readonly sellShares?: number;
 	readonly idempotencyKey: string;
 }
 
@@ -81,6 +83,7 @@ export class UserAccountTrader implements Trader {
 					outcome: request.outcome,
 					action: request.action,
 					amountCents: request.amountCents,
+					sellShares: request.sellShares,
 					idempotencyKey: request.idempotencyKey,
 				},
 			);
@@ -97,10 +100,14 @@ export class UserAccountTrader implements Trader {
 		} catch (error: unknown) {
 			console.error('❌ placeTrade execution error:', error);
 			const errorCode = mapExecutionErrorToTradeErrorCode(error);
-			console.error(`   ↳ Mapped to error code: ${errorCode}`);
+			const errorMessage = isCodeError(error) && typeof (error as { message?: unknown }).message === 'string'
+				? (error as { code: string; message: string }).message
+				: error instanceof Error ? error.message : undefined;
+			console.error(`   ↳ Mapped to error code: ${errorCode}${errorMessage ? ` — ${errorMessage}` : ''}`);
 			return {
 				ok: false,
 				errorCode,
+				message: errorMessage,
 				failedAtMs: Date.now(),
 			};
 		}

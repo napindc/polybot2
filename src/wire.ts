@@ -240,21 +240,27 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
     // For SELL orders, convert dollar amount → share count using current market price
     let orderAmount = amountDollars;
     if (params.action === 'SELL') {
-      try {
-        const book = await this.clobClient.getOrderBook(tokenId);
-        const bids = (book as unknown as { bids?: Array<{ price: string }> }).bids;
-        const bestBid = bids && bids.length > 0 ? parseFloat(bids[0].price) : 0;
-        if (bestBid > 0) {
-          // User wants to receive ~$X, so sell ($X / price) shares
-          orderAmount = Math.floor((amountDollars / bestBid) * 100) / 100;
-          console.log(
-            `🔄 SELL conversion: $${amountDollars} ÷ ${bestBid} (best bid) = ${orderAmount} shares`,
-          );
-        } else {
-          console.warn('⚠️ No bids found in order book, using raw amount as share count');
+      // If caller provided an exact share count (e.g. sell-all-position), use it directly
+      if (params.sellShares && params.sellShares > 0) {
+        orderAmount = Math.floor(params.sellShares * 100) / 100; // round to 2 decimals
+        console.log(`🔄 SELL using exact share count: ${orderAmount} shares`);
+      } else {
+        try {
+          const book = await this.clobClient.getOrderBook(tokenId);
+          const bids = (book as unknown as { bids?: Array<{ price: string }> }).bids;
+          const bestBid = bids && bids.length > 0 ? parseFloat(bids[0].price) : 0;
+          if (bestBid > 0) {
+            // User wants to receive ~$X, so sell ($X / price) shares
+            orderAmount = Math.floor((amountDollars / bestBid) * 100) / 100;
+            console.log(
+              `🔄 SELL conversion: $${amountDollars} ÷ ${bestBid} (best bid) = ${orderAmount} shares`,
+            );
+          } else {
+            console.warn('⚠️ No bids found in order book, using raw amount as share count');
+          }
+        } catch (err) {
+          console.warn('⚠️ Could not fetch order book for sell conversion, using raw amount:', err);
         }
-      } catch (err) {
-        console.warn('⚠️ Could not fetch order book for sell conversion, using raw amount:', err);
       }
     }
 

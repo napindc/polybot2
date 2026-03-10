@@ -88,6 +88,8 @@ export interface TradeRequest {
   readonly action: TradeAction;
   /** Validated amount in cents after all limit checks. */
   readonly amountCents: UsdCents;
+  /** When selling an entire position, the exact share count to sell (bypasses dollar→share conversion). */
+  readonly sellShares?: number;
   /** Idempotency key to prevent duplicate execution. */
   readonly idempotencyKey: string;
   /** Request timestamp (epoch ms) from backend boundary. */

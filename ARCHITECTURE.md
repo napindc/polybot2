@@ -1,4 +1,4 @@
-v# Discord Polymarket Bot — Architecture
+# Discord Polymarket Bot — Architecture
 
 ## High-Level Overview
 
@@ -93,9 +93,9 @@ Discord Message
 | File | Purpose |
 |------|---------|
 | `PolymarketReadService.ts` | Service layer — filters, searches, summarizes markets via provider |
-| `PolymarketApiReadProvider.ts` | Gamma API client — fetches markets, events, paginated search with slug matching; timed up/down market resolution |
+| `PolymarketApiReadProvider.ts` | Gamma API client — multi-strategy search pipeline (parallel slug + text_query), timed up/down market resolution, sports-aware search, TF-IDF scoring |
 | `aiReadExplainer.ts` | Gemini-powered conversational response generator with fallback |
-| `geminiClient.ts` | Shared Gemini client with multi-key rotation (up to 6 keys) and rate-limit handling |
+| `aiClient.ts` | Shared AI client with multi-key rotation (up to 6 keys) and rate-limit handling |
 
 ### `src/agent/` — AI Intent Parsing (WRITE Pipeline)
 
@@ -134,8 +134,7 @@ Discord Message
 | File | Purpose |
 |------|---------|
 | `limits.ts` | Per-user daily spend tracking ($5/day limit) with atomic `trySpend()`, Redis-backed (in-memory fallback) |
-| `redisClient.ts` | Redis client singleton (optional, falls back to in-memory if `REDIS_URL` not set) |
-| `SupabaseAccountLinkStore.ts` | Supabase-backed persistence for Discord ↔ Polymarket account links |
+| `redisClient.ts` | Redis client singleton with `getOrFetch()` caching helper (optional, falls back to in-memory if `REDIS_URL` not set) |
 
 ### `src/server/` — Auth HTTP Server
 
@@ -149,6 +148,15 @@ Discord Message
 |------|---------|
 | `connect.html` | Wallet connection page (legacy) |
 | `trade-confirm.html` | Trade confirmation page (legacy) |
+
+### `tests/` — Test Suite
+
+| Directory | Purpose |
+|-----------|---------|
+| `tests/integration/search.test.ts` | API-level category, crypto, sports, slug, tag tests against real Gamma API |
+| `tests/integration/top-result-quality.test.ts` | End-to-end "as a user" tests — verifies top result correctness for crypto, NBA, NHL, esports, soccer, politics, finance |
+| `tests/integration/comprehensive-search.test.ts` | Full coverage — all categories, subcategories, all major sports/esports, matchup queries |
+| `tests/integration/bot-search.test.ts` | Bot-level search integration tests |
 
 ---
 
@@ -203,20 +211,22 @@ Supported timeframes: 5m, 15m, 1h, 4h, 1d
 
 Gemini (Google's LLM) is used in **three places**, all read-only and non-authoritative:
 
-1. **Keyword Extraction** (`PolymarketApiReadProvider.ts`)
+1. **Keyword Extraction + Slug Prediction** (`PolymarketApiReadProvider.ts`)
    - Extracts search keywords from conversational queries
-   - Falls back to simple prefix stripping if Gemini is unavailable
+   - Predicts Polymarket event slugs (e.g. `will-trump-impose-tariffs-on-canada`)
+   - Called for all queries ≥ 2 words (including vs-queries like "T1 vs NAVI")
+   - Falls back to simple prefix stripping if AI is unavailable
 
 2. **Conversational Response** (`aiReadExplainer.ts`)
    - Generates natural-language Discord responses from market data
-   - Falls back to a structured template if Gemini is unavailable
+   - Falls back to a structured template if AI is unavailable
 
 3. **Intent Parsing** (`intentParser.ts`)
    - Parses trade commands into structured JSON (including BUY/SELL action)
    - Output is **never trusted** — always validated by deterministic code
    - The deterministic fallback regex handles most common trade patterns directly
 
-**Key principle:** Gemini is untrusted. All AI output passes through deterministic validation before any action is taken. The bot works without Gemini — it just uses template responses and regex-based parsing instead.
+**Key principle:** AI is untrusted. All AI output passes through deterministic validation before any action is taken. The bot works without AI — it just uses template responses and regex-based parsing instead.
 
 ---
 
@@ -226,15 +236,51 @@ The bot supports up to 6 Gemini API keys (`GEMINI_API_KEY`, `GEMINI_API_KEY_2` t
 
 ---
 
-## Search Strategy
+## Search Pipeline
 
-When a user asks about a market, the search pipeline:
+When a user asks about a market, the search pipeline runs a **multi-strategy search** with parallel execution:
 
-1. **Prefix strip / AI keyword extraction** — cleans conversational noise
-2. **Event slug search** — tries the Gamma `/events?slug=...` endpoint with sliding-window slug candidates
-3. **If events found** → return them (sorted: active first, then closed)
-4. **If no events** → fallback to `/markets?slug=...&tag=...&text_query=...`
-5. **Dedup + merge** results across all search methods
+### Step 0: Direct Lookup
+- If the query contains a **Polymarket URL** (`polymarket.com/event/<slug>`), extract the slug and fetch the event directly
+- If the query contains a **condition ID** (`0x...` 66 chars), call `getMarket()` directly
+- **100% accurate** — no guessing needed
+
+### Step 1: Trending / Recency / Category Detection
+- Queries like "what's trending", "new markets", or "show me crypto" are routed to specialized endpoints
+
+### Step 2: AI Keyword Extraction + Synonym Expansion
+- Expand abbreviations via `QUERY_SYNONYMS` (BTC→bitcoin, DJT→trump, etc.)
+- AI extracts keywords and predicts potential event slugs
+- Called for all queries ≥ 2 words (including vs-queries)
+- Falls back to regex prefix stripping if AI is unavailable
+
+### Step 3: Parallel Slug + Text Query Search
+Run **concurrently** via `Promise.all()`:
+- **Strategy A (Slug search)**: AI-predicted + mechanical slug candidates checked against `/events?slug=...` in batches of 6
+- **Strategy B (Text query)**: Gamma API's full-text search via `searchEventsByText(cleanedKeywords)`
+- Results are **merged and deduplicated** by market ID
+
+### Step 4: Sports-Aware Search
+- Detects sports/esports queries (team names, vs-queries, league abbreviations)
+- Uses series IDs from `/sports` metadata for targeted event fetching
+- Fuzzy matching for abbreviated team names (e.g. "CHSOU" → "charleston-southern")
+
+### Step 5: Tag Matching
+- Fuzzy-matches query against Polymarket's `/tags` endpoint
+
+### Step 6: Last-Resort Fallback
+- `/markets?slug=...`, `/markets?tag=...`, `/markets?text_query=...`
+- Relevance filter removes irrelevant results
+
+### Scoring: TF-IDF Weighted Ranking
+All result sets are scored using **TF-IDF weighted keyword matching**:
+- Rare keywords (e.g. "Newsom") score higher than common ones (e.g. "president")
+- Formula: `score += 1 / log₂(1 + df)` per keyword hit
+- Phrase bonus: +2 if query keywords appear consecutively in the market question
+- Active markets ranked above paused/closed; ties broken by volume
+
+### Shared Stopwords
+A single `COMMON_STOPWORDS` constant is used across the entire pipeline to avoid stripping meaningful terms. Domain-specific terms like `game`, `match`, `win` are **not** in the shared set.
 
 ---
 

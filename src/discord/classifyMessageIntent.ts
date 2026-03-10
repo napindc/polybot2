@@ -80,6 +80,14 @@ export function classifyMessageIntent(message: string): MessageIntentPipeline {
 		return 'WRITE';
 	}
 
+	// "sell/exit/close" without a dollar amount = position-close command → WRITE
+	// Only when there's content after the verb (a market or team name), not just the word alone.
+	const isSellVerb = /\b(sell|exit|close)\b/i.test(normalized);
+	if (isSellVerb && !hasMonetaryReference) {
+		const afterVerb = normalized.replace(/^.*?\b(?:sell|exit|close)\b\s*/i, '').trim();
+		if (afterVerb.length > 3) return 'WRITE';
+	}
+
 	return 'READ';
 }
 
