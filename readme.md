@@ -18,7 +18,9 @@ A Discord bot that queries [Polymarket](https://polymarket.com) prediction marke
 - **Multi-key rotation** — Supports up to 6 Gemini API keys with automatic failover on rate limits
 - **Security hardened** — Masked wallet logs, per-user cooldowns, daily spend limits
 
-## Quick Start
+## Setup Guide
+
+### 1. Clone & Install
 
 ```bash
 git clone https://github.com/Prithwiraj-CK/polybot2.git
@@ -26,17 +28,49 @@ cd polybot2
 npm install
 ```
 
-Create a `.env` file (see [.env.example](.env.example) for all options):
+### 2. Create a Discord Bot
+
+1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) → **New Application**
+2. Under **Bot** → click **Reset Token** → copy the token → this is your `DISCORD_BOT_TOKEN`
+3. Under **General Information** → copy the **Application ID** → this is your `DISCORD_CLIENT_ID`
+4. Enable **Message Content Intent** under Bot → Privileged Gateway Intents
+5. Invite the bot to your server using the OAuth2 URL Generator (scopes: `bot`, `applications.commands`; permissions: Send Messages, Read Messages, Embed Links, Use Slash Commands)
+6. Right-click your Discord server → **Copy Server ID** (enable Developer Mode in Discord settings first) → this is your `DISCORD_GUILD_ID`
+
+### 3. Set Up the Leader's Polymarket Wallet
+
+All users trade through a single leader-controlled wallet. You need a Polymarket account with USDC deposited.
+
+1. **Create/export wallet** — Use MetaMask or similar. Export the private key → this is your `WALLET_PRIVATE_KEY` (prefix with `0x`)
+2. **Find your proxy wallet** — After depositing on Polymarket, go to your Polymarket account settings to find your proxy/safe wallet address → this is your `POLYMARKET_PROXY_WALLET`
+3. **Generate CLOB API credentials** — Use the Polymarket CLOB API's `/auth/api-key` endpoint (or their SDK) to generate:
+    click on profile >settings >builder codes
+   - `POLYMARKET_API_KEY`
+   - `POLYMARKET_API_SECRET`
+   - `POLYMARKET_PASSPHRASE`
+
+### 4. Get AI API Keys
+
+The bot uses OpenAI (primary) and Google Gemini (fallback) for conversational responses and intent parsing.
+
+- **OpenAI** — Get a key from [OpenAI Platform](https://platform.openai.com/api-keys) → this is your `OPENAI_API_KEY`. Uses `gpt-4o-mini` by default (cheap, fast, great structured output).
+- **Gemini** *(fallback)* — Get a key from [Google AI Studio](https://aistudio.google.com/apikey). You can add up to 6 keys (`GEMINI_API_KEY` through `GEMINI_API_KEY_6`) for automatic rate-limit rotation. Used when OpenAI is unavailable or rate-limited.
+
+### 5. Configure `.env`
+
+Create a `.env` file in the project root with all your credentials:
 
 ```env
+# Discord
 DISCORD_BOT_TOKEN=your_discord_bot_token
 DISCORD_CLIENT_ID=your_discord_client_id
 DISCORD_GUILD_ID=your_discord_guild_id
 
+# AI Keys — OpenAI is primary, Gemini is fallback (at least one required)
+OPENAI_API_KEY=your_openai_api_key
 GEMINI_API_KEY=your_gemini_api_key
-
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_supabase_anon_key
+# GEMINI_API_KEY_2=optional_second_key
+# GEMINI_API_KEY_3=optional_third_key
 
 # Polymarket CLOB API (leader's wallet credentials)
 POLYMARKET_API_KEY=your_polymarket_api_key
@@ -44,9 +78,34 @@ POLYMARKET_API_SECRET=your_polymarket_api_secret
 POLYMARKET_PASSPHRASE=your_polymarket_passphrase
 WALLET_PRIVATE_KEY=0xYOUR_PRIVATE_KEY
 POLYMARKET_PROXY_WALLET=0xYOUR_PROXY_WALLET
+
+# Owner Discord user ID — exempt from $5/day spend limit (right-click your profile → Copy User ID)
+OWNER_DISCORD_ID=your_discord_user_id
+
+# Redis (optional — without this, daily spend limits reset on bot restart)
+# REDIS_URL=rediss://default:password@your-redis-host:6379
 ```
 
-Run:
+### Environment Variables Reference
+
+| Variable | Required | Description |
+|---|---|---|
+| `DISCORD_BOT_TOKEN` | ✅ | Bot authentication token from Discord Developer Portal |
+| `DISCORD_CLIENT_ID` | ✅ | Bot's application/client ID |
+| `DISCORD_GUILD_ID` | ✅ | Target Discord server ID |
+| `WALLET_PRIVATE_KEY` | ✅ | EOA private key that controls the Polymarket proxy wallet |
+| `POLYMARKET_PROXY_WALLET` | ✅ | Polymarket proxy/safe wallet address (where trades execute) |
+| `POLYMARKET_API_KEY` | ✅ | CLOB API key (generated via Polymarket API) |
+| `POLYMARKET_API_SECRET` | ✅ | CLOB API secret |
+| `POLYMARKET_PASSPHRASE` | ✅ | CLOB API passphrase |
+| `OPENAI_API_KEY` | ✅ | OpenAI API key — primary AI provider (uses `gpt-4o-mini` by default) |
+| `GEMINI_API_KEY` | ✅ | Google Gemini AI key (fallback when OpenAI is unavailable) |
+| `GEMINI_API_KEY_2` … `_6` | ❌ | Additional Gemini keys for rate-limit rotation |
+| `OWNER_DISCORD_ID` | ❌ | Bot owner's Discord user ID (exempt from $5/day spend limit) |
+| `REDIS_URL` | ❌ | Redis connection string for persistent spend tracking. Without this, spend limits use in-memory storage and reset on restart. [Upstash](https://upstash.com) works well. |
+| `AUTH_BASE_URL` | ❌ | Base URL for the auth server (default: `http://localhost:3001`). Only needed if using the wallet-link flow. |
+
+### 6. Run
 
 ```bash
 npx tsx src/index.ts
