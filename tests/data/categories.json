@@ -1,0 +1,4321 @@
+{
+  "syncedAt": "2026-03-02T18:23:35.516Z",
+  "allTags": [
+    {
+      "id": "671",
+      "label": "jto",
+      "slug": "jto",
+      "publishedAt": "2023-12-07 19:16:45.979+00",
+      "createdAt": "2023-12-07T19:16:45.993Z",
+      "updatedAt": "2026-02-06T20:01:39.282804Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101592",
+      "label": "Tom Aspinal",
+      "slug": "tom-aspinal",
+      "createdAt": "2024-12-31T19:48:27.938591Z",
+      "updatedAt": "2026-02-06T20:01:39.296759Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101115",
+      "label": "Preston",
+      "slug": "preston",
+      "createdAt": "2024-10-28T20:41:17.828152Z",
+      "updatedAt": "2026-02-06T20:01:39.322562Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "746",
+      "label": "detroit pistons",
+      "slug": "detroit-pistons",
+      "publishedAt": "2023-12-18 18:24:38.687+00",
+      "createdAt": "2023-12-18T18:24:38.708Z",
+      "updatedAt": "2026-02-06T20:01:39.323344Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1493",
+      "label": "spider-man",
+      "slug": "spider-man",
+      "publishedAt": "2024-02-27 19:31:50.152+00",
+      "createdAt": "2024-02-27T19:31:50.171Z",
+      "updatedAt": "2026-02-06T20:01:39.389634Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1564",
+      "label": "facebook",
+      "slug": "facebook",
+      "publishedAt": "2024-03-05 16:50:42.451+00",
+      "createdAt": "2024-03-05T16:50:44.559Z",
+      "updatedAt": "2026-02-06T20:01:39.417037Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "335",
+      "label": "peace deals",
+      "slug": "peace-deals",
+      "publishedAt": "2023-11-02 21:56:32.239+00",
+      "createdAt": "2023-11-02T21:56:32.251Z",
+      "updatedAt": "2026-02-06T20:01:39.417937Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103019",
+      "label": "Somali",
+      "slug": "somali",
+      "createdAt": "2025-12-27T22:45:41.115947Z",
+      "updatedAt": "2026-02-06T20:01:39.420361Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103082",
+      "label": "Jungleman",
+      "slug": "jungleman",
+      "createdAt": "2026-01-07T19:02:07.001529Z",
+      "updatedAt": "2026-02-06T20:01:39.421154Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "680",
+      "label": "pudgy penguins",
+      "slug": "pudgy-penguins",
+      "publishedAt": "2023-12-08 16:34:57.542+00",
+      "createdAt": "2023-12-08T16:34:57.547Z",
+      "updatedAt": "2026-02-06T20:01:39.42202Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103061",
+      "label": "mag 7",
+      "slug": "mag-7",
+      "createdAt": "2026-01-05T19:17:58.621353Z",
+      "updatedAt": "2026-02-06T20:01:39.422725Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100397",
+      "label": "fivethrityeight",
+      "slug": "fivethrityeight",
+      "createdAt": "2024-08-28T22:05:20.893571Z",
+      "updatedAt": "2026-02-06T20:01:39.423546Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "102787",
+      "label": "prop",
+      "slug": "prop",
+      "createdAt": "2025-10-30T21:06:03.144996Z",
+      "updatedAt": "2026-02-06T20:01:39.455764Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "311",
+      "label": "trade",
+      "slug": "trade",
+      "publishedAt": "2023-11-02 21:53:18.067+00",
+      "createdAt": "2023-11-02T21:53:18.166Z",
+      "updatedAt": "2026-02-06T20:01:39.485138Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100787",
+      "label": "CONMEBOL",
+      "slug": "conmebol",
+      "createdAt": "2024-10-09T22:08:44.396352Z",
+      "updatedAt": "2026-02-06T20:01:39.485792Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101094",
+      "label": "Hawaii",
+      "slug": "hawaii",
+      "createdAt": "2024-10-25T19:28:02.991592Z",
+      "updatedAt": "2026-02-06T20:01:39.531179Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100545",
+      "label": "slotkin",
+      "slug": "slotkin",
+      "createdAt": "2024-09-19T21:57:29.844648Z",
+      "updatedAt": "2026-02-06T20:01:39.556477Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1510",
+      "label": "minnesota",
+      "slug": "minnesota",
+      "publishedAt": "2024-02-28 22:12:58.233+00",
+      "createdAt": "2024-02-28T22:13:00.833Z",
+      "updatedAt": "2026-02-06T20:01:39.569996Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100810",
+      "label": "Perfect Timing",
+      "slug": "perfect-timing",
+      "createdAt": "2024-10-11T16:04:38.492954Z",
+      "updatedAt": "2026-02-06T20:01:39.570616Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100354",
+      "label": "Speed",
+      "slug": "speed",
+      "createdAt": "2024-08-21T23:09:44.65522Z",
+      "updatedAt": "2026-02-06T20:01:39.571401Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103058",
+      "label": "Test1",
+      "slug": "test1",
+      "forceShow": false,
+      "createdAt": "2026-01-05T13:19:10.183265Z",
+      "updatedAt": "2026-02-06T20:01:39.571942Z",
+      "isCarousel": false,
+      "requiresTranslation": false
+    },
+    {
+      "id": "101414",
+      "label": "Checo Perez",
+      "slug": "checo-perez",
+      "createdAt": "2024-12-03T18:01:36.597699Z",
+      "updatedAt": "2026-02-06T20:02:41.693207Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1619",
+      "label": "khalifa sall",
+      "slug": "khalifa-sall",
+      "publishedAt": "2024-03-11 22:25:22.168+00",
+      "createdAt": "2024-03-11T22:25:24.232Z",
+      "updatedAt": "2026-02-06T20:02:41.694287Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101451",
+      "label": "Joaquin Buckley",
+      "slug": "joaquin-buckley",
+      "createdAt": "2024-12-09T23:02:30.506209Z",
+      "updatedAt": "2026-02-06T20:02:41.695115Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "724",
+      "label": "charts",
+      "slug": "charts",
+      "publishedAt": "2023-12-12 21:00:40.197+00",
+      "createdAt": "2023-12-12T21:00:40.201Z",
+      "updatedAt": "2026-02-06T20:02:41.695781Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "45",
+      "label": "trail blazers",
+      "slug": "trail-blazers",
+      "publishedAt": "2023-11-02 21:13:49.657+00",
+      "createdAt": "2023-11-02T21:13:49.664Z",
+      "updatedAt": "2026-02-06T20:02:41.696437Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101994",
+      "label": "NL Central",
+      "slug": "nl-central",
+      "createdAt": "2025-03-25T22:33:44.61249Z",
+      "updatedAt": "2026-02-06T20:02:41.697134Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103174",
+      "label": "robert Fico",
+      "slug": "robert-fico",
+      "createdAt": "2026-01-16T18:15:48.870744Z",
+      "updatedAt": "2026-02-06T20:02:41.697973Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100999",
+      "label": "Benfica",
+      "slug": "benfica",
+      "createdAt": "2024-10-21T22:35:02.808325Z",
+      "updatedAt": "2026-02-06T20:02:41.698673Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101003",
+      "label": "Slovan Bratislava",
+      "slug": "slovan-bratislava",
+      "createdAt": "2024-10-21T22:56:34.938223Z",
+      "updatedAt": "2026-02-06T20:02:41.699411Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1166",
+      "label": "the bear",
+      "slug": "the-bear",
+      "publishedAt": "2024-02-06 19:53:22.312+00",
+      "createdAt": "2024-02-06T19:53:22.341Z",
+      "updatedAt": "2026-02-06T20:02:41.700051Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100202",
+      "label": "DJTARCH",
+      "slug": "djt-1",
+      "forceShow": false,
+      "updatedAt": "2026-02-06T20:02:41.700828Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1235",
+      "label": "psg",
+      "slug": "psg",
+      "publishedAt": "2024-02-06 20:04:40.074+00",
+      "createdAt": "2024-02-06T20:04:40.09Z",
+      "updatedAt": "2026-02-06T20:02:41.701478Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100370",
+      "label": "LLWS",
+      "slug": "llws",
+      "createdAt": "2024-08-23T03:46:58.562337Z",
+      "updatedAt": "2026-02-06T20:02:41.702265Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "75",
+      "label": "space exploration",
+      "slug": "space-exploration",
+      "publishedAt": "2023-11-02 21:16:21.696+00",
+      "createdAt": "2023-11-02T21:16:21.714Z",
+      "updatedAt": "2026-02-06T20:02:41.702978Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103106",
+      "label": "M&A",
+      "slug": "ma",
+      "createdAt": "2026-01-09T23:07:35.624663Z",
+      "updatedAt": "2026-02-06T20:02:41.703778Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101073",
+      "label": "Syracuse",
+      "slug": "syracuse",
+      "createdAt": "2024-10-24T17:40:48.732706Z",
+      "updatedAt": "2026-02-06T20:02:41.704407Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100231",
+      "label": "100thieves",
+      "slug": "100thieves",
+      "createdAt": "2024-05-24T20:01:37.125466Z",
+      "updatedAt": "2026-02-06T20:02:41.705177Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101569",
+      "label": "Greenland",
+      "slug": "greenland",
+      "createdAt": "2024-12-23T16:03:09.321825Z",
+      "updatedAt": "2026-02-06T20:02:41.706139Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "665",
+      "label": "current events",
+      "slug": "current-events",
+      "publishedAt": "2023-12-06 23:18:05.917+00",
+      "createdAt": "2023-12-06T23:18:05.933Z",
+      "updatedAt": "2026-02-06T20:02:41.706846Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103114",
+      "label": "Super Rugby Pacific",
+      "slug": "super-rugby-pacific",
+      "forceShow": false,
+      "createdAt": "2026-01-10T19:23:06.213476Z",
+      "updatedAt": "2026-02-06T20:02:41.707761Z",
+      "isCarousel": false,
+      "requiresTranslation": false
+    },
+    {
+      "id": "103243",
+      "label": "adam 22",
+      "slug": "adam-22",
+      "createdAt": "2026-01-23T16:01:01.747001Z",
+      "updatedAt": "2026-02-06T20:02:41.708518Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1225",
+      "label": "brian kelly",
+      "slug": "brian-kelly",
+      "publishedAt": "2024-02-06 20:02:53.343+00",
+      "createdAt": "2024-02-06T20:02:53.347Z",
+      "updatedAt": "2026-02-06T20:02:41.709267Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101646",
+      "label": "tax cut",
+      "slug": "tax-cut",
+      "createdAt": "2025-01-07T01:10:40.126263Z",
+      "updatedAt": "2026-02-06T20:02:41.710109Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101771",
+      "label": "Myles Garrett",
+      "slug": "myles-garrett",
+      "createdAt": "2025-02-03T16:30:03.706742Z",
+      "updatedAt": "2026-02-06T20:02:41.711054Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "370",
+      "label": "GDP",
+      "slug": "gdp",
+      "forceShow": false,
+      "publishedAt": "2023-11-02 22:06:40.144+00",
+      "createdAt": "2023-11-02T22:06:40.159Z",
+      "updatedAt": "2026-02-06T20:02:41.711931Z",
+      "isCarousel": false,
+      "requiresTranslation": false
+    },
+    {
+      "id": "101002",
+      "label": "Paris Saint-Germain",
+      "slug": "paris-saint-germain",
+      "createdAt": "2024-10-21T22:54:19.309568Z",
+      "updatedAt": "2026-02-06T20:02:41.712773Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100629",
+      "label": "Mungo",
+      "slug": "mungo",
+      "createdAt": "2024-09-23T19:37:45.64634Z",
+      "updatedAt": "2026-02-06T20:02:41.713872Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100135",
+      "label": "Toronto Maple Leafs",
+      "slug": "toronto-maple-leafs",
+      "updatedAt": "2026-02-06T20:02:41.715139Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101319",
+      "label": "Starmer",
+      "slug": "starmer",
+      "createdAt": "2024-11-25T18:49:24.982919Z",
+      "updatedAt": "2026-02-06T20:02:41.71586Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100548",
+      "label": "amy klobuchar",
+      "slug": "amy-klobuchar",
+      "createdAt": "2024-09-19T21:58:20.065203Z",
+      "updatedAt": "2026-02-06T20:02:41.716877Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100444",
+      "label": "fivethiryeight",
+      "slug": "fivethiryeight",
+      "createdAt": "2024-09-11T22:05:58.30604Z",
+      "updatedAt": "2026-02-06T20:02:41.717705Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101706",
+      "label": "Ontario",
+      "slug": "ontario",
+      "createdAt": "2025-01-16T20:44:09.711342Z",
+      "updatedAt": "2026-02-06T20:02:41.718573Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103030",
+      "label": "NYE",
+      "slug": "nye",
+      "createdAt": "2025-12-29T16:44:50.487333Z",
+      "updatedAt": "2026-02-06T20:02:41.719261Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101758",
+      "label": "Tariffs",
+      "slug": "tariffs",
+      "forceShow": false,
+      "createdAt": "2025-02-02T18:39:54.837002Z",
+      "updatedAt": "2026-02-06T20:02:41.720126Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101536",
+      "label": "Alliance 90",
+      "slug": "alliance-90",
+      "createdAt": "2024-12-17T22:18:51.725124Z",
+      "updatedAt": "2026-02-06T20:02:41.720863Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "293",
+      "label": "doj",
+      "slug": "doj",
+      "publishedAt": "2023-11-02 21:50:36.55+00",
+      "createdAt": "2023-11-02T21:50:36.567Z",
+      "updatedAt": "2026-02-06T20:02:41.72188Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "241",
+      "label": "SBF",
+      "slug": "sbf",
+      "forceShow": false,
+      "publishedAt": "2023-11-02 21:42:10.809+00",
+      "createdAt": "2023-11-02T21:42:10.825Z",
+      "updatedAt": "2026-02-06T20:02:41.722575Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101856",
+      "label": "ASG",
+      "slug": "asg",
+      "createdAt": "2025-02-13T20:16:16.012852Z",
+      "updatedAt": "2026-02-06T20:02:41.723821Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101417",
+      "label": "Bryce Hall",
+      "slug": "bryce-hall",
+      "createdAt": "2024-12-03T22:12:15.000768Z",
+      "updatedAt": "2026-02-06T20:02:41.724771Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101074",
+      "label": "Assocaited Press",
+      "slug": "assocaited-press",
+      "createdAt": "2024-10-24T17:57:23.549866Z",
+      "updatedAt": "2026-02-06T20:02:41.725364Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100384",
+      "label": "real clear",
+      "slug": "real-clear",
+      "createdAt": "2024-08-27T19:35:39.28446Z",
+      "updatedAt": "2026-02-06T20:02:41.726388Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100320",
+      "label": "ME1",
+      "slug": "me1",
+      "createdAt": "2024-07-26T23:58:26.151472Z",
+      "updatedAt": "2026-02-06T20:02:41.72727Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100813",
+      "label": "Jeanty",
+      "slug": "jeanty",
+      "createdAt": "2024-10-11T16:10:17.399362Z",
+      "updatedAt": "2026-02-06T20:02:41.728852Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101072",
+      "label": "Cuse",
+      "slug": "cuse",
+      "createdAt": "2024-10-24T17:40:48.46976Z",
+      "updatedAt": "2026-02-06T20:02:41.729686Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "910",
+      "label": "zyn",
+      "slug": "zyn",
+      "publishedAt": "2024-01-25 16:59:22.505+00",
+      "createdAt": "2024-01-25T16:59:22.518Z",
+      "updatedAt": "2026-02-06T20:02:41.730702Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "617",
+      "label": "token",
+      "slug": "token",
+      "publishedAt": "2023-12-02 03:29:14.417+00",
+      "createdAt": "2023-12-02T03:29:14.448Z",
+      "updatedAt": "2026-02-06T20:02:41.731721Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100328",
+      "label": "Economy",
+      "slug": "economy",
+      "forceShow": false,
+      "createdAt": "2024-08-05T05:34:54.235643Z",
+      "updatedAt": "2026-02-06T20:02:41.732549Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "104",
+      "label": "giants",
+      "slug": "giants",
+      "publishedAt": "2023-11-02 21:19:56.428+00",
+      "createdAt": "2023-11-02T21:19:56.436Z",
+      "updatedAt": "2026-02-06T20:02:41.73362Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103244",
+      "label": "Mag7",
+      "slug": "mag7",
+      "createdAt": "2026-01-23T16:39:54.914957Z",
+      "updatedAt": "2026-02-06T20:02:41.734539Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1042",
+      "label": "killers of the flower moon",
+      "slug": "killers-of-the-flower-moon",
+      "publishedAt": "2024-02-06 19:33:54.581+00",
+      "createdAt": "2024-02-06T19:33:54.601Z",
+      "updatedAt": "2026-02-06T20:02:41.735358Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101481",
+      "label": "uap",
+      "slug": "uap",
+      "createdAt": "2024-12-12T17:08:40.299314Z",
+      "updatedAt": "2026-02-06T20:02:41.736154Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100689",
+      "label": "rebels",
+      "slug": "rebels",
+      "createdAt": "2024-10-04T15:37:46.243548Z",
+      "updatedAt": "2026-02-06T20:02:41.736771Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "744",
+      "label": "cryptocurrency",
+      "slug": "cryptocurrency",
+      "forceShow": false,
+      "publishedAt": "2023-12-18 17:29:51.762+00",
+      "updatedBy": 15,
+      "createdAt": "2023-12-18T17:29:51.782Z",
+      "updatedAt": "2026-02-06T20:02:41.737624Z",
+      "forceHide": true,
+      "requiresTranslation": false
+    },
+    {
+      "id": "101001",
+      "label": "Young Boys",
+      "slug": "young-boys",
+      "createdAt": "2024-10-21T22:36:45.939393Z",
+      "updatedAt": "2026-02-06T20:02:41.738305Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101532",
+      "label": "Mykhailo Mudryk",
+      "slug": "mykhailo-mudryk",
+      "createdAt": "2024-12-17T19:45:30.762104Z",
+      "updatedAt": "2026-02-06T20:02:41.739033Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "65",
+      "label": "league of legends",
+      "slug": "league-of-legends",
+      "publishedAt": "2023-11-02 21:15:32.598+00",
+      "createdAt": "2023-11-02T21:15:32.602Z",
+      "updatedAt": "2026-02-06T20:02:41.739793Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101240",
+      "label": "clover",
+      "slug": "clover",
+      "createdAt": "2024-11-12T16:03:12.817258Z",
+      "updatedAt": "2026-02-06T20:02:41.740543Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103025",
+      "label": "European Union",
+      "slug": "European-Union",
+      "forceShow": false,
+      "createdAt": "2025-12-28T18:20:52.989385Z",
+      "updatedAt": "2026-02-06T20:02:41.741155Z",
+      "isCarousel": false,
+      "requiresTranslation": false
+    },
+    {
+      "id": "1558",
+      "label": "caucus",
+      "slug": "caucus",
+      "publishedAt": "2024-03-02 00:26:05.407+00",
+      "createdAt": "2024-03-02T00:26:05.416Z",
+      "updatedAt": "2026-02-06T20:02:41.742037Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101070",
+      "label": "tape",
+      "slug": "tape",
+      "createdAt": "2024-10-24T14:43:17.484448Z",
+      "updatedAt": "2026-02-06T20:02:41.742662Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "102825",
+      "label": "Defi App",
+      "slug": "defi-app",
+      "createdAt": "2025-11-10T17:31:09.570366Z",
+      "updatedAt": "2026-02-06T20:02:41.743547Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101185",
+      "label": "Union St-Gilloise",
+      "slug": "union-st-gilloise",
+      "createdAt": "2024-11-05T21:45:42.169254Z",
+      "updatedAt": "2026-02-06T20:02:41.744495Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103091",
+      "label": "Homeland Security",
+      "slug": "homeland-security",
+      "createdAt": "2026-01-08T18:29:51.111431Z",
+      "updatedAt": "2026-02-06T20:02:41.745318Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "686",
+      "label": "cryptozoo",
+      "slug": "cryptozoo",
+      "publishedAt": "2023-12-08 22:04:19.05+00",
+      "createdAt": "2023-12-08T22:04:19.071Z",
+      "updatedAt": "2026-02-06T20:02:41.746103Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100974",
+      "label": "libertarian",
+      "slug": "libertarian",
+      "createdAt": "2024-10-21T20:01:58.156431Z",
+      "updatedAt": "2026-02-06T20:02:41.746919Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "101000",
+      "label": "Feyenoord",
+      "slug": "feyenoord",
+      "createdAt": "2024-10-21T22:35:03.130021Z",
+      "updatedAt": "2026-02-06T20:02:41.747616Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100148",
+      "label": "slerf",
+      "slug": "slerf",
+      "updatedAt": "2026-02-06T20:05:42.007629Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1256",
+      "label": "crypto: the game",
+      "slug": "crypto-the-game",
+      "publishedAt": "2024-02-06 20:07:55.6+00",
+      "createdAt": "2024-02-06T20:07:55.612Z",
+      "updatedAt": "2026-02-06T20:05:42.009784Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1267",
+      "label": "business growth",
+      "slug": "business-growth",
+      "publishedAt": "2024-02-06 20:09:49.882+00",
+      "createdAt": "2024-02-06T20:09:49.912Z",
+      "updatedAt": "2026-02-06T20:05:42.010632Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "102875",
+      "label": "Extended",
+      "slug": "extended",
+      "createdAt": "2025-11-18T23:32:56.707627Z",
+      "updatedAt": "2026-02-06T20:05:42.011394Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100572",
+      "label": "sherrod brown",
+      "slug": "sherrod-brown",
+      "createdAt": "2024-09-19T22:09:20.249219Z",
+      "updatedAt": "2026-02-06T20:05:42.013006Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "102853",
+      "label": "Infinex",
+      "slug": "infinex",
+      "createdAt": "2025-11-17T00:55:42.221319Z",
+      "updatedAt": "2026-02-06T20:05:42.01381Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100245",
+      "label": "Britain",
+      "slug": "britain",
+      "forceShow": false,
+      "createdAt": "2024-05-31T22:13:59.367615Z",
+      "updatedAt": "2026-02-06T20:05:42.014526Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100959",
+      "label": "NFL Week 7",
+      "slug": "nfl-week-7",
+      "createdAt": "2024-10-18T21:17:49.085701Z",
+      "updatedAt": "2026-02-06T20:02:00.227191Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "1563",
+      "label": "outage",
+      "slug": "outage",
+      "publishedAt": "2024-03-05 16:50:43.894+00",
+      "createdAt": "2024-03-05T16:50:44.058Z",
+      "updatedAt": "2026-02-06T20:02:00.322493Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "103166",
+      "label": "NEH",
+      "slug": "neh",
+      "createdAt": "2026-01-16T01:57:15.202417Z",
+      "updatedAt": "2026-02-06T20:02:00.35936Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "630",
+      "label": "investments",
+      "slug": "investments",
+      "publishedAt": "2023-12-04 17:50:02.115+00",
+      "createdAt": "2023-12-04T17:50:02.136Z",
+      "updatedAt": "2026-02-06T20:02:00.397453Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "661",
+      "label": "gemini ultra",
+      "slug": "gemini-ultra",
+      "publishedAt": "2023-12-06 19:52:08.646+00",
+      "createdAt": "2023-12-06T19:52:08.666Z",
+      "updatedAt": "2026-02-06T20:02:00.428384Z",
+      "requiresTranslation": false
+    },
+    {
+      "id": "100746",
+      "label": "Ohtani",
+      "slug": "ohtani",
+      "createdAt": "2024-10-04T21:46:00.61562Z",
+      "updatedAt": "2026-02-06T20:02:00.482733Z",
+      "requiresTranslation": false
+    }
+  ],
+  "categories": {
+    "politics": {
+      "slug": "politics",
+      "label": "politics",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "71",
+          "label": "aliens",
+          "slug": "aliens"
+        },
+        {
+          "id": "18",
+          "label": "Awards",
+          "slug": "awards"
+        },
+        {
+          "id": "100185",
+          "label": "Brazil",
+          "slug": "brazil"
+        },
+        {
+          "id": "303",
+          "label": "China",
+          "slug": "china"
+        },
+        {
+          "id": "103216",
+          "label": "Communist",
+          "slug": "communist"
+        },
+        {
+          "id": "596",
+          "label": "Culture",
+          "slug": "pop-culture"
+        },
+        {
+          "id": "103146",
+          "label": "Daily Strikes",
+          "slug": "daily-strikes"
+        },
+        {
+          "id": "936",
+          "label": "Democratic Primary",
+          "slug": "democratic-primary"
+        },
+        {
+          "id": "103775",
+          "label": "Department of Homeland Security",
+          "slug": "department-of-homeland-security"
+        },
+        {
+          "id": "101800",
+          "label": "Economic Policy",
+          "slug": "economic-policy"
+        },
+        {
+          "id": "100328",
+          "label": "Economy",
+          "slug": "economy"
+        },
+        {
+          "id": "144",
+          "label": "Elections",
+          "slug": "elections"
+        },
+        {
+          "id": "756",
+          "label": "Epstein",
+          "slug": "epstein"
+        },
+        {
+          "id": "159",
+          "label": "Fed",
+          "slug": "fed"
+        },
+        {
+          "id": "100196",
+          "label": "Fed Rates",
+          "slug": "fed-rates"
+        },
+        {
+          "id": "101794",
+          "label": "Foreign Policy",
+          "slug": "foreign-policy"
+        },
+        {
+          "id": "61",
+          "label": "Gaza",
+          "slug": "gaza"
+        },
+        {
+          "id": "100265",
+          "label": "Geopolitics",
+          "slug": "geopolitics"
+        },
+        {
+          "id": "1597",
+          "label": "Global Elections",
+          "slug": "global-elections"
+        },
+        {
+          "id": "101542",
+          "label": "Gov Shutdown",
+          "slug": "gov-shutdown"
+        },
+        {
+          "id": "297",
+          "label": "Hezbollah",
+          "slug": "hezbollah"
+        },
+        {
+          "id": "103091",
+          "label": "Homeland Security",
+          "slug": "homeland-security"
+        },
+        {
+          "id": "102280",
+          "label": "ICE",
+          "slug": "ice"
+        },
+        {
+          "id": "78",
+          "label": "Iran",
+          "slug": "iran"
+        },
+        {
+          "id": "180",
+          "label": "Israel",
+          "slug": "israel"
+        },
+        {
+          "id": "101550",
+          "label": "Jerome Powell",
+          "slug": "jerome-powell"
+        },
+        {
+          "id": "102304",
+          "label": "Khamenei",
+          "slug": "khamenei"
+        },
+        {
+          "id": "849",
+          "label": "Lebanon",
+          "slug": "lebanon"
+        },
+        {
+          "id": "101253",
+          "label": "Macro Geopolitics",
+          "slug": "macro-geopolitics"
+        },
+        {
+          "id": "101669",
+          "label": "maduro",
+          "slug": "maduro"
+        },
+        {
+          "id": "100343",
+          "label": "Mentions",
+          "slug": "mention-markets"
+        },
+        {
+          "id": "154",
+          "label": "Middle East",
+          "slug": "middle-east"
+        },
+        {
+          "id": "103776",
+          "label": "Noem",
+          "slug": "noem"
+        },
+        {
+          "id": "103123",
+          "label": "Parent For Derivative",
+          "slug": "parent-for-derivative"
+        },
+        {
+          "id": "102886",
+          "label": "President",
+          "slug": "president"
+        },
+        {
+          "id": "103215",
+          "label": "presidential",
+          "slug": "presidential"
+        },
+        {
+          "id": "264",
+          "label": "Primaries",
+          "slug": "primaries"
+        },
+        {
+          "id": "902",
+          "label": "primary elections",
+          "slug": "primary-elections"
+        },
+        {
+          "id": "270",
+          "label": "putin",
+          "slug": "putin"
+        },
+        {
+          "id": "103151",
+          "label": "Rewards 200, 3.5, 50",
+          "slug": "rewards-200-3pt5-50"
+        },
+        {
+          "id": "103996",
+          "label": "Reza Pahlavi",
+          "slug": "reza-pahlavi"
+        },
+        {
+          "id": "95",
+          "label": "russia",
+          "slug": "russia"
+        },
+        {
+          "id": "74",
+          "label": "Science",
+          "slug": "science"
+        },
+        {
+          "id": "1550",
+          "label": "Senate Primary",
+          "slug": "senate-primary"
+        },
+        {
+          "id": "103995",
+          "label": "shah",
+          "slug": "shah"
+        },
+        {
+          "id": "103684",
+          "label": "Shut Down",
+          "slug": "shut-down"
+        },
+        {
+          "id": "166",
+          "label": "South Korea",
+          "slug": "south-korea"
+        },
+        {
+          "id": "103976",
+          "label": "Texas Primary",
+          "slug": "texas-primary"
+        },
+        {
+          "id": "103792",
+          "label": "Texas Senate",
+          "slug": "texas-senate"
+        },
+        {
+          "id": "126",
+          "label": "Trump",
+          "slug": "trump"
+        },
+        {
+          "id": "101191",
+          "label": "Trump Presidency",
+          "slug": "trump-presidency"
+        },
+        {
+          "id": "103147",
+          "label": "Trump-Machado",
+          "slug": "trump-machado"
+        },
+        {
+          "id": "103026",
+          "label": "Trump-Netanyahu",
+          "slug": "trump-netanyahu"
+        },
+        {
+          "id": "102498",
+          "label": "Trump-Zelenskyy",
+          "slug": "trump-zelenskyy"
+        },
+        {
+          "id": "972",
+          "label": "Tweet Markets",
+          "slug": "tweets-markets"
+        },
+        {
+          "id": "96",
+          "label": "Ukraine",
+          "slug": "ukraine"
+        },
+        {
+          "id": "103027",
+          "label": "Ukraine Peace Deal",
+          "slug": "ukraine-peace-deal"
+        },
+        {
+          "id": "1101",
+          "label": "US Election",
+          "slug": "us-presidential-election"
+        },
+        {
+          "id": "102305",
+          "label": "US-Iran",
+          "slug": "us-iran"
+        },
+        {
+          "id": "246",
+          "label": "Venezuela",
+          "slug": "venezuela"
+        },
+        {
+          "id": "103206",
+          "label": "Vietnam",
+          "slug": "vietnam"
+        },
+        {
+          "id": "101970",
+          "label": "World",
+          "slug": "world"
+        },
+        {
+          "id": "101206",
+          "label": "World Elections",
+          "slug": "world-elections"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by February 28?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-february-28",
+          "volume": 104046796.028502,
+          "status": "active"
+        },
+        {
+          "question": "Will Stephen A. Smith win the 2028 Democratic presidential nomination?",
+          "slug": "will-stephen-a-smith-win-the-2028-democratic-presidential-nomination-914",
+          "volume": 10379455.791276,
+          "status": "active"
+        },
+        {
+          "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
+          "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
+          "volume": 5725315.888453,
+          "status": "active"
+        },
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by March 31?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-march-31",
+          "volume": 58459781.286704,
+          "status": "active"
+        },
+        {
+          "question": "Will Eric Trump win the 2028 US Presidential Election?",
+          "slug": "will-eric-trump-win-the-2028-us-presidential-election",
+          "volume": 2140309.462071,
+          "status": "active"
+        },
+        {
+          "question": "Will Person BG win the 2028 US Presidential Election?",
+          "slug": "will-person-bg-win-the-2028-us-presidential-election",
+          "volume": 0,
+          "status": "paused"
+        },
+        {
+          "question": "Will Trump nominate Kevin Warsh as the next Fed chair?",
+          "slug": "will-trump-nominate-kevin-warsh-as-the-next-fed-chair",
+          "volume": 45054658.936676,
+          "status": "active"
+        },
+        {
+          "question": "Will Trump nominate Kevin Hassett as the next Fed chair?",
+          "slug": "will-trump-nominate-kevin-hassett-as-the-next-fed-chair",
+          "volume": 32390588.226723,
+          "status": "active"
+        },
+        {
+          "question": "US x Iran ceasefire by March 31?",
+          "slug": "us-x-iran-ceasefire-by-march-31",
+          "volume": 648156.987176,
+          "status": "active"
+        },
+        {
+          "question": "US x Iran ceasefire by April 30?",
+          "slug": "us-x-iran-ceasefire-by-april-30",
+          "volume": 276260.726894,
+          "status": "active"
+        }
+      ]
+    },
+    "sports": {
+      "slug": "sports",
+      "label": "sports",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "102350",
+          "label": "2026 FIFA World Cup",
+          "slug": "2026-fifa-world-cup"
+        },
+        {
+          "id": "101680",
+          "label": "AFC",
+          "slug": "afc"
+        },
+        {
+          "id": "18",
+          "label": "Awards",
+          "slug": "awards"
+        },
+        {
+          "id": "678",
+          "label": "baseball",
+          "slug": "baseball"
+        },
+        {
+          "id": "28",
+          "label": "Basketball",
+          "slug": "basketball"
+        },
+        {
+          "id": "101178",
+          "label": "CBB",
+          "slug": "cbb"
+        },
+        {
+          "id": "1234",
+          "label": "Champions League",
+          "slug": "champions-league"
+        },
+        {
+          "id": "100780",
+          "label": "counter strike 2",
+          "slug": "counter-strike-2"
+        },
+        {
+          "id": "517",
+          "label": "Cricket",
+          "slug": "cricket"
+        },
+        {
+          "id": "306",
+          "label": "EPL",
+          "slug": "EPL"
+        },
+        {
+          "id": "64",
+          "label": "Esports",
+          "slug": "esports"
+        },
+        {
+          "id": "100389",
+          "label": "f1",
+          "slug": "f1"
+        },
+        {
+          "id": "102232",
+          "label": "FIFA World Cup",
+          "slug": "fifa-world-cup"
+        },
+        {
+          "id": "10",
+          "label": "football",
+          "slug": "football"
+        },
+        {
+          "id": "435",
+          "label": "Formula 1",
+          "slug": "formula1"
+        },
+        {
+          "id": "100639",
+          "label": "Games",
+          "slug": "games"
+        },
+        {
+          "id": "100219",
+          "label": "Golf",
+          "slug": "golf"
+        },
+        {
+          "id": "100088",
+          "label": "Hockey",
+          "slug": "hockey"
+        },
+        {
+          "id": "102803",
+          "label": "International Cricket",
+          "slug": "international-cricket"
+        },
+        {
+          "id": "102668",
+          "label": "KBO",
+          "slug": "kbo"
+        },
+        {
+          "id": "780",
+          "label": "La Liga",
+          "slug": "la-liga"
+        },
+        {
+          "id": "65",
+          "label": "league of legends",
+          "slug": "league-of-legends"
+        },
+        {
+          "id": "102070",
+          "label": "Ligue 1",
+          "slug": "ligue-1"
+        },
+        {
+          "id": "103217",
+          "label": "LMB",
+          "slug": "lmb"
+        },
+        {
+          "id": "100381",
+          "label": "MLB",
+          "slug": "mlb"
+        },
+        {
+          "id": "102627",
+          "label": "MLB Playoffs",
+          "slug": "mlb-playoffs"
+        },
+        {
+          "id": "707",
+          "label": "mvp",
+          "slug": "mvp"
+        },
+        {
+          "id": "745",
+          "label": "NBA",
+          "slug": "nba"
+        },
+        {
+          "id": "102288",
+          "label": "NBA Champion",
+          "slug": "nba-champion"
+        },
+        {
+          "id": "100240",
+          "label": "NBA Finals",
+          "slug": "nba-finals"
+        },
+        {
+          "id": "100396",
+          "label": "NCAA",
+          "slug": "ncaa"
+        },
+        {
+          "id": "102114",
+          "label": "NCAA Basketball",
+          "slug": "ncaa-basketball"
+        },
+        {
+          "id": "102779",
+          "label": "NCAA CBB",
+          "slug": "ncaa-cbb"
+        },
+        {
+          "id": "101681",
+          "label": "NFC",
+          "slug": "nfc"
+        },
+        {
+          "id": "450",
+          "label": "NFL",
+          "slug": "nfl"
+        },
+        {
+          "id": "101674",
+          "label": "NFL Playoffs",
+          "slug": "nfl-playoffs"
+        },
+        {
+          "id": "899",
+          "label": "NHL",
+          "slug": "nhl"
+        },
+        {
+          "id": "102112",
+          "label": "PGA TOUR",
+          "slug": "pga-tour"
+        },
+        {
+          "id": "101772",
+          "label": "Primeira Liga",
+          "slug": "primeira-liga"
+        },
+        {
+          "id": "101962",
+          "label": "sea",
+          "slug": "sea"
+        },
+        {
+          "id": "100350",
+          "label": "Soccer",
+          "slug": "soccer"
+        },
+        {
+          "id": "100089",
+          "label": "Stanley Cup",
+          "slug": "stanley-cup"
+        },
+        {
+          "id": "929",
+          "label": "Super Bowl",
+          "slug": "super-bowl"
+        },
+        {
+          "id": "102971",
+          "label": "T20",
+          "slug": "t20"
+        },
+        {
+          "id": "864",
+          "label": "Tennis",
+          "slug": "tennis"
+        },
+        {
+          "id": "102446",
+          "label": "The Masters",
+          "slug": "the-masters"
+        },
+        {
+          "id": "100977",
+          "label": "UCL",
+          "slug": "ucl"
+        },
+        {
+          "id": "101672",
+          "label": "Valorant",
+          "slug": "valorant"
+        },
+        {
+          "id": "103218",
+          "label": "WBC",
+          "slug": "wbc"
+        },
+        {
+          "id": "100021",
+          "label": "World Series",
+          "slug": "world-series"
+        },
+        {
+          "id": "1",
+          "label": "NCAAB",
+          "slug": "ncaab"
+        },
+        {
+          "id": "2",
+          "label": "EPL",
+          "slug": "epl"
+        },
+        {
+          "id": "3",
+          "label": "LAL",
+          "slug": "lal"
+        },
+        {
+          "id": "95",
+          "label": "ACN",
+          "slug": "acn"
+        },
+        {
+          "id": "5",
+          "label": "IPL",
+          "slug": "ipl"
+        },
+        {
+          "id": "6",
+          "label": "WNBA",
+          "slug": "wnba"
+        },
+        {
+          "id": "7",
+          "label": "BUN",
+          "slug": "bun"
+        },
+        {
+          "id": "9",
+          "label": "CFB",
+          "slug": "cfb"
+        },
+        {
+          "id": "11",
+          "label": "FL1",
+          "slug": "fl1"
+        },
+        {
+          "id": "16",
+          "label": "OFC",
+          "slug": "ofc"
+        },
+        {
+          "id": "17",
+          "label": "FIF",
+          "slug": "fif"
+        },
+        {
+          "id": "18",
+          "label": "ERE",
+          "slug": "ere"
+        },
+        {
+          "id": "19",
+          "label": "ARG",
+          "slug": "arg"
+        },
+        {
+          "id": "20",
+          "label": "ITC",
+          "slug": "itc"
+        },
+        {
+          "id": "21",
+          "label": "MEX",
+          "slug": "mex"
+        },
+        {
+          "id": "22",
+          "label": "LCS",
+          "slug": "lcs"
+        },
+        {
+          "id": "23",
+          "label": "LIB",
+          "slug": "lib"
+        },
+        {
+          "id": "24",
+          "label": "SUD",
+          "slug": "sud"
+        },
+        {
+          "id": "25",
+          "label": "TUR",
+          "slug": "tur"
+        },
+        {
+          "id": "26",
+          "label": "CON",
+          "slug": "con"
+        },
+        {
+          "id": "27",
+          "label": "COF",
+          "slug": "cof"
+        },
+        {
+          "id": "28",
+          "label": "UEF",
+          "slug": "uef"
+        },
+        {
+          "id": "29",
+          "label": "CAF",
+          "slug": "caf"
+        },
+        {
+          "id": "30",
+          "label": "RUS",
+          "slug": "rus"
+        },
+        {
+          "id": "31",
+          "label": "EFA",
+          "slug": "efa"
+        },
+        {
+          "id": "32",
+          "label": "EFL",
+          "slug": "efl"
+        },
+        {
+          "id": "36",
+          "label": "UEL",
+          "slug": "uel"
+        },
+        {
+          "id": "38",
+          "label": "DOTA2",
+          "slug": "dota2"
+        },
+        {
+          "id": "39",
+          "label": "LOL",
+          "slug": "lol"
+        },
+        {
+          "id": "41",
+          "label": "ODI",
+          "slug": "odi"
+        },
+        {
+          "id": "43",
+          "label": "ABB",
+          "slug": "abb"
+        },
+        {
+          "id": "44",
+          "label": "CSA",
+          "slug": "csa"
+        },
+        {
+          "id": "45",
+          "label": "ATP",
+          "slug": "atp"
+        },
+        {
+          "id": "46",
+          "label": "WTA",
+          "slug": "wta"
+        },
+        {
+          "id": "33",
+          "label": "MLS",
+          "slug": "mls"
+        },
+        {
+          "id": "40",
+          "label": "VAL",
+          "slug": "val"
+        },
+        {
+          "id": "37",
+          "label": "CS2",
+          "slug": "cs2"
+        },
+        {
+          "id": "47",
+          "label": "CWBB",
+          "slug": "cwbb"
+        },
+        {
+          "id": "49",
+          "label": "CDR",
+          "slug": "cdr"
+        },
+        {
+          "id": "50",
+          "label": "MLBB",
+          "slug": "mlbb"
+        },
+        {
+          "id": "51",
+          "label": "OW",
+          "slug": "ow"
+        },
+        {
+          "id": "96",
+          "label": "CRBAN",
+          "slug": "crban"
+        },
+        {
+          "id": "53",
+          "label": "CODMW",
+          "slug": "codmw"
+        },
+        {
+          "id": "54",
+          "label": "FIFA",
+          "slug": "fifa"
+        },
+        {
+          "id": "98",
+          "label": "RUTOPFT",
+          "slug": "rutopft"
+        },
+        {
+          "id": "56",
+          "label": "PUBG",
+          "slug": "pubg"
+        },
+        {
+          "id": "57",
+          "label": "R6SIEGE",
+          "slug": "r6siege"
+        },
+        {
+          "id": "58",
+          "label": "RL",
+          "slug": "rl"
+        },
+        {
+          "id": "101",
+          "label": "BKLIGEND",
+          "slug": "bkligend"
+        },
+        {
+          "id": "103",
+          "label": "BKNBL",
+          "slug": "bknbl"
+        },
+        {
+          "id": "61",
+          "label": "COL",
+          "slug": "col"
+        },
+        {
+          "id": "62",
+          "label": "CDE",
+          "slug": "cde"
+        },
+        {
+          "id": "63",
+          "label": "DFB",
+          "slug": "dfb"
+        },
+        {
+          "id": "64",
+          "label": "BRA",
+          "slug": "bra"
+        },
+        {
+          "id": "65",
+          "label": "JAP",
+          "slug": "jap"
+        },
+        {
+          "id": "66",
+          "label": "JA2",
+          "slug": "ja2"
+        },
+        {
+          "id": "67",
+          "label": "KOR",
+          "slug": "kor"
+        },
+        {
+          "id": "68",
+          "label": "SPL",
+          "slug": "spl"
+        },
+        {
+          "id": "69",
+          "label": "CHI",
+          "slug": "chi"
+        },
+        {
+          "id": "70",
+          "label": "AUS",
+          "slug": "aus"
+        },
+        {
+          "id": "71",
+          "label": "IND",
+          "slug": "ind"
+        },
+        {
+          "id": "72",
+          "label": "NOR",
+          "slug": "nor"
+        },
+        {
+          "id": "73",
+          "label": "DEN",
+          "slug": "den"
+        },
+        {
+          "id": "74",
+          "label": "POR",
+          "slug": "por"
+        },
+        {
+          "id": "75",
+          "label": "TEST",
+          "slug": "test"
+        },
+        {
+          "id": "76",
+          "label": "SHE",
+          "slug": "she"
+        },
+        {
+          "id": "77",
+          "label": "SASA",
+          "slug": "sasa"
+        },
+        {
+          "id": "78",
+          "label": "LPL",
+          "slug": "lpl"
+        },
+        {
+          "id": "79",
+          "label": "PSP",
+          "slug": "psp"
+        },
+        {
+          "id": "81",
+          "label": "SHL",
+          "slug": "shl"
+        },
+        {
+          "id": "82",
+          "label": "CEHL",
+          "slug": "cehl"
+        },
+        {
+          "id": "83",
+          "label": "DEHL",
+          "slug": "dehl"
+        },
+        {
+          "id": "84",
+          "label": "SNHL",
+          "slug": "snhl"
+        },
+        {
+          "id": "85",
+          "label": "KHL",
+          "slug": "khl"
+        },
+        {
+          "id": "48",
+          "label": "UFC",
+          "slug": "ufc"
+        },
+        {
+          "id": "86",
+          "label": "AHL",
+          "slug": "ahl"
+        },
+        {
+          "id": "87",
+          "label": "CRINT",
+          "slug": "crint"
+        },
+        {
+          "id": "91",
+          "label": "CRAUS",
+          "slug": "craus"
+        },
+        {
+          "id": "89",
+          "label": "CRENG",
+          "slug": "creng"
+        },
+        {
+          "id": "94",
+          "label": "CRNEW",
+          "slug": "crnew"
+        },
+        {
+          "id": "88",
+          "label": "CRIND",
+          "slug": "crind"
+        },
+        {
+          "id": "92",
+          "label": "CRSOU",
+          "slug": "crsou"
+        },
+        {
+          "id": "90",
+          "label": "CRPAK",
+          "slug": "crpak"
+        },
+        {
+          "id": "93",
+          "label": "CRUAE",
+          "slug": "cruae"
+        },
+        {
+          "id": "52",
+          "label": "HOK",
+          "slug": "hok"
+        },
+        {
+          "id": "55",
+          "label": "WILDRIFT",
+          "slug": "wildrift"
+        },
+        {
+          "id": "59",
+          "label": "SC2",
+          "slug": "sc2"
+        },
+        {
+          "id": "60",
+          "label": "SC",
+          "slug": "sc"
+        },
+        {
+          "id": "97",
+          "label": "RUPREM",
+          "slug": "ruprem"
+        },
+        {
+          "id": "99",
+          "label": "SSC",
+          "slug": "ssc"
+        },
+        {
+          "id": "100",
+          "label": "BKCL",
+          "slug": "bkcl"
+        },
+        {
+          "id": "102",
+          "label": "BKSERIEA",
+          "slug": "bkseriea"
+        },
+        {
+          "id": "104",
+          "label": "BKCBA",
+          "slug": "bkcba"
+        },
+        {
+          "id": "105",
+          "label": "BKFR1",
+          "slug": "bkfr1"
+        },
+        {
+          "id": "106",
+          "label": "BKARG",
+          "slug": "bkarg"
+        },
+        {
+          "id": "107",
+          "label": "BKKBL",
+          "slug": "bkkbl"
+        },
+        {
+          "id": "108",
+          "label": "RUSIXNAT",
+          "slug": "rusixnat"
+        },
+        {
+          "id": "109",
+          "label": "RUEUCHAMP",
+          "slug": "rueuchamp"
+        },
+        {
+          "id": "110",
+          "label": "RUURC",
+          "slug": "ruurc"
+        },
+        {
+          "id": "111",
+          "label": "RUSRP",
+          "slug": "rusrp"
+        },
+        {
+          "id": "112",
+          "label": "RUCHAMP",
+          "slug": "ruchamp"
+        },
+        {
+          "id": "113",
+          "label": "CRU19WC",
+          "slug": "cru19wc"
+        },
+        {
+          "id": "114",
+          "label": "CRWPL20",
+          "slug": "crwpl20"
+        },
+        {
+          "id": "115",
+          "label": "CRWNCL",
+          "slug": "crwncl"
+        },
+        {
+          "id": "116",
+          "label": "CRWT20WCGQ",
+          "slug": "crwt20wcgq"
+        },
+        {
+          "id": "117",
+          "label": "CRAFGWI20",
+          "slug": "crafgwi20"
+        },
+        {
+          "id": "118",
+          "label": "CRBTNMLYHKG20",
+          "slug": "crbtnmlyhkg20"
+        },
+        {
+          "id": "119",
+          "label": "ZUFFA",
+          "slug": "zuffa"
+        },
+        {
+          "id": "120",
+          "label": "MAR1",
+          "slug": "mar1"
+        },
+        {
+          "id": "121",
+          "label": "EGY1",
+          "slug": "egy1"
+        },
+        {
+          "id": "122",
+          "label": "CZE1",
+          "slug": "cze1"
+        },
+        {
+          "id": "123",
+          "label": "BOL1",
+          "slug": "bol1"
+        },
+        {
+          "id": "124",
+          "label": "ROU1",
+          "slug": "rou1"
+        },
+        {
+          "id": "130",
+          "label": "MWOH",
+          "slug": "mwoh"
+        },
+        {
+          "id": "125",
+          "label": "BRA2",
+          "slug": "bra2"
+        },
+        {
+          "id": "126",
+          "label": "PER1",
+          "slug": "per1"
+        },
+        {
+          "id": "132",
+          "label": "EUROLEAGUE",
+          "slug": "euroleague"
+        },
+        {
+          "id": "131",
+          "label": "WWOH",
+          "slug": "wwoh"
+        },
+        {
+          "id": "133",
+          "label": "WTTMEN",
+          "slug": "wttmen"
+        },
+        {
+          "id": "134",
+          "label": "CRICIPL",
+          "slug": "cricipl"
+        },
+        {
+          "id": "136",
+          "label": "CRICPSL",
+          "slug": "cricpsl"
+        },
+        {
+          "id": "138",
+          "label": "CRICCPL",
+          "slug": "criccpl"
+        },
+        {
+          "id": "140",
+          "label": "CRICSM",
+          "slug": "cricsm"
+        },
+        {
+          "id": "142",
+          "label": "CRICSA20",
+          "slug": "cricsa20"
+        },
+        {
+          "id": "144",
+          "label": "CRICT20PLW",
+          "slug": "crict20plw"
+        },
+        {
+          "id": "146",
+          "label": "CRICCSAT20W",
+          "slug": "criccsat20w"
+        },
+        {
+          "id": "147",
+          "label": "CRICWNCL",
+          "slug": "cricwncl"
+        },
+        {
+          "id": "149",
+          "label": "UWCL",
+          "slug": "uwcl"
+        },
+        {
+          "id": "151",
+          "label": "PLL",
+          "slug": "pll"
+        },
+        {
+          "id": "127",
+          "label": "COL1",
+          "slug": "col1"
+        },
+        {
+          "id": "135",
+          "label": "CRICBBL",
+          "slug": "cricbbl"
+        },
+        {
+          "id": "137",
+          "label": "CRICT20BLAST",
+          "slug": "crict20blast"
+        },
+        {
+          "id": "139",
+          "label": "CRICBPL",
+          "slug": "cricbpl"
+        },
+        {
+          "id": "141",
+          "label": "CRICT20LPL",
+          "slug": "crict20lpl"
+        },
+        {
+          "id": "143",
+          "label": "CRICILT20",
+          "slug": "cricilt20"
+        },
+        {
+          "id": "145",
+          "label": "CRICMLC",
+          "slug": "cricmlc"
+        },
+        {
+          "id": "150",
+          "label": "UKR1",
+          "slug": "ukr1"
+        },
+        {
+          "id": "152",
+          "label": "WLL",
+          "slug": "wll"
+        },
+        {
+          "id": "128",
+          "label": "CHI1",
+          "slug": "chi1"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Will the Oklahoma City Thunder win the 2026 NBA Finals?",
+          "slug": "will-the-oklahoma-city-thunder-win-the-2026-nba-finals",
+          "volume": 4397433.126816,
+          "status": "active"
+        },
+        {
+          "question": "Will the Houston Rockets win the 2026 NBA Finals?",
+          "slug": "will-the-houston-rockets-win-the-2026-nba-finals",
+          "volume": 2496369.252691,
+          "status": "active"
+        },
+        {
+          "question": "Will Spain win the 2026 FIFA World Cup?",
+          "slug": "will-spain-win-the-2026-fifa-world-cup-963",
+          "volume": 2912924.419248,
+          "status": "active"
+        },
+        {
+          "question": "Will New Zealand win the 2026 FIFA World Cup?",
+          "slug": "will-new-zealand-win-the-2026-fifa-world-cup-635",
+          "volume": 10592688.202336,
+          "status": "active"
+        },
+        {
+          "question": "Will Celta Vigo win the 2025–26 La Liga?",
+          "slug": "will-celta-vigo-win-the-202526-la-liga",
+          "volume": 3825370.200987,
+          "status": "active"
+        },
+        {
+          "question": "Will Oviedo win the 2025–26 La Liga?",
+          "slug": "will-oviedo-win-the-202526-la-liga",
+          "volume": 7196701.225019,
+          "status": "closed"
+        },
+        {
+          "question": "Timberwolves vs. Nuggets",
+          "slug": "nba-min-den-2026-03-01",
+          "volume": 3223894.45342,
+          "status": "closed"
+        },
+        {
+          "question": "Spread: Nuggets (-2.5)",
+          "slug": "nba-min-den-2026-03-01-spread-home-2pt5",
+          "volume": 147971.153715,
+          "status": "closed"
+        },
+        {
+          "question": "LoL: Weibo Gaming vs Top Esports (BO5) - LPL Playoffs",
+          "slug": "lol-wb-tes-2026-03-02",
+          "volume": 2682952.691982,
+          "status": "closed"
+        },
+        {
+          "question": "LoL: Weibo Gaming vs Top Esports - Game 1 Winner",
+          "slug": "lol-wb-tes-2026-03-02-game1",
+          "volume": 405972.186146,
+          "status": "closed"
+        }
+      ]
+    },
+    "crypto": {
+      "slug": "crypto",
+      "label": "crypto",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "102175",
+          "label": "1H",
+          "slug": "1H"
+        },
+        {
+          "id": "101588",
+          "label": "2025 Predictions",
+          "slug": "2025-predictions"
+        },
+        {
+          "id": "136",
+          "label": "Airdrops",
+          "slug": "airdrops"
+        },
+        {
+          "id": "100198",
+          "label": "ATH",
+          "slug": "ath"
+        },
+        {
+          "id": "102841",
+          "label": "Backpack",
+          "slug": "backpack"
+        },
+        {
+          "id": "235",
+          "label": "Bitcoin",
+          "slug": "bitcoin"
+        },
+        {
+          "id": "103191",
+          "label": "Bitway",
+          "slug": "bitway"
+        },
+        {
+          "id": "107",
+          "label": "Business",
+          "slug": "business"
+        },
+        {
+          "id": "1312",
+          "label": "Crypto Prices",
+          "slug": "crypto-prices"
+        },
+        {
+          "id": "596",
+          "label": "Culture",
+          "slug": "pop-culture"
+        },
+        {
+          "id": "102281",
+          "label": "Daily",
+          "slug": "daily"
+        },
+        {
+          "id": "103665",
+          "label": "Daily-Close",
+          "slug": "daily-close"
+        },
+        {
+          "id": "100328",
+          "label": "Economy",
+          "slug": "economy"
+        },
+        {
+          "id": "39",
+          "label": "Ethereum",
+          "slug": "ethereum"
+        },
+        {
+          "id": "139",
+          "label": "fdv",
+          "slug": "fdv"
+        },
+        {
+          "id": "120",
+          "label": "Finance",
+          "slug": "finance"
+        },
+        {
+          "id": "765",
+          "label": "ftx",
+          "slug": "ftx"
+        },
+        {
+          "id": "102537",
+          "label": "Hit First",
+          "slug": "hit-first"
+        },
+        {
+          "id": "102134",
+          "label": "Hit Price",
+          "slug": "hit-price"
+        },
+        {
+          "id": "103993",
+          "label": "Katana",
+          "slug": "katana"
+        },
+        {
+          "id": "102332",
+          "label": "MegaETH",
+          "slug": "megaeth"
+        },
+        {
+          "id": "101473",
+          "label": "MicroStrategy",
+          "slug": "microstrategy"
+        },
+        {
+          "id": "102144",
+          "label": "Monthly",
+          "slug": "monthly"
+        },
+        {
+          "id": "102516",
+          "label": "Multi Strikes",
+          "slug": "multi-strikes"
+        },
+        {
+          "id": "100732",
+          "label": "opinion",
+          "slug": "opinion"
+        },
+        {
+          "id": "2",
+          "label": "Politics",
+          "slug": "politics"
+        },
+        {
+          "id": "102368",
+          "label": "Pre-Market",
+          "slug": "pre-market"
+        },
+        {
+          "id": "103804",
+          "label": "Predict.fun",
+          "slug": "predictptfun"
+        },
+        {
+          "id": "101312",
+          "label": "Ripple",
+          "slug": "ripple"
+        },
+        {
+          "id": "101901",
+          "label": "Sam Bankman-Fried",
+          "slug": "sam-bankman-fried"
+        },
+        {
+          "id": "818",
+          "label": "Solana",
+          "slug": "solana"
+        },
+        {
+          "id": "604",
+          "label": "Stocks",
+          "slug": "stocks"
+        },
+        {
+          "id": "102133",
+          "label": "Today 🚀",
+          "slug": "today"
+        },
+        {
+          "id": "336",
+          "label": "token launch",
+          "slug": "token-launch"
+        },
+        {
+          "id": "102859",
+          "label": "Token Sales",
+          "slug": "token-sales"
+        },
+        {
+          "id": "126",
+          "label": "Trump",
+          "slug": "trump"
+        },
+        {
+          "id": "102127",
+          "label": "Up or Down",
+          "slug": "up-or-down"
+        },
+        {
+          "id": "102264",
+          "label": "Weekly",
+          "slug": "weekly"
+        },
+        {
+          "id": "101267",
+          "label": "XRP",
+          "slug": "xrp"
+        },
+        {
+          "id": "102536",
+          "label": "Yearly",
+          "slug": "yearly"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Will Bitcoin reach $150,000 in March?",
+          "slug": "will-bitcoin-reach-150k-in-march-2026",
+          "volume": 1914670.082584,
+          "status": "active"
+        },
+        {
+          "question": "Will Bitcoin reach $110,000 in March?",
+          "slug": "will-bitcoin-reach-110k-in-march-2026",
+          "volume": 167867.157378,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Bitcoin be between $60,000 and $62,000 on March 2?",
+          "slug": "will-the-price-of-bitcoin-be-between-60000-62000-on-march-2",
+          "volume": 195795.104768,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Bitcoin be between $62,000 and $64,000 on March 2?",
+          "slug": "will-the-price-of-bitcoin-be-between-62000-64000-on-march-2",
+          "volume": 140838.753126,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Bitcoin be above $54,000 on March 3?",
+          "slug": "bitcoin-above-54k-on-march-3",
+          "volume": 669885.582123,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Bitcoin be above $56,000 on March 3?",
+          "slug": "bitcoin-above-56k-on-march-3",
+          "volume": 342129.172046,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Ethereum be above $1,400 on March 3?",
+          "slug": "ethereum-above-1400-on-march-3",
+          "volume": 183526.289872,
+          "status": "active"
+        },
+        {
+          "question": "Will the price of Ethereum be above $1,500 on March 3?",
+          "slug": "ethereum-above-1500-on-march-3",
+          "volume": 99629.801374,
+          "status": "active"
+        },
+        {
+          "question": "Will Ethereum reach $4,000 in March?",
+          "slug": "will-ethereum-reach-4000-in-march-2026",
+          "volume": 220546.253261,
+          "status": "active"
+        },
+        {
+          "question": "Will Ethereum reach $3,800 in March?",
+          "slug": "will-ethereum-reach-3800-in-march-2026",
+          "volume": 17799.864407,
+          "status": "active"
+        }
+      ]
+    },
+    "finance": {
+      "slug": "finance",
+      "label": "finance",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "101588",
+          "label": "2025 Predictions",
+          "slug": "2025-predictions"
+        },
+        {
+          "id": "102680",
+          "label": "AAPL",
+          "slug": "aapl"
+        },
+        {
+          "id": "102691",
+          "label": "Acquisitions",
+          "slug": "acquisitions"
+        },
+        {
+          "id": "439",
+          "label": "AI",
+          "slug": "ai"
+        },
+        {
+          "id": "102681",
+          "label": "AMZN",
+          "slug": "amzn"
+        },
+        {
+          "id": "553",
+          "label": "anthropic",
+          "slug": "anthropic"
+        },
+        {
+          "id": "101999",
+          "label": "Big Tech",
+          "slug": "big-tech"
+        },
+        {
+          "id": "235",
+          "label": "Bitcoin",
+          "slug": "bitcoin"
+        },
+        {
+          "id": "107",
+          "label": "Business",
+          "slug": "business"
+        },
+        {
+          "id": "101779",
+          "label": "buy",
+          "slug": "buy"
+        },
+        {
+          "id": "103037",
+          "label": "Climate & Science",
+          "slug": "climate-science"
+        },
+        {
+          "id": "102739",
+          "label": "COMEX Gold Futures",
+          "slug": "comex-gold-futures"
+        },
+        {
+          "id": "102740",
+          "label": "COMEX Silver Futures",
+          "slug": "comex-silver-futures"
+        },
+        {
+          "id": "101031",
+          "label": "Commodities",
+          "slug": "commodities"
+        },
+        {
+          "id": "21",
+          "label": "Crypto",
+          "slug": "crypto"
+        },
+        {
+          "id": "102281",
+          "label": "Daily",
+          "slug": "daily"
+        },
+        {
+          "id": "103665",
+          "label": "Daily-Close",
+          "slug": "daily-close"
+        },
+        {
+          "id": "102688",
+          "label": "DAX",
+          "slug": "dax"
+        },
+        {
+          "id": "101734",
+          "label": "DeepSeek",
+          "slug": "deepseek"
+        },
+        {
+          "id": "102690",
+          "label": "DJI",
+          "slug": "dji"
+        },
+        {
+          "id": "101800",
+          "label": "Economic Policy",
+          "slug": "economic-policy"
+        },
+        {
+          "id": "100328",
+          "label": "Economy",
+          "slug": "economy"
+        },
+        {
+          "id": "282",
+          "label": "Elon Musk",
+          "slug": "elon-musk"
+        },
+        {
+          "id": "102676",
+          "label": "Equities",
+          "slug": "equities"
+        },
+        {
+          "id": "159",
+          "label": "Fed",
+          "slug": "fed"
+        },
+        {
+          "id": "100196",
+          "label": "Fed Rates",
+          "slug": "fed-rates"
+        },
+        {
+          "id": "103195",
+          "label": "Finance Rewards 100",
+          "slug": "finance-rewards-100"
+        },
+        {
+          "id": "103289",
+          "label": "Finance Rewards 20",
+          "slug": "finance-rewards-20"
+        },
+        {
+          "id": "103196",
+          "label": "Finance Rewards 300",
+          "slug": "finance-rewards-300"
+        },
+        {
+          "id": "103288",
+          "label": "Finance Rewards 500",
+          "slug": "finance-rewards-500"
+        },
+        {
+          "id": "102689",
+          "label": "FTSE",
+          "slug": "ftse"
+        },
+        {
+          "id": "101589",
+          "label": "Gold",
+          "slug": "gold"
+        },
+        {
+          "id": "102678",
+          "label": "GOOGL",
+          "slug": "googl"
+        },
+        {
+          "id": "102687",
+          "label": "HSI",
+          "slug": "hsi"
+        },
+        {
+          "id": "102682",
+          "label": "Indicies",
+          "slug": "indicies"
+        },
+        {
+          "id": "102599",
+          "label": "IPO",
+          "slug": "ipo"
+        },
+        {
+          "id": "600",
+          "label": "IPOs",
+          "slug": "ipos"
+        },
+        {
+          "id": "101550",
+          "label": "Jerome Powell",
+          "slug": "jerome-powell"
+        },
+        {
+          "id": "101647",
+          "label": "Meta",
+          "slug": "meta"
+        },
+        {
+          "id": "101473",
+          "label": "MicroStrategy",
+          "slug": "microstrategy"
+        },
+        {
+          "id": "102144",
+          "label": "Monthly",
+          "slug": "monthly"
+        },
+        {
+          "id": "102188",
+          "label": "Monthly Hit",
+          "slug": "monthly-hit"
+        },
+        {
+          "id": "102679",
+          "label": "MSFT",
+          "slug": "msft"
+        },
+        {
+          "id": "102516",
+          "label": "Multi Strikes",
+          "slug": "multi-strikes"
+        },
+        {
+          "id": "102685",
+          "label": "NDX",
+          "slug": "ndx"
+        },
+        {
+          "id": "102696",
+          "label": "NFLX",
+          "slug": "nflx"
+        },
+        {
+          "id": "102684",
+          "label": "NIK",
+          "slug": "nik"
+        },
+        {
+          "id": "100266",
+          "label": "NVDA",
+          "slug": "nvda"
+        },
+        {
+          "id": "102701",
+          "label": "NYA",
+          "slug": "nya"
+        },
+        {
+          "id": "102742",
+          "label": "NYMEX Crude Oil Futures",
+          "slug": "nymex-crude-oil-futures"
+        },
+        {
+          "id": "309",
+          "label": "Oil",
+          "slug": "oil"
+        },
+        {
+          "id": "102698",
+          "label": "OPEN",
+          "slug": "open"
+        },
+        {
+          "id": "537",
+          "label": "OpenAI",
+          "slug": "openai"
+        },
+        {
+          "id": "93",
+          "label": "Prediction Markets",
+          "slug": "prediction-markets"
+        },
+        {
+          "id": "103149",
+          "label": "Rewards 20, 4.5, 50",
+          "slug": "rewards-20-4pt5-50"
+        },
+        {
+          "id": "103160",
+          "label": "Rewards 50, 4.5, 20",
+          "slug": "rewards-50-4pt5-20"
+        },
+        {
+          "id": "102686",
+          "label": "RUT",
+          "slug": "rut"
+        },
+        {
+          "id": "102849",
+          "label": "S&P 500",
+          "slug": "sp-500"
+        },
+        {
+          "id": "285",
+          "label": "sam altman",
+          "slug": "sam-altman"
+        },
+        {
+          "id": "74",
+          "label": "Science",
+          "slug": "science"
+        },
+        {
+          "id": "100733",
+          "label": "Silver",
+          "slug": "silver"
+        },
+        {
+          "id": "1325",
+          "label": "Space",
+          "slug": "space"
+        },
+        {
+          "id": "63",
+          "label": "SpaceX",
+          "slug": "spacex"
+        },
+        {
+          "id": "102683",
+          "label": "SPX",
+          "slug": "spx"
+        },
+        {
+          "id": "102831",
+          "label": "Stock Prices",
+          "slug": "stock-prices"
+        },
+        {
+          "id": "604",
+          "label": "Stocks",
+          "slug": "stocks"
+        },
+        {
+          "id": "1401",
+          "label": "Tech",
+          "slug": "tech"
+        },
+        {
+          "id": "102028",
+          "label": "Treasuries",
+          "slug": "treasuries"
+        },
+        {
+          "id": "102677",
+          "label": "TSLA",
+          "slug": "tsla"
+        },
+        {
+          "id": "102127",
+          "label": "Up or Down",
+          "slug": "up-or-down"
+        },
+        {
+          "id": "102264",
+          "label": "Weekly",
+          "slug": "weekly"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "S&P 500 (SPX) Opens Up or Down on March 2?",
+          "slug": "spx-opens-up-or-down-on-march-2-2026",
+          "volume": 1672605.916964,
+          "status": "active"
+        },
+        {
+          "question": "Will NVIDIA be the largest company in the world by market cap on March 31?",
+          "slug": "will-nvidia-be-the-largest-company-in-the-world-by-market-cap-on-march-31-323",
+          "volume": 502103.191364,
+          "status": "active"
+        },
+        {
+          "question": "Will Apple be the largest company in the world by market cap on March 31?",
+          "slug": "will-apple-be-the-largest-company-in-the-world-by-market-cap-on-march-31-336",
+          "volume": 350906.520824,
+          "status": "active"
+        },
+        {
+          "question": "S&P 500 (SPX) Up or Down on March 2?",
+          "slug": "spx-up-or-down-on-march-2-2026",
+          "volume": 476429.930355,
+          "status": "active"
+        },
+        {
+          "question": "Will NVIDIA reach $280 in March?",
+          "slug": "will-nvda-reach-280-in-march",
+          "volume": 2865.417379,
+          "status": "active"
+        },
+        {
+          "question": "Will NVIDIA reach $208 in March?",
+          "slug": "will-nvda-reach-208-in-march",
+          "volume": 474.459693,
+          "status": "active"
+        },
+        {
+          "question": "Crude Oil (CL) Up or Down on March 2?",
+          "slug": "cl-up-or-down-on-march-2-2026",
+          "volume": 220661.135979,
+          "status": "active"
+        },
+        {
+          "question": "Will no Fed rate cuts happen in 2026?",
+          "slug": "will-no-fed-rate-cuts-happen-in-2026",
+          "volume": 1652394.071475,
+          "status": "active"
+        },
+        {
+          "question": "Will 1 Fed rate cut happen in 2026?",
+          "slug": "will-1-fed-rate-cut-happen-in-2026",
+          "volume": 539592.939576,
+          "status": "active"
+        },
+        {
+          "question": "Will Silver (SI) hit (HIGH) $200 by end of June?",
+          "slug": "si-hit-200-high-jun-2026-446-464-464",
+          "volume": 319286.550949,
+          "status": "active"
+        }
+      ]
+    },
+    "geopolitics": {
+      "slug": "geopolitics",
+      "label": "geopolitics",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "103284",
+          "label": "AFRICOM",
+          "slug": "africom"
+        },
+        {
+          "id": "18",
+          "label": "Awards",
+          "slug": "awards"
+        },
+        {
+          "id": "303",
+          "label": "China",
+          "slug": "china"
+        },
+        {
+          "id": "101031",
+          "label": "Commodities",
+          "slug": "commodities"
+        },
+        {
+          "id": "103146",
+          "label": "Daily Strikes",
+          "slug": "daily-strikes"
+        },
+        {
+          "id": "103212",
+          "label": "Davos",
+          "slug": "davos"
+        },
+        {
+          "id": "144",
+          "label": "Elections",
+          "slug": "elections"
+        },
+        {
+          "id": "100410",
+          "label": "Europe",
+          "slug": "europe"
+        },
+        {
+          "id": "101794",
+          "label": "Foreign Policy",
+          "slug": "foreign-policy"
+        },
+        {
+          "id": "100679",
+          "label": "gas",
+          "slug": "gas"
+        },
+        {
+          "id": "61",
+          "label": "Gaza",
+          "slug": "gaza"
+        },
+        {
+          "id": "1597",
+          "label": "Global Elections",
+          "slug": "global-elections"
+        },
+        {
+          "id": "101569",
+          "label": "Greenland",
+          "slug": "greenland"
+        },
+        {
+          "id": "297",
+          "label": "Hezbollah",
+          "slug": "hezbollah"
+        },
+        {
+          "id": "78",
+          "label": "Iran",
+          "slug": "iran"
+        },
+        {
+          "id": "100756",
+          "label": "iraq",
+          "slug": "iraq"
+        },
+        {
+          "id": "180",
+          "label": "Israel",
+          "slug": "israel"
+        },
+        {
+          "id": "102304",
+          "label": "Khamenei",
+          "slug": "khamenei"
+        },
+        {
+          "id": "849",
+          "label": "Lebanon",
+          "slug": "lebanon"
+        },
+        {
+          "id": "101253",
+          "label": "Macro Geopolitics",
+          "slug": "macro-geopolitics"
+        },
+        {
+          "id": "101669",
+          "label": "maduro",
+          "slug": "maduro"
+        },
+        {
+          "id": "154",
+          "label": "Middle East",
+          "slug": "middle-east"
+        },
+        {
+          "id": "1289",
+          "label": "nuclear",
+          "slug": "nuclear"
+        },
+        {
+          "id": "102742",
+          "label": "NYMEX Crude Oil Futures",
+          "slug": "nymex-crude-oil-futures"
+        },
+        {
+          "id": "309",
+          "label": "Oil",
+          "slug": "oil"
+        },
+        {
+          "id": "103123",
+          "label": "Parent For Derivative",
+          "slug": "parent-for-derivative"
+        },
+        {
+          "id": "2",
+          "label": "Politics",
+          "slug": "politics"
+        },
+        {
+          "id": "270",
+          "label": "putin",
+          "slug": "putin"
+        },
+        {
+          "id": "103796",
+          "label": "Rewards 50, 4.5, 100",
+          "slug": "rewards-50-4pt5-100"
+        },
+        {
+          "id": "103996",
+          "label": "Reza Pahlavi",
+          "slug": "reza-pahlavi"
+        },
+        {
+          "id": "95",
+          "label": "russia",
+          "slug": "russia"
+        },
+        {
+          "id": "103995",
+          "label": "shah",
+          "slug": "shah"
+        },
+        {
+          "id": "103063",
+          "label": "somalia",
+          "slug": "somalia"
+        },
+        {
+          "id": "114",
+          "label": "Syria",
+          "slug": "syria"
+        },
+        {
+          "id": "126",
+          "label": "Trump",
+          "slug": "trump"
+        },
+        {
+          "id": "101191",
+          "label": "Trump Presidency",
+          "slug": "trump-presidency"
+        },
+        {
+          "id": "103147",
+          "label": "Trump-Machado",
+          "slug": "trump-machado"
+        },
+        {
+          "id": "103026",
+          "label": "Trump-Netanyahu",
+          "slug": "trump-netanyahu"
+        },
+        {
+          "id": "102498",
+          "label": "Trump-Zelenskyy",
+          "slug": "trump-zelenskyy"
+        },
+        {
+          "id": "96",
+          "label": "Ukraine",
+          "slug": "ukraine"
+        },
+        {
+          "id": "103027",
+          "label": "Ukraine Peace Deal",
+          "slug": "ukraine-peace-deal"
+        },
+        {
+          "id": "1372",
+          "label": "united kingdom",
+          "slug": "united-kingdom"
+        },
+        {
+          "id": "102305",
+          "label": "US-Iran",
+          "slug": "us-iran"
+        },
+        {
+          "id": "246",
+          "label": "Venezuela",
+          "slug": "venezuela"
+        },
+        {
+          "id": "101970",
+          "label": "World",
+          "slug": "world"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by February 28?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-february-28",
+          "volume": 104046796.028502,
+          "status": "active"
+        },
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by March 31?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-march-31",
+          "volume": 58459781.286704,
+          "status": "active"
+        },
+        {
+          "question": "US x Iran ceasefire by March 31?",
+          "slug": "us-x-iran-ceasefire-by-march-31",
+          "volume": 648156.987176,
+          "status": "active"
+        },
+        {
+          "question": "US x Iran ceasefire by April 30?",
+          "slug": "us-x-iran-ceasefire-by-april-30",
+          "volume": 276260.726894,
+          "status": "active"
+        },
+        {
+          "question": "Will there be no new Supreme Leader of Iran by June 30?",
+          "slug": "will-there-be-no-new-supreme-leader-of-iran-by-june-30",
+          "volume": 170645.313499,
+          "status": "active"
+        },
+        {
+          "question": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
+          "slug": "will-muhammad-mirbaqiri-be-the-next-supreme-leader-of-iran",
+          "volume": 112965.074562,
+          "status": "active"
+        },
+        {
+          "question": "Will the Iranian regime fall by March 31?",
+          "slug": "will-the-iranian-regime-fall-by-march-31",
+          "volume": 14878494.997284,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran on March 3, 2026?",
+          "slug": "will-us-or-israel-strike-iran-on-march-3-2026",
+          "volume": 745659.562333,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran on March 5, 2026?",
+          "slug": "will-us-or-israel-strike-iran-on-march-5-2026",
+          "volume": 209402.964388,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran first?",
+          "slug": "will-us-or-israel-strike-iran-first",
+          "volume": 4199432.122552,
+          "status": "active"
+        }
+      ]
+    },
+    "tech": {
+      "slug": "tech",
+      "label": "tech",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "101588",
+          "label": "2025 Predictions",
+          "slug": "2025-predictions"
+        },
+        {
+          "id": "102691",
+          "label": "Acquisitions",
+          "slug": "acquisitions"
+        },
+        {
+          "id": "439",
+          "label": "AI",
+          "slug": "ai"
+        },
+        {
+          "id": "553",
+          "label": "anthropic",
+          "slug": "anthropic"
+        },
+        {
+          "id": "970",
+          "label": "App Store",
+          "slug": "app-store"
+        },
+        {
+          "id": "1097",
+          "label": "Apple",
+          "slug": "apple"
+        },
+        {
+          "id": "101999",
+          "label": "Big Tech",
+          "slug": "big-tech"
+        },
+        {
+          "id": "235",
+          "label": "Bitcoin",
+          "slug": "bitcoin"
+        },
+        {
+          "id": "107",
+          "label": "Business",
+          "slug": "business"
+        },
+        {
+          "id": "101779",
+          "label": "buy",
+          "slug": "buy"
+        },
+        {
+          "id": "303",
+          "label": "China",
+          "slug": "china"
+        },
+        {
+          "id": "103117",
+          "label": "Chinese Peptides",
+          "slug": "chinese-peptides"
+        },
+        {
+          "id": "103303",
+          "label": "Claude",
+          "slug": "claude"
+        },
+        {
+          "id": "103648",
+          "label": "Claude 5",
+          "slug": "claude-5"
+        },
+        {
+          "id": "103037",
+          "label": "Climate & Science",
+          "slug": "climate-science"
+        },
+        {
+          "id": "101031",
+          "label": "Commodities",
+          "slug": "commodities"
+        },
+        {
+          "id": "21",
+          "label": "Crypto",
+          "slug": "crypto"
+        },
+        {
+          "id": "596",
+          "label": "Culture",
+          "slug": "pop-culture"
+        },
+        {
+          "id": "101734",
+          "label": "DeepSeek",
+          "slug": "deepseek"
+        },
+        {
+          "id": "969",
+          "label": "downtime",
+          "slug": "downtime"
+        },
+        {
+          "id": "101221",
+          "label": "drug",
+          "slug": "drug"
+        },
+        {
+          "id": "100328",
+          "label": "Economy",
+          "slug": "economy"
+        },
+        {
+          "id": "103118",
+          "label": "Eli Lilly",
+          "slug": "eli-lilly"
+        },
+        {
+          "id": "282",
+          "label": "Elon Musk",
+          "slug": "elon-musk"
+        },
+        {
+          "id": "101300",
+          "label": "exchange",
+          "slug": "exchange"
+        },
+        {
+          "id": "101489",
+          "label": "FDA",
+          "slug": "fda"
+        },
+        {
+          "id": "120",
+          "label": "Finance",
+          "slug": "finance"
+        },
+        {
+          "id": "102800",
+          "label": "Gemini 3",
+          "slug": "gemini-3"
+        },
+        {
+          "id": "100265",
+          "label": "Geopolitics",
+          "slug": "geopolitics"
+        },
+        {
+          "id": "103116",
+          "label": "GLP",
+          "slug": "glp"
+        },
+        {
+          "id": "101589",
+          "label": "Gold",
+          "slug": "gold"
+        },
+        {
+          "id": "663",
+          "label": "google",
+          "slug": "google"
+        },
+        {
+          "id": "102464",
+          "label": "GPT-5",
+          "slug": "gpt-5"
+        },
+        {
+          "id": "540",
+          "label": "Grok",
+          "slug": "grok"
+        },
+        {
+          "id": "101890",
+          "label": "hack",
+          "slug": "hack"
+        },
+        {
+          "id": "102682",
+          "label": "Indicies",
+          "slug": "indicies"
+        },
+        {
+          "id": "102940",
+          "label": "Industry",
+          "slug": "industry"
+        },
+        {
+          "id": "102599",
+          "label": "IPO",
+          "slug": "ipo"
+        },
+        {
+          "id": "600",
+          "label": "IPOs",
+          "slug": "ipos"
+        },
+        {
+          "id": "100343",
+          "label": "Mentions",
+          "slug": "mention-markets"
+        },
+        {
+          "id": "102144",
+          "label": "Monthly",
+          "slug": "monthly"
+        },
+        {
+          "id": "145",
+          "label": "MrBeast",
+          "slug": "mrbeast"
+        },
+        {
+          "id": "100407",
+          "label": "netflix",
+          "slug": "netflix"
+        },
+        {
+          "id": "1330",
+          "label": "nvidia",
+          "slug": "nvidia"
+        },
+        {
+          "id": "537",
+          "label": "OpenAI",
+          "slug": "openai"
+        },
+        {
+          "id": "1563",
+          "label": "outage",
+          "slug": "outage"
+        },
+        {
+          "id": "2",
+          "label": "Politics",
+          "slug": "politics"
+        },
+        {
+          "id": "93",
+          "label": "Prediction Markets",
+          "slug": "prediction-markets"
+        },
+        {
+          "id": "103157",
+          "label": "rewards 10, 4.5, 50",
+          "slug": "rewards-10-4pt5-50"
+        },
+        {
+          "id": "103149",
+          "label": "Rewards 20, 4.5, 50",
+          "slug": "rewards-20-4pt5-50"
+        },
+        {
+          "id": "103160",
+          "label": "Rewards 50, 4.5, 20",
+          "slug": "rewards-50-4pt5-20"
+        },
+        {
+          "id": "102849",
+          "label": "S&P 500",
+          "slug": "sp-500"
+        },
+        {
+          "id": "285",
+          "label": "sam altman",
+          "slug": "sam-altman"
+        },
+        {
+          "id": "74",
+          "label": "Science",
+          "slug": "science"
+        },
+        {
+          "id": "100733",
+          "label": "Silver",
+          "slug": "silver"
+        },
+        {
+          "id": "1325",
+          "label": "Space",
+          "slug": "space"
+        },
+        {
+          "id": "63",
+          "label": "SpaceX",
+          "slug": "spacex"
+        },
+        {
+          "id": "102950",
+          "label": "Warner Bros",
+          "slug": "warner-bros"
+        },
+        {
+          "id": "146",
+          "label": "YouTube",
+          "slug": "youtube"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Will NVIDIA be the largest company in the world by market cap on March 31?",
+          "slug": "will-nvidia-be-the-largest-company-in-the-world-by-market-cap-on-march-31-323",
+          "volume": 502103.191364,
+          "status": "active"
+        },
+        {
+          "question": "Will Apple be the largest company in the world by market cap on March 31?",
+          "slug": "will-apple-be-the-largest-company-in-the-world-by-market-cap-on-march-31-336",
+          "volume": 350906.520824,
+          "status": "active"
+        },
+        {
+          "question": "Will Google have the best AI model at the end of March 2026?",
+          "slug": "will-google-have-the-best-ai-model-at-the-end-of-march-2026-941",
+          "volume": 452857.192656,
+          "status": "active"
+        },
+        {
+          "question": "Will OpenAI have the best AI model at the end of March 2026?",
+          "slug": "will-openai-have-the-best-ai-model-at-the-end-of-march-2026-562",
+          "volume": 300069.839809,
+          "status": "active"
+        },
+        {
+          "question": "Will Google have the top AI model at the end of June 2026?",
+          "slug": "will-google-have-the-top-ai-model-at-the-end-of-june-2026",
+          "volume": 5324.378892,
+          "status": "active"
+        },
+        {
+          "question": "Will OpenAI have the top AI model at the end of June 2026?",
+          "slug": "will-openai-have-the-top-ai-model-at-the-end-of-june-2026-945",
+          "volume": 38015.972808,
+          "status": "active"
+        },
+        {
+          "question": "DeepSeek V4 released by January 31?",
+          "slug": "deepseek-v4-released-by-january-31",
+          "volume": 9472.444754,
+          "status": "closed"
+        },
+        {
+          "question": "DeepSeek V4 released by March 31?",
+          "slug": "deepseek-v4-released-by-march-31-446-353-924-266",
+          "volume": 76393.399688,
+          "status": "active"
+        },
+        {
+          "question": "Discord IPO before 2027?",
+          "slug": "discord-ipo-before-2027",
+          "volume": 259584.020162,
+          "status": "active"
+        },
+        {
+          "question": "Ripple Labs IPO before 2027?",
+          "slug": "ripple-labs-ipo-before-2027",
+          "volume": 107872.270556,
+          "status": "active"
+        }
+      ]
+    },
+    "culture": {
+      "slug": "culture",
+      "label": "culture",
+      "eventCount": 0,
+      "subcategories": [],
+      "sampleMarkets": []
+    },
+    "world": {
+      "slug": "world",
+      "label": "world",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "18",
+          "label": "Awards",
+          "slug": "awards"
+        },
+        {
+          "id": "100185",
+          "label": "Brazil",
+          "slug": "brazil"
+        },
+        {
+          "id": "303",
+          "label": "China",
+          "slug": "china"
+        },
+        {
+          "id": "103146",
+          "label": "Daily Strikes",
+          "slug": "daily-strikes"
+        },
+        {
+          "id": "101800",
+          "label": "Economic Policy",
+          "slug": "economic-policy"
+        },
+        {
+          "id": "100328",
+          "label": "Economy",
+          "slug": "economy"
+        },
+        {
+          "id": "144",
+          "label": "Elections",
+          "slug": "elections"
+        },
+        {
+          "id": "100410",
+          "label": "Europe",
+          "slug": "europe"
+        },
+        {
+          "id": "101794",
+          "label": "Foreign Policy",
+          "slug": "foreign-policy"
+        },
+        {
+          "id": "1378",
+          "label": "France",
+          "slug": "france"
+        },
+        {
+          "id": "61",
+          "label": "Gaza",
+          "slug": "gaza"
+        },
+        {
+          "id": "100265",
+          "label": "Geopolitics",
+          "slug": "geopolitics"
+        },
+        {
+          "id": "1597",
+          "label": "Global Elections",
+          "slug": "global-elections"
+        },
+        {
+          "id": "103176",
+          "label": "Global Rates",
+          "slug": "Global-Rates"
+        },
+        {
+          "id": "297",
+          "label": "Hezbollah",
+          "slug": "hezbollah"
+        },
+        {
+          "id": "103715",
+          "label": "Hide From China",
+          "slug": "hide-from-china"
+        },
+        {
+          "id": "101272",
+          "label": "Hungary",
+          "slug": "hungary"
+        },
+        {
+          "id": "78",
+          "label": "Iran",
+          "slug": "iran"
+        },
+        {
+          "id": "180",
+          "label": "Israel",
+          "slug": "israel"
+        },
+        {
+          "id": "101522",
+          "label": "Japan",
+          "slug": "japan"
+        },
+        {
+          "id": "102304",
+          "label": "Khamenei",
+          "slug": "khamenei"
+        },
+        {
+          "id": "849",
+          "label": "Lebanon",
+          "slug": "lebanon"
+        },
+        {
+          "id": "101251",
+          "label": "Macro Election 1",
+          "slug": "macro-election-1"
+        },
+        {
+          "id": "101253",
+          "label": "Macro Geopolitics",
+          "slug": "macro-geopolitics"
+        },
+        {
+          "id": "102788",
+          "label": "Mayoral Elections",
+          "slug": "mayoral-elections"
+        },
+        {
+          "id": "154",
+          "label": "Middle East",
+          "slug": "middle-east"
+        },
+        {
+          "id": "1289",
+          "label": "nuclear",
+          "slug": "nuclear"
+        },
+        {
+          "id": "309",
+          "label": "Oil",
+          "slug": "oil"
+        },
+        {
+          "id": "103123",
+          "label": "Parent For Derivative",
+          "slug": "parent-for-derivative"
+        },
+        {
+          "id": "2",
+          "label": "Politics",
+          "slug": "politics"
+        },
+        {
+          "id": "270",
+          "label": "putin",
+          "slug": "putin"
+        },
+        {
+          "id": "103149",
+          "label": "Rewards 20, 4.5, 50",
+          "slug": "rewards-20-4pt5-50"
+        },
+        {
+          "id": "103796",
+          "label": "Rewards 50, 4.5, 100",
+          "slug": "rewards-50-4pt5-100"
+        },
+        {
+          "id": "103996",
+          "label": "Reza Pahlavi",
+          "slug": "reza-pahlavi"
+        },
+        {
+          "id": "95",
+          "label": "russia",
+          "slug": "russia"
+        },
+        {
+          "id": "103995",
+          "label": "shah",
+          "slug": "shah"
+        },
+        {
+          "id": "166",
+          "label": "South Korea",
+          "slug": "south-korea"
+        },
+        {
+          "id": "101758",
+          "label": "Tariffs",
+          "slug": "tariffs"
+        },
+        {
+          "id": "103388",
+          "label": "Thailand Election",
+          "slug": "thailand-election"
+        },
+        {
+          "id": "102437",
+          "label": "Thailand-Cambodia",
+          "slug": "thailand-cambodia"
+        },
+        {
+          "id": "530",
+          "label": "TikTok",
+          "slug": "tiktok"
+        },
+        {
+          "id": "101761",
+          "label": "Trade War",
+          "slug": "trade-war"
+        },
+        {
+          "id": "126",
+          "label": "Trump",
+          "slug": "trump"
+        },
+        {
+          "id": "101191",
+          "label": "Trump Presidency",
+          "slug": "trump-presidency"
+        },
+        {
+          "id": "103026",
+          "label": "Trump-Netanyahu",
+          "slug": "trump-netanyahu"
+        },
+        {
+          "id": "102778",
+          "label": "Trump-Xi",
+          "slug": "trump-xi"
+        },
+        {
+          "id": "102914",
+          "label": "Trump-Zelensky",
+          "slug": "trump-zelensky"
+        },
+        {
+          "id": "102498",
+          "label": "Trump-Zelenskyy",
+          "slug": "trump-zelenskyy"
+        },
+        {
+          "id": "96",
+          "label": "Ukraine",
+          "slug": "ukraine"
+        },
+        {
+          "id": "103027",
+          "label": "Ukraine Peace Deal",
+          "slug": "ukraine-peace-deal"
+        },
+        {
+          "id": "102305",
+          "label": "US-Iran",
+          "slug": "us-iran"
+        },
+        {
+          "id": "366",
+          "label": "world affairs",
+          "slug": "world-affairs"
+        },
+        {
+          "id": "101206",
+          "label": "World Elections",
+          "slug": "world-elections"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by February 28?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-february-28",
+          "volume": 104046796.028502,
+          "status": "active"
+        },
+        {
+          "question": "Khamenei out as Supreme Leader of Iran by March 31?",
+          "slug": "khamenei-out-as-supreme-leader-of-iran-by-march-31",
+          "volume": 58459781.286704,
+          "status": "active"
+        },
+        {
+          "question": "Will there be no new Supreme Leader of Iran by June 30?",
+          "slug": "will-there-be-no-new-supreme-leader-of-iran-by-june-30",
+          "volume": 170645.313499,
+          "status": "active"
+        },
+        {
+          "question": "Will Muhammad Mirbaqiri be the next Supreme Leader of Iran?",
+          "slug": "will-muhammad-mirbaqiri-be-the-next-supreme-leader-of-iran",
+          "volume": 112965.074562,
+          "status": "active"
+        },
+        {
+          "question": "Will the Iranian regime fall by March 31?",
+          "slug": "will-the-iranian-regime-fall-by-march-31",
+          "volume": 14878494.997284,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran on March 3, 2026?",
+          "slug": "will-us-or-israel-strike-iran-on-march-3-2026",
+          "volume": 745659.562333,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran on March 5, 2026?",
+          "slug": "will-us-or-israel-strike-iran-on-march-5-2026",
+          "volume": 209402.964388,
+          "status": "active"
+        },
+        {
+          "question": "Will US or Israel strike Iran first?",
+          "slug": "will-us-or-israel-strike-iran-first",
+          "volume": 4199432.122552,
+          "status": "active"
+        },
+        {
+          "question": "Will the Iranian regime fall by June 30?",
+          "slug": "will-the-iranian-regime-fall-by-june-30",
+          "volume": 5400243.286968,
+          "status": "active"
+        },
+        {
+          "question": "Will Iran close the Strait of Hormuz before 2027?",
+          "slug": "will-iran-close-the-strait-of-hormuz-by-2027-969-911-654-431-667",
+          "volume": 511693.350216,
+          "status": "active"
+        }
+      ]
+    },
+    "economy": {
+      "slug": "economy",
+      "label": "Economy",
+      "eventCount": 50,
+      "subcategories": [
+        {
+          "id": "101588",
+          "label": "2025 Predictions",
+          "slug": "2025-predictions"
+        },
+        {
+          "id": "439",
+          "label": "AI",
+          "slug": "ai"
+        },
+        {
+          "id": "520",
+          "label": "Australia",
+          "slug": "australia"
+        },
+        {
+          "id": "101999",
+          "label": "Big Tech",
+          "slug": "big-tech"
+        },
+        {
+          "id": "235",
+          "label": "Bitcoin",
+          "slug": "bitcoin"
+        },
+        {
+          "id": "103062",
+          "label": "BOI",
+          "slug": "boi"
+        },
+        {
+          "id": "102998",
+          "label": "BOR",
+          "slug": "bor"
+        },
+        {
+          "id": "100185",
+          "label": "Brazil",
+          "slug": "brazil"
+        },
+        {
+          "id": "107",
+          "label": "Business",
+          "slug": "business"
+        },
+        {
+          "id": "245",
+          "label": "Canada",
+          "slug": "canada"
+        },
+        {
+          "id": "303",
+          "label": "China",
+          "slug": "china"
+        },
+        {
+          "id": "101701",
+          "label": "cpi",
+          "slug": "cpi"
+        },
+        {
+          "id": "21",
+          "label": "Crypto",
+          "slug": "crypto"
+        },
+        {
+          "id": "596",
+          "label": "Culture",
+          "slug": "pop-culture"
+        },
+        {
+          "id": "101734",
+          "label": "DeepSeek",
+          "slug": "deepseek"
+        },
+        {
+          "id": "101800",
+          "label": "Economic Policy",
+          "slug": "economic-policy"
+        },
+        {
+          "id": "282",
+          "label": "Elon Musk",
+          "slug": "elon-musk"
+        },
+        {
+          "id": "100410",
+          "label": "Europe",
+          "slug": "europe"
+        },
+        {
+          "id": "159",
+          "label": "Fed",
+          "slug": "fed"
+        },
+        {
+          "id": "100196",
+          "label": "Fed Rates",
+          "slug": "fed-rates"
+        },
+        {
+          "id": "120",
+          "label": "Finance",
+          "slug": "finance"
+        },
+        {
+          "id": "370",
+          "label": "GDP",
+          "slug": "gdp"
+        },
+        {
+          "id": "100265",
+          "label": "Geopolitics",
+          "slug": "geopolitics"
+        },
+        {
+          "id": "103176",
+          "label": "Global Rates",
+          "slug": "Global-Rates"
+        },
+        {
+          "id": "103230",
+          "label": "IBGE",
+          "slug": "ibge"
+        },
+        {
+          "id": "102682",
+          "label": "Indicies",
+          "slug": "indicies"
+        },
+        {
+          "id": "702",
+          "label": "Inflation",
+          "slug": "inflation"
+        },
+        {
+          "id": "131",
+          "label": "interest rates",
+          "slug": "interest-rates"
+        },
+        {
+          "id": "103229",
+          "label": "IPCA",
+          "slug": "ipca"
+        },
+        {
+          "id": "180",
+          "label": "Israel",
+          "slug": "israel"
+        },
+        {
+          "id": "101522",
+          "label": "Japan",
+          "slug": "japan"
+        },
+        {
+          "id": "101550",
+          "label": "Jerome Powell",
+          "slug": "jerome-powell"
+        },
+        {
+          "id": "102548",
+          "label": "Jobs Report",
+          "slug": "jobs-report"
+        },
+        {
+          "id": "101247",
+          "label": "Macro Graph",
+          "slug": "macro-graph"
+        },
+        {
+          "id": "102000",
+          "label": "Macro Indicators",
+          "slug": "macro-indicators"
+        },
+        {
+          "id": "101250",
+          "label": "Macro Single",
+          "slug": "macro-single"
+        },
+        {
+          "id": "956",
+          "label": "mexico",
+          "slug": "mexico"
+        },
+        {
+          "id": "101473",
+          "label": "MicroStrategy",
+          "slug": "microstrategy"
+        },
+        {
+          "id": "102144",
+          "label": "Monthly",
+          "slug": "monthly"
+        },
+        {
+          "id": "102992",
+          "label": "MX",
+          "slug": "mx"
+        },
+        {
+          "id": "102964",
+          "label": "NFP",
+          "slug": "nfp"
+        },
+        {
+          "id": "102965",
+          "label": "nonfarm payroll",
+          "slug": "nonfarm-payroll"
+        },
+        {
+          "id": "100412",
+          "label": "NYSE",
+          "slug": "nyse"
+        },
+        {
+          "id": "103123",
+          "label": "Parent For Derivative",
+          "slug": "parent-for-derivative"
+        },
+        {
+          "id": "101337",
+          "label": "Parlays",
+          "slug": "parlays"
+        },
+        {
+          "id": "101929",
+          "label": "PBC",
+          "slug": "pbc"
+        },
+        {
+          "id": "103853",
+          "label": "pboc",
+          "slug": "pboc"
+        },
+        {
+          "id": "2",
+          "label": "Politics",
+          "slug": "politics"
+        },
+        {
+          "id": "102993",
+          "label": "RBA",
+          "slug": "rba"
+        },
+        {
+          "id": "103854",
+          "label": "Reverse Repo Rate",
+          "slug": "reverse-repo-rate"
+        },
+        {
+          "id": "103157",
+          "label": "rewards 10, 4.5, 50",
+          "slug": "rewards-10-4pt5-50"
+        },
+        {
+          "id": "103149",
+          "label": "Rewards 20, 4.5, 50",
+          "slug": "rewards-20-4pt5-50"
+        },
+        {
+          "id": "103160",
+          "label": "Rewards 50, 4.5, 20",
+          "slug": "rewards-50-4pt5-20"
+        },
+        {
+          "id": "95",
+          "label": "russia",
+          "slug": "russia"
+        },
+        {
+          "id": "102849",
+          "label": "S&P 500",
+          "slug": "sp-500"
+        },
+        {
+          "id": "604",
+          "label": "Stocks",
+          "slug": "stocks"
+        },
+        {
+          "id": "1401",
+          "label": "Tech",
+          "slug": "tech"
+        },
+        {
+          "id": "102028",
+          "label": "Treasuries",
+          "slug": "treasuries"
+        },
+        {
+          "id": "126",
+          "label": "Trump",
+          "slug": "trump"
+        },
+        {
+          "id": "101333",
+          "label": "TSA",
+          "slug": "tsa"
+        },
+        {
+          "id": "1624",
+          "label": "unemployment",
+          "slug": "unemployment"
+        },
+        {
+          "id": "101970",
+          "label": "World",
+          "slug": "world"
+        }
+      ],
+      "sampleMarkets": [
+        {
+          "question": "Will the Fed decrease interest rates by 50+ bps after the March 2026 meeting?",
+          "slug": "will-the-fed-decrease-interest-rates-by-50-bps-after-the-march-2026-meeting",
+          "volume": 79634425.339811,
+          "status": "active"
+        },
+        {
+          "question": "Will the Fed decrease interest rates by 25 bps after the March 2026 meeting?",
+          "slug": "will-the-fed-decrease-interest-rates-by-25-bps-after-the-march-2026-meeting",
+          "volume": 24292627.894639,
+          "status": "active"
+        },
+        {
+          "question": "Will NVIDIA be the largest company in the world by market cap on March 31?",
+          "slug": "will-nvidia-be-the-largest-company-in-the-world-by-market-cap-on-march-31-323",
+          "volume": 502103.191364,
+          "status": "active"
+        },
+        {
+          "question": "Will Apple be the largest company in the world by market cap on March 31?",
+          "slug": "will-apple-be-the-largest-company-in-the-world-by-market-cap-on-march-31-336",
+          "volume": 350906.520824,
+          "status": "active"
+        },
+        {
+          "question": "Will the Fed decrease interest rates by 50+ bps after the April 2026 meeting?",
+          "slug": "will-the-fed-decrease-interest-rates-by-50-bps-after-the-april-2026-meeting",
+          "volume": 1308290.942137,
+          "status": "active"
+        },
+        {
+          "question": "Will the Fed decrease interest rates by 25 bps after the April 2026 meeting?",
+          "slug": "will-the-fed-decrease-interest-rates-by-25-bps-after-the-april-2026-meeting",
+          "volume": 912761.559136,
+          "status": "active"
+        },
+        {
+          "question": "Will no Fed rate cuts happen in 2026?",
+          "slug": "will-no-fed-rate-cuts-happen-in-2026",
+          "volume": 1652394.071475,
+          "status": "active"
+        },
+        {
+          "question": "Will 1 Fed rate cut happen in 2026?",
+          "slug": "will-1-fed-rate-cut-happen-in-2026",
+          "volume": 539592.939576,
+          "status": "active"
+        },
+        {
+          "question": "Bank of Japan decreases interest rates after March 2026 meeting?",
+          "slug": "bank-of-japan-decreases-interest-rates-after-march-2026-meeting",
+          "volume": 187604.87877,
+          "status": "active"
+        },
+        {
+          "question": "No change in Bank of Japan's interest rates after March 2026 meeting?",
+          "slug": "no-change-in-bank-of-japans-interest-rates-after-march-2026-meeting",
+          "volume": 252957.786629,
+          "status": "active"
+        }
+      ]
+    }
+  }
+}

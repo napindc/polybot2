@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PolyBot — Connect Wallet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #16213e;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+
+    .card p {
+      color: #a0a0b8;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      color: #8888aa;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      background: #0f1629;
+      color: #e0e0e0;
+      font-family: monospace;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-group input:focus {
+      border-color: #667eea;
+    }
+
+    .input-group input::placeholder {
+      color: #4a4a6a;
+    }
+
+    .input-group .hint {
+      font-size: 11px;
+      color: #6a6a8a;
+      margin-top: 4px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .status {
+      margin-top: 20px;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .status.error {
+      display: block;
+      background: #3d1f1f;
+      color: #ff6b6b;
+    }
+
+    .status.success {
+      display: block;
+      background: #1f3d2a;
+      color: #6bff8a;
+    }
+
+    .status.info {
+      display: block;
+      background: #1f2d3d;
+      color: #6bb3ff;
+    }
+
+    .wallet-addr {
+      margin-top: 12px;
+      font-family: monospace;
+      font-size: 13px;
+      color: #8888aa;
+      word-break: break-all;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .step-info {
+      background: #0f1629;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 20px;
+      text-align: left;
+      font-size: 13px;
+      color: #8888bb;
+      line-height: 1.6;
+    }
+
+    .step-info b {
+      color: #c0c0d8;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🔗 PolyBot</h1>
+    <p>Connect your Polymarket wallet to your Discord account.</p>
+
+    <div class="step-info">
+      <b>Step 1:</b> Paste your Polymarket address below<br>
+      <b>Step 2:</b> Click "Connect & Sign" — MetaMask will pop up<br>
+      <b>Step 3:</b> Sign the message — done!
+    </div>
+
+    <div class="input-group">
+      <label for="polyAddr">Your Polymarket Wallet Address</label>
+      <input type="text" id="polyAddr" placeholder="0x34c7b1b624e6..." />
+      <div class="hint">Find it at polymarket.com → Profile → "Copy address"</div>
+    </div>
+
+    <button class="btn btn-primary" id="connectBtn" onclick="startConnect()">
+      Connect &amp; Sign
+    </button>
+
+    <div class="status" id="status"></div>
+    <div class="wallet-addr" id="walletAddr"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session');
+    const statusEl = document.getElementById('status');
+    const walletEl = document.getElementById('walletAddr');
+    const connectBtn = document.getElementById('connectBtn');
+    const polyAddrInput = document.getElementById('polyAddr');
+
+    function showStatus(msg, type) {
+      statusEl.className = 'status ' + type;
+      statusEl.textContent = msg;
+    }
+
+    function showStatusWithSpinner(msg, type) {
+      statusEl.className = 'status ' + type;
+      statusEl.textContent = '';
+      const spinner = document.createElement('span');
+      spinner.className = 'spinner';
+      statusEl.appendChild(spinner);
+      statusEl.appendChild(document.createTextNode(' ' + msg));
+    }
+
+    if (!sessionId) {
+      showStatus('Invalid link — no session ID found. Please use /connect in Discord.', 'error');
+      connectBtn.disabled = true;
+    }
+
+    async function startConnect() {
+      const polymarketAddress = polyAddrInput.value.trim();
+
+      // Validate Polymarket address
+      if (!polymarketAddress || !/^0x[a-fA-F0-9]{40}$/.test(polymarketAddress)) {
+        showStatus('Please enter a valid Polymarket wallet address (0x... 42 characters).', 'error');
+        return;
+      }
+
+      connectBtn.disabled = true;
+
+      if (typeof window.ethereum === 'undefined') {
+        statusEl.className = 'status error';
+        statusEl.textContent = '';
+        statusEl.appendChild(document.createTextNode('No wallet detected. Please install '));
+        const link = document.createElement('a');
+        link.href = 'https://metamask.io';
+        link.target = '_blank';
+        link.style.color = '#6bb3ff';
+        link.textContent = 'MetaMask';
+        statusEl.appendChild(link);
+        statusEl.appendChild(document.createTextNode(' or another EVM wallet.'));
+        connectBtn.disabled = false;
+        return;
+      }
+
+      try {
+        showStatusWithSpinner('Connecting wallet...', 'info');
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const signerAddress = accounts[0];
+
+        showStatusWithSpinner('Fetching challenge...', 'info');
+
+        const challengeRes = await fetch(`/api/challenge/${sessionId}`);
+        if (!challengeRes.ok) {
+          const err = await challengeRes.json();
+          throw new Error(err.error || 'Failed to get challenge');
+        }
+        const { challengeMessage } = await challengeRes.json();
+
+        showStatusWithSpinner('Please sign the message in your wallet...', 'info');
+
+        const signature = await window.ethereum.request({
+          method: 'personal_sign',
+          params: [challengeMessage, signerAddress],
+        });
+
+        showStatus('<span class="spinner"></span> Verifying...', 'info');
+
+        const verifyRes = await fetch('/api/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sessionId,
+            signature,
+            walletAddress: signerAddress,
+            polymarketAddress,
+          }),
+        });
+
+        if (!verifyRes.ok) {
+          const err = await verifyRes.json();
+          throw new Error(err.error || 'Verification failed');
+        }
+
+        const result = await verifyRes.json();
+
+        showStatus(
+          '✅ Wallet connected successfully!<br>You can close this tab and return to Discord.',
+          'success'
+        );
+        walletEl.textContent = 'Polymarket: ' + result.polymarketAddress + ' | Signer: ' + result.signerAddress;
+
+      } catch (err) {
+        if (err.code === 4001) {
+          showStatus('You rejected the signature request. Click the button to try again.', 'error');
+        } else {
+          showStatus('Error: ' + (err.message || 'Unknown error'), 'error');
+        }
+        connectBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+
+</html>

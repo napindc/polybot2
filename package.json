@@ -1,0 +1,55 @@
+{
+  "name": "polybot",
+  "version": "1.0.0",
+  "description": "This production-grade Discord bot enables users to interact with Polymarket markets directly from Discord. Users can query market information, check virtual balances, view trade history, and place small demo trades using a house-funded wallet. The bot leverages advanced AI for natural language understanding, ensuring a seamless and intuitive user experience.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx tsx src/index.ts",
+    "start": "pm2 start ecosystem.config.cjs",
+    "stop": "pm2 stop polybot",
+    "restart": "pm2 restart polybot",
+    "logs": "pm2 logs polybot",
+    "test": "vitest run tests/integration/search.test.ts",
+    "test:bot": "vitest run tests/integration/bot-search.test.ts",
+    "test:all": "vitest run tests/integration/",
+    "test:browser": "playwright test tests/browser/verify.spec.ts",
+    "test:sync": "npx tsx tests/sync-categories.ts",
+    "test:verify": "npm run test:sync && npm run test:all && npm run test:browser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prithwiraj-CK/polybot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Prithwiraj-CK/polybot/issues"
+  },
+  "homepage": "https://github.com/Prithwiraj-CK/polybot#readme",
+  "dependencies": {
+    "@google/genai": "^1.42.0",
+    "@polymarket/clob-client": "^5.2.4",
+    "@polymarket/order-utils": "^3.0.1",
+    "cors": "^2.8.6",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.3.1",
+    "ethers": "^6.16.0",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "ioredis": "^5.10.0",
+    "openai": "^6.25.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/ioredis": "^4.28.10",
+    "@types/node": "^25.3.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

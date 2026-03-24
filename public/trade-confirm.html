@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PolyBot — Confirm Trade</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1424;
+      color: #e7e9f1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 620px;
+      background: #17203a;
+      border: 1px solid #2a355d;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .sub {
+      color: #a7b0cf;
+      margin-bottom: 18px;
+    }
+
+    .panel {
+      background: #111a31;
+      border: 1px solid #2a355d;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .label {
+      color: #9aa6d3;
+    }
+
+    .value {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 16px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6d7bff, #8a57dd);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: #25315a;
+      color: #dfe4ff;
+      margin-top: 10px;
+    }
+
+    .status {
+      margin-top: 14px;
+      border-radius: 10px;
+      padding: 12px;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.error {
+      background: #44212d;
+      color: #ff9eb8;
+    }
+
+    .status.ok {
+      background: #1f3b2b;
+      color: #9dffc2;
+    }
+
+    .status.info {
+      background: #22324f;
+      color: #a9c7ff;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>🧾 Confirm Trade</h1>
+    <p class="sub">Review this intent, then execute on Polymarket from your own wallet session.</p>
+
+    <div class="panel" id="tradePanel">
+      <div><span class="label">Market:</span> <span class="value" id="marketQuestion">Loading...</span></div>
+      <div><span class="label">Condition ID:</span> <span class="value mono" id="marketId">-</span></div>
+      <div><span class="label">Side:</span> <span class="value" id="outcome">-</span></div>
+      <div><span class="label">Amount:</span> <span class="value" id="amount">-</span></div>
+      <div><span class="label">Expires:</span> <span class="value" id="expires">-</span></div>
+    </div>
+
+    <button id="openBtn" class="btn btn-primary" disabled>Open Market on Polymarket</button>
+    <button id="doneBtn" class="btn btn-secondary" disabled>I Executed the Trade</button>
+
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session');
+
+    const marketQuestionEl = document.getElementById('marketQuestion');
+    const marketIdEl = document.getElementById('marketId');
+    const outcomeEl = document.getElementById('outcome');
+    const amountEl = document.getElementById('amount');
+    const expiresEl = document.getElementById('expires');
+
+    const openBtn = document.getElementById('openBtn');
+    const doneBtn = document.getElementById('doneBtn');
+    const statusEl = document.getElementById('status');
+
+    let marketUrl = 'https://polymarket.com';
+
+    function showStatus(type, message) {
+      statusEl.className = `status show ${type}`;
+      statusEl.textContent = message;
+    }
+
+    async function resolveMarketUrlFromCondition(conditionId) {
+      try {
+        const resp = await fetch(`https://gamma-api.polymarket.com/markets?condition_ids=${encodeURIComponent(conditionId)}&limit=1`);
+        if (!resp.ok) return null;
+        const rows = await resp.json();
+        if (!Array.isArray(rows) || rows.length === 0) return null;
+        const slug = rows[0]?.slug;
+        if (typeof slug === 'string' && slug.length > 0) {
+          return `https://polymarket.com/event/${slug}`;
+        }
+      } catch {
+        return null;
+      }
+      return null;
+    }
+
+    async function loadSession() {
+      if (!sessionId) {
+        showStatus('error', 'Missing session ID. Please start again from Discord.');
+        return;
+      }
+
+      try {
+        showStatus('info', 'Loading trade session...');
+        const resp = await fetch(`/api/trade-session/${sessionId}`);
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          throw new Error(err.error || 'Trade session unavailable');
+        }
+
+        const data = await resp.json();
+        marketQuestionEl.textContent = data.marketQuestion || 'Unknown market';
+        marketIdEl.textContent = data.marketId || '-';
+        outcomeEl.textContent = data.outcome || '-';
+        amountEl.textContent = `$${(Number(data.amountCents || 0) / 100).toFixed(2)}`;
+        expiresEl.textContent = new Date(data.expiresAtMs).toUTCString();
+
+        const resolved = await resolveMarketUrlFromCondition(data.marketId);
+        if (resolved) {
+          marketUrl = resolved;
+        }
+
+        openBtn.disabled = false;
+        doneBtn.disabled = false;
+
+        openBtn.onclick = () => {
+          window.open(marketUrl, '_blank', 'noopener,noreferrer');
+          showStatus('info', 'Polymarket opened in a new tab. Place the order there, then click "I Executed the Trade".');
+        };
+
+        doneBtn.onclick = async () => {
+          doneBtn.disabled = true;
+          try {
+            const consumeResp = await fetch(`/api/trade-session/${sessionId}/consume`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' }
+            });
+            if (!consumeResp.ok) {
+              const err = await consumeResp.json().catch(() => ({}));
+              throw new Error(err.error || 'Could not finalize confirmation');
+            }
+            showStatus('ok', '✅ Confirmation recorded. Return to Discord and ask for your recent trades to verify execution.');
+          } catch (error) {
+            showStatus('error', `Failed to confirm: ${error.message || 'Unknown error'}`);
+            doneBtn.disabled = false;
+          }
+        };
+
+        showStatus('ok', 'Ready. Click "Open Market on Polymarket" to execute from your wallet session.');
+      } catch (error) {
+        showStatus('error', `Error: ${error.message || 'Unknown error'}`);
+      }
+    }
+
+    loadSession();
+  </script>
+</body>
+
+</html>
