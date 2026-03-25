@@ -1275,22 +1275,118 @@ export class DiscordMessageRouter {
 		};
 		const expandedLabel = TEAM_ABBR_MAP[trailingLabel] ?? trailingLabel;
 
-		// Search for the market
-		const candidates = await this.deps.readService.searchMarketsByText(queryStr);
-		if (candidates.length === 0) {
-			return { type: 'text', content: 'I could not find an active matching market right now. Please specify the market more clearly.' };
+		const walletAddr = process.env.POLYMARKET_PROXY_WALLET ?? '';
+		if (!walletAddr) {
+			return { type: 'text', content: 'Trading wallet not configured. Cannot look up positions.' };
 		}
 
-		// Prefer a candidate whose outcome labels include the trailing word
+		type PositionRow = {
+			market?: string;
+			conditionId?: string;
+			asset?: string;
+			size?: number;
+			outcome?: string;
+			title?: string;
+			outcomeIndex?: number;
+			oppositeOutcome?: string;
+			curPrice?: number;
+			eventSlug?: string;
+		};
+
+		let positions: PositionRow[] = [];
+		try {
+			const posResp = await fetch(
+				`https://data-api.polymarket.com/positions?user=${encodeURIComponent(walletAddr)}&sizeThreshold=0`,
+			);
+			if (posResp.ok) {
+				const rows = (await posResp.json()) as PositionRow[];
+				positions = Array.isArray(rows) ? rows : [];
+			}
+		} catch (err) {
+			console.error('[sell-no-amount] Position lookup failed:', err);
+		}
+
 		let selectedMarket: Market | null = null;
-		if (expandedLabel && candidates.length > 1) {
-			const outcomeMatch = candidates.find(c => {
-				const labels = (c.outcomes as string[]).map((o: string) => o.toLowerCase());
-				return labels.some(l => l.includes(expandedLabel) || expandedLabel.includes(l));
-			});
-			selectedMarket = outcomeMatch ?? candidates[0];
-		} else {
-			selectedMarket = candidates[0];
+		let selectedPosition: PositionRow | null = null;
+
+		// Position-first selection: when user says "close ...", bind directly to the
+		// position they actually hold before considering search ranking among sibling
+		// submarkets (main winner vs game winner, etc.).
+		if (positions.length > 0) {
+			const queryTokens = queryStr
+				.toLowerCase()
+				.replace(/[^a-z0-9\s]/g, ' ')
+				.split(/\s+/)
+				.filter((w) => w.length >= 4 && !new Set(['team', 'game', 'match', 'winner', 'group']).has(w));
+
+			const desired = expandedLabel.toLowerCase();
+			const scored = positions
+				.filter((p) => (p.size ?? 0) > 0 && (p.conditionId ?? '').length > 0)
+				.map((p) => {
+					const title = (p.title ?? '').toLowerCase();
+					const tokenScore = queryTokens.length > 0
+						? queryTokens.filter((t) => title.includes(t)).length
+						: 0;
+					const out = (p.outcome ?? '').toLowerCase();
+					const outcomeScore = desired && (out.includes(desired) || desired.includes(out)) ? 10 : 0;
+					return { p, score: tokenScore + outcomeScore };
+				})
+				.filter((row) => row.score > 0)
+				.sort((a, b) => {
+					if (b.score !== a.score) return b.score - a.score;
+					return (b.p.size ?? 0) - (a.p.size ?? 0);
+				});
+
+			if (scored.length > 0) {
+				selectedPosition = scored[0].p;
+			} else {
+				const openPositions = positions.filter((p) => (p.size ?? 0) > 0 && (p.conditionId ?? '').length > 0);
+				if (openPositions.length === 1) {
+					selectedPosition = openPositions[0];
+				}
+			}
+
+			if (selectedPosition?.conditionId) {
+				const heldOutcome = selectedPosition.outcome ?? 'YES';
+				const oppositeOutcome = selectedPosition.oppositeOutcome ?? (heldOutcome === 'YES' ? 'NO' : 'YES');
+				const heldPrice = Number.isFinite(selectedPosition.curPrice) ? Number(selectedPosition.curPrice) : 0.5;
+				const idx = selectedPosition.outcomeIndex;
+
+				const outcomes = idx === 1
+					? [oppositeOutcome, heldOutcome]
+					: [heldOutcome, oppositeOutcome];
+				const outcomePrices = idx === 1
+					? [Math.max(0, Math.min(1, 1 - heldPrice)), Math.max(0, Math.min(1, heldPrice))]
+					: [Math.max(0, Math.min(1, heldPrice)), Math.max(0, Math.min(1, 1 - heldPrice))];
+
+				selectedMarket = {
+					id: selectedPosition.conditionId as MarketId,
+					question: selectedPosition.title ?? queryStr,
+					status: 'active',
+					outcomes: outcomes as unknown as Market['outcomes'],
+					outcomePrices,
+					volume: 0,
+					slug: selectedPosition.eventSlug,
+					eventSlug: selectedPosition.eventSlug,
+				};
+			}
+		}
+
+		if (!selectedMarket) {
+			const candidates = await this.deps.readService.searchMarketsByText(queryStr);
+			if (candidates.length === 0) {
+				return { type: 'text', content: 'I could not find an active matching market right now. Please specify the market more clearly.' };
+			}
+
+			if (expandedLabel && candidates.length > 1) {
+				const outcomeMatch = candidates.find(c => {
+					const labels = (c.outcomes as string[]).map((o: string) => o.toLowerCase());
+					return labels.some(l => l.includes(expandedLabel) || expandedLabel.includes(l));
+				});
+				selectedMarket = outcomeMatch ?? candidates[0];
+			} else {
+				selectedMarket = candidates[0];
+			}
 		}
 
 		if (!selectedMarket) {
@@ -1300,10 +1396,22 @@ export class DiscordMessageRouter {
 		// Resolve outcome from trailing label
 		let resolvedOutcome: 'YES' | 'NO' | null = null;
 		const outcomeLabels = (selectedMarket.outcomes as string[]).map((o: string) => o.toLowerCase());
+		if (selectedPosition) {
+			if (selectedPosition.outcomeIndex === 0) resolvedOutcome = 'YES';
+			else if (selectedPosition.outcomeIndex === 1) resolvedOutcome = 'NO';
+			else if (selectedPosition.outcome) {
+				const posOutcome = selectedPosition.outcome.toLowerCase();
+				const idx = outcomeLabels.findIndex((o) => o === posOutcome || o.includes(posOutcome) || posOutcome.includes(o));
+				if (idx === 0) resolvedOutcome = 'YES';
+				else if (idx >= 1) resolvedOutcome = 'NO';
+			}
+		}
 
 		// Check standard direction words first
-		if (/^(up|yes|long)$/.test(expandedLabel)) resolvedOutcome = 'YES';
-		else if (/^(down|no|short)$/.test(expandedLabel)) resolvedOutcome = 'NO';
+		if (!resolvedOutcome) {
+			if (/^(up|yes|long)$/.test(expandedLabel)) resolvedOutcome = 'YES';
+			else if (/^(down|no|short)$/.test(expandedLabel)) resolvedOutcome = 'NO';
+		}
 
 		// Then fuzzy-match against market outcome labels
 		if (!resolvedOutcome && expandedLabel) {
@@ -1319,46 +1427,35 @@ export class DiscordMessageRouter {
 			return { type: 'text', content: `I could not determine which outcome you want to sell. Try ending with one of: **${labels}**` };
 		}
 
-		// Look up user's position on this market to determine sell amount
-		const walletAddr = process.env.POLYMARKET_PROXY_WALLET ?? '';
-		if (!walletAddr) {
-			return { type: 'text', content: 'Trading wallet not configured. Cannot look up positions.' };
-		}
-
 		// Determine the token ID for the resolved outcome
 		// YES = outcomes[0] = token 0, NO = outcomes[1] = token 1
 		const outcomeIndex = resolvedOutcome === 'YES' ? 0 : 1;
 		const outcomeLabel = (selectedMarket.outcomes as string[])[outcomeIndex];
 
 		let positionSize = 0;
-		try {
-			const posResp = await fetch(
-				`https://data-api.polymarket.com/positions?user=${encodeURIComponent(walletAddr)}&sizeThreshold=0`,
-			);
-			if (posResp.ok) {
-				const positions = (await posResp.json()) as Array<{
-					market?: string; conditionId?: string; asset?: string;
-					size?: number; outcome?: string; title?: string;
-				}>;
-
-				// Match position by market question/title and outcome
-				const marketQuestion = selectedMarket.question.toLowerCase();
-				const pos = positions.find(p => {
-					const titleMatch = p.title?.toLowerCase().includes(marketQuestion.substring(0, 30).toLowerCase())
-						|| marketQuestion.includes(p.title?.toLowerCase() ?? '___');
-					const outcomeMatch = p.outcome?.toLowerCase() === outcomeLabel.toLowerCase();
-					return titleMatch && outcomeMatch;
-				});
-
-				if (pos && pos.size) {
-					positionSize = pos.size;
-					console.log(`[sell-no-amount] Found position: ${positionSize} shares of ${outcomeLabel} on "${selectedMarket.question}"`);
-				} else {
-					console.log(`[sell-no-amount] No matching position found. Checked ${positions.length} positions for "${marketQuestion.substring(0, 40)}" / ${outcomeLabel}`);
-				}
+		if (selectedPosition && (selectedPosition.size ?? 0) > 0) {
+			const posOutcome = (selectedPosition.outcome ?? '').toLowerCase();
+			const desiredOutcome = outcomeLabel.toLowerCase();
+			if (!posOutcome || posOutcome === desiredOutcome) {
+				positionSize = selectedPosition.size ?? 0;
 			}
-		} catch (err) {
-			console.error('[sell-no-amount] Position lookup failed:', err);
+		}
+
+		if (positionSize <= 0) {
+			const selectedConditionId = String(selectedMarket.id).toLowerCase();
+			const desiredOutcome = outcomeLabel.toLowerCase();
+			const pos = positions.find((p) => {
+				const conditionMatch = (p.conditionId ?? '').toLowerCase() === selectedConditionId;
+				const outcomeMatch = (p.outcome ?? '').toLowerCase() === desiredOutcome;
+				return conditionMatch && outcomeMatch;
+			});
+
+			if (pos && pos.size) {
+				positionSize = pos.size;
+				console.log(`[sell-no-amount] Found position: ${positionSize} shares of ${outcomeLabel} on "${selectedMarket.question}"`);
+			} else {
+				console.log(`[sell-no-amount] No matching position found. Checked ${positions.length} positions for condition=${selectedMarket.id} outcome=${outcomeLabel}`);
+			}
 		}
 
 		if (positionSize <= 0) {

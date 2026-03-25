@@ -430,10 +430,22 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
       }
 
       if (errText.includes('balance') || errText.includes('allowance') || errText.includes('insufficient')) {
+        if (params.action === 'SELL') {
+          throw {
+            code: 'INVALID_AMOUNT',
+            message: 'Insufficient position size for this outcome on the selected market. Use an exact market/outcome close command.',
+          };
+        }
         throw { code: 'INVALID_AMOUNT', message: 'Insufficient USDC balance on Polymarket. Deposit funds first.' };
       }
       if (errText.includes('not found') || httpStatus === 404) {
         throw { code: 'INVALID_MARKET', message: 'Market not found on CLOB' };
+      }
+      if (params.action === 'SELL' && httpStatus === 400) {
+        throw {
+          code: 'UPSTREAM_UNAVAILABLE',
+          message: 'Sell order was rejected (HTTP 400). This usually means wrong market/outcome selection or no immediately fillable bids.',
+        };
       }
       throw { code: 'UPSTREAM_UNAVAILABLE', message: errText };
     }
