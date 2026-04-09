@@ -19,14 +19,24 @@ import {
   type ExecuteTradeParams,
   type ExecuteTradeResponse,
 } from './trading/UserAccountTrader';
+import { PolymarketRedeemer, normalizeConditionId as normalizeConditionIdHex } from './trading/polymarketRedeemer';
+import { PolymarketProxyWalletRedeemer } from './trading/polymarketProxyWalletRedeemer';
 
 import type { Balance, DiscordUserId, Market, PolymarketAccountId, TradeResult } from './types';
 import { ClobClient, Chain, Side, OrderType, AssetType } from '@polymarket/clob-client';
 import { SignatureType } from '@polymarket/order-utils';
 import { Wallet as EthersV5Wallet } from '@ethersproject/wallet';
+import { JsonRpcProvider } from 'ethers';
 
 const CLOB_ERROR_PREFIX = '[CLOB Client] request error';
 let clobErrorRedactorInstalled = false;
+interface PositionRedeemRow {
+  conditionId?: string;
+  outcomeIndex?: number | string;
+  redeemable?: boolean;
+  resolved?: boolean;
+  size?: number;
+}
 
 function safeStringify(value: unknown): string {
   try {
@@ -210,6 +220,7 @@ class InMemoryPolymarketReadProvider implements PolymarketReadProvider {
 
 class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
   private static readonly USDC_CONTRACT = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174';
+  private static readonly CONDITIONAL_TOKENS_CONTRACT = '0x4D97DCd97eC945f40cF65F87097ACe5EA0476045';
   private static readonly RPC_ENDPOINTS = [
     process.env.POLYGON_RPC_URL,
     'https://polygon-bor-rpc.publicnode.com',
@@ -217,7 +228,11 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
   ].filter((value): value is string => Boolean(value && value.length > 0));
 
   private readonly clobClient: ClobClient;
+  private readonly redeemer: PolymarketRedeemer | null;
+  private readonly proxyWalletRedeemer: PolymarketProxyWalletRedeemer | null;
   private authInvalid = false;
+  private redeemSweepInFlight = false;
+  private lastRedeemSkipLogAtMs = 0;
 
   public constructor() {
     installClobErrorRedactor();
@@ -258,6 +273,203 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
     this.ensureAllowance().catch((err) => {
       console.error('⚠️ Failed to set USDC allowance — trades may fail:', sanitizeErrorForLog(err));
     });
+
+    const redeemRpc = ClobPolymarketExecutionGateway.RPC_ENDPOINTS[0] ?? 'https://polygon-bor-rpc.publicnode.com';
+    const minGasWeiRaw = process.env.AUTO_REDEEM_MIN_GAS_WEI ?? '1000000000000000';
+    const minGasWei = /^\d+$/.test(minGasWeiRaw) ? BigInt(minGasWeiRaw) : 1000000000000000n;
+    this.redeemer = new PolymarketRedeemer({
+      privateKey,
+      rpcUrl: redeemRpc,
+      conditionalTokensAddress: process.env.POLYMARKET_CONDITIONAL_TOKENS_ADDRESS
+        ?? ClobPolymarketExecutionGateway.CONDITIONAL_TOKENS_CONTRACT,
+      collateralTokenAddress: process.env.POLYMARKET_COLLATERAL_TOKEN
+        ?? ClobPolymarketExecutionGateway.USDC_CONTRACT,
+      maxRetries: Number(process.env.AUTO_REDEEM_MAX_RETRIES ?? 2),
+      baseRetryDelayMs: Number(process.env.AUTO_REDEEM_RETRY_DELAY_MS ?? 500),
+      minGasReserveWei: minGasWei,
+    });
+
+    const proxyRedeemEnabled = ['1', 'true', 'yes', 'on'].includes((process.env.AUTO_REDEEM_PROXY_ENABLED ?? process.env.AUTO_REDEEM_SAFE_ENABLED ?? 'false').trim().toLowerCase());
+    this.proxyWalletRedeemer = proxyRedeemEnabled
+      ? new PolymarketProxyWalletRedeemer({
+        rpcUrl: redeemRpc,
+        proxyWallet,
+        ownerPrivateKey: privateKey,
+        conditionalTokensAddress: process.env.POLYMARKET_CONDITIONAL_TOKENS_ADDRESS
+          ?? ClobPolymarketExecutionGateway.CONDITIONAL_TOKENS_CONTRACT,
+        collateralTokenAddress: process.env.POLYMARKET_COLLATERAL_TOKEN
+          ?? ClobPolymarketExecutionGateway.USDC_CONTRACT,
+        maxRetries: Number(process.env.AUTO_REDEEM_MAX_RETRIES ?? 2),
+        baseRetryDelayMs: Number(process.env.AUTO_REDEEM_RETRY_DELAY_MS ?? 500),
+        minGasReserveWei: minGasWei,
+      })
+      : null;
+
+    if (this.isAutoRedeemEnabled()) {
+      const intervalMs = this.getAutoRedeemIntervalMs();
+      setInterval(() => {
+        void this.runAutoRedeemSweep('interval');
+      }, intervalMs).unref();
+      void this.runAutoRedeemSweep('startup');
+      console.log(`🧹 Auto-redeem enabled (interval=${intervalMs}ms)`);
+    }
+  }
+
+  private isAutoRedeemEnabled(): boolean {
+    const raw = (process.env.AUTO_REDEEM_ENABLED ?? 'true').trim().toLowerCase();
+    return !['0', 'false', 'no', 'off'].includes(raw);
+  }
+
+  private getAutoRedeemIntervalMs(): number {
+    const parsed = Number(process.env.AUTO_REDEEM_INTERVAL_MS ?? 180_000);
+    if (!Number.isFinite(parsed) || parsed < 10_000) return 180_000;
+    return Math.floor(parsed);
+  }
+
+  private getAutoRedeemBatchSize(): number {
+    const parsed = Number(process.env.AUTO_REDEEM_MAX_PER_SWEEP ?? 6);
+    if (!Number.isFinite(parsed) || parsed < 1) return 6;
+    return Math.min(25, Math.floor(parsed));
+  }
+
+  private async runAutoRedeemSweep(reason: 'startup' | 'interval' | 'post-trade'): Promise<void> {
+    if (this.redeemSweepInFlight) return;
+    this.redeemSweepInFlight = true;
+    try {
+      await this.redeemResolvedWinningPositions(reason);
+    } catch (error) {
+      console.error(`⚠️ [redeem] sweep failed (${reason}):`, sanitizeErrorForLog(error));
+    } finally {
+      this.redeemSweepInFlight = false;
+    }
+  }
+
+  private logRedeemSkip(message: string): void {
+    const now = Date.now();
+    if (now - this.lastRedeemSkipLogAtMs < 15 * 60 * 1000) return;
+    this.lastRedeemSkipLogAtMs = now;
+    console.warn(message);
+  }
+
+  private async redeemResolvedWinningPositions(reason: string): Promise<void> {
+    const proxyWallet = process.env.POLYMARKET_PROXY_WALLET;
+    if (!proxyWallet || !this.redeemer) return;
+
+    const signerAddress = await this.redeemer.getSignerAddress();
+    const signerMatchesProxy = signerAddress === proxyWallet.toLowerCase();
+
+    const minSize = Number(process.env.AUTO_REDEEM_MIN_SIZE ?? 0.01);
+    const maxPerSweep = this.getAutoRedeemBatchSize();
+    const signerCandidates = await this.fetchRedeemCandidatesForWallet(signerAddress, minSize, maxPerSweep);
+    if (signerCandidates.length > 0) {
+      if (!(await this.redeemer.hasEnoughGasReserve())) {
+        this.logRedeemSkip(
+          `⚠️ [redeem] skipped signer wallet: gas too low for ${signerAddress.slice(0, 6)}...${signerAddress.slice(-4)}.`,
+        );
+      } else {
+        console.log(`🧹 [redeem] signer sweep reason=${reason} wallet=${signerAddress.slice(0, 6)}...${signerAddress.slice(-4)} candidates=${signerCandidates.length}`);
+        for (const candidate of signerCandidates) {
+          try {
+            const redeemResult = await this.redeemer.redeemSingleOutcome(candidate.conditionId, candidate.outcomeIndex, {
+              requireResolved: true,
+            });
+            console.log(`✅ [redeem] signer condition=${candidate.conditionId.slice(0, 10)}... outcomeIndex=${candidate.outcomeIndex} tx=${redeemResult.txHash}`);
+          } catch (error) {
+            console.error(
+              `⚠️ [redeem] signer failed condition=${candidate.conditionId.slice(0, 10)}... outcomeIndex=${candidate.outcomeIndex}:`,
+              sanitizeErrorForLog(error),
+            );
+          }
+        }
+      }
+    }
+
+    if (signerMatchesProxy) {
+      return;
+    }
+
+    const proxyCandidates = await this.fetchRedeemCandidatesForWallet(proxyWallet.toLowerCase(), minSize, maxPerSweep);
+    if (proxyCandidates.length === 0) {
+      return;
+    }
+
+    if (!this.proxyWalletRedeemer) {
+      this.logRedeemSkip(
+        `⚠️ [redeem] proxy has redeemable positions but local signer cannot redeem them directly. Enable AUTO_REDEEM_PROXY_ENABLED=true for ProxyWallet execution. signer=${signerAddress.slice(0, 6)}...${signerAddress.slice(-4)} proxy=${proxyWallet.slice(0, 6)}...${proxyWallet.slice(-4)}.`,
+      );
+      return;
+    }
+
+    const proxyCompatible = await this.proxyWalletRedeemer.isCompatibleAndOwnedBySigner();
+    if (!proxyCompatible) {
+      this.logRedeemSkip(
+        `⚠️ [redeem] proxy wallet execution unavailable: proxy is not compatible or signer is not proxy owner. signer=${signerAddress.slice(0, 6)}...${signerAddress.slice(-4)} proxy=${proxyWallet.slice(0, 6)}...${proxyWallet.slice(-4)}.`,
+      );
+      return;
+    }
+
+    if (!(await this.proxyWalletRedeemer.hasEnoughGasReserve())) {
+      this.logRedeemSkip(
+        `⚠️ [redeem] skipped proxy execution: owner gas too low for ${signerAddress.slice(0, 6)}...${signerAddress.slice(-4)}.`,
+      );
+      return;
+    }
+
+    console.log(`🧹 [redeem] proxy sweep reason=${reason} proxy=${proxyWallet.slice(0, 6)}...${proxyWallet.slice(-4)} candidates=${proxyCandidates.length}`);
+    for (const candidate of proxyCandidates) {
+      try {
+        const redeemResult = await this.proxyWalletRedeemer.redeemSingleOutcome(candidate.conditionId, candidate.outcomeIndex);
+        console.log(`✅ [redeem] proxy condition=${candidate.conditionId.slice(0, 10)}... outcomeIndex=${candidate.outcomeIndex} tx=${redeemResult.txHash}`);
+      } catch (error) {
+        console.error(
+          `⚠️ [redeem] proxy failed condition=${candidate.conditionId.slice(0, 10)}... outcomeIndex=${candidate.outcomeIndex}:`,
+          sanitizeErrorForLog(error),
+        );
+      }
+    }
+  }
+
+  private async fetchRedeemCandidatesForWallet(
+    wallet: string,
+    minSize: number,
+    maxPerSweep: number,
+  ): Promise<Array<{ conditionId: string; outcomeIndex: number }>> {
+    const posResp = await fetch(`https://data-api.polymarket.com/positions?user=${encodeURIComponent(wallet)}&sizeThreshold=0`);
+    if (!posResp.ok) {
+      throw new Error(`positions endpoint failed for ${wallet} with status ${posResp.status}`);
+    }
+
+    const rows = (await posResp.json()) as PositionRedeemRow[];
+    if (!Array.isArray(rows) || rows.length === 0) return [];
+
+    const redeemables = rows.filter((row) => {
+      const size = Number(row.size ?? 0);
+      return row.redeemable === true
+        && Number.isFinite(size)
+        && size >= minSize
+        && typeof row.conditionId === 'string'
+        && this.toOutcomeIndex(row.outcomeIndex) !== null;
+    });
+    if (redeemables.length === 0) return [];
+
+    const unique = new Map<string, { conditionId: string; outcomeIndex: number }>();
+    for (const row of redeemables) {
+      const conditionId = normalizeConditionIdHex(row.conditionId);
+      const outcomeIndex = this.toOutcomeIndex(row.outcomeIndex);
+      if (!conditionId || outcomeIndex === null) continue;
+      const key = `${conditionId}:${outcomeIndex}`;
+      if (!unique.has(key)) {
+        unique.set(key, { conditionId, outcomeIndex });
+      }
+    }
+
+    return [...unique.values()].slice(0, maxPerSweep);
+  }
+
+  private toOutcomeIndex(value: number | string | undefined): number | null {
+    const parsed = typeof value === 'number' ? value : Number(value);
+    if (!Number.isInteger(parsed) || parsed < 0 || parsed > 30) return null;
+    return parsed;
   }
 
   /**
@@ -441,10 +653,10 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
       if (errText.includes('not found') || httpStatus === 404) {
         throw { code: 'INVALID_MARKET', message: 'Market not found on CLOB' };
       }
-      if (params.action === 'SELL' && httpStatus === 400) {
+      if (httpStatus === 400) {
         throw {
           code: 'UPSTREAM_UNAVAILABLE',
-          message: 'Sell order was rejected (HTTP 400). This usually means wrong market/outcome selection or no immediately fillable bids.',
+          message: 'Order could not be fully filled at current liquidity (FOK). Try again in a moment, or try a smaller amount.',
         };
       }
       throw { code: 'UPSTREAM_UNAVAILABLE', message: errText };
@@ -471,6 +683,10 @@ class ClobPolymarketExecutionGateway implements PolymarketExecutionGateway {
       txHashes?.[0] ??
       (resultObj.orderID as string | undefined) ??
       params.idempotencyKey;
+
+    // A successful fill can create a new winning/settled redeemable token set.
+    // Run a best-effort sweep in the background so users do not need a manual redeem step.
+    void this.runAutoRedeemSweep('post-trade');
 
     return {
       tradeId: String(tradeId),

@@ -866,7 +866,7 @@ export class DiscordMessageRouter {
 					null;
 
 		const isMarketInCommand = /\bmarket\s+in\b/i.test(message);
-		const hasBetVerb = /\b(bet|buy|sell|trade|exit|close)\b/.test(normalized);
+		const hasBetVerb = /\b(place|bet|buy|sell|trade|exit|close)\b/.test(normalized);
 
 		// ── Sell-without-amount path ──────────────────────────────────────
 		// "sell on Grizzlies 76ers 76ers" — no dollar amount, user wants to
@@ -878,7 +878,7 @@ export class DiscordMessageRouter {
 		// Allow proceeding without a standard direction word (yes/no/up/down) when a bet verb
 		// is present — the outcome can be resolved later via fuzzy matching against market
 		// outcome labels (e.g., "Thunder", "OKC" for sports markets).
-		if (!amountMatch || (!outcome && !isMarketInCommand && !hasBetVerb) || !/\b(bet|buy|sell|trade|market|exit|close)\b/.test(normalized)) {
+		if (!amountMatch || (!outcome && !isMarketInCommand && !hasBetVerb) || !/\b(place|bet|buy|sell|trade|market|exit|close)\b/.test(normalized)) {
 			return null;
 		}
 
@@ -961,7 +961,7 @@ export class DiscordMessageRouter {
 			// --- Fallback: "bet/buy $X on [description] yes/no" ---
 			// Strip the action verb, amount, leading "on", and trailing outcome word to get the market description
 			let queryStr = message.trim();
-			queryStr = queryStr.replace(/^\s*(bet|buy|sell|trade)\b\s*/i, '').trim();
+			queryStr = queryStr.replace(/^\s*(place|bet|buy|sell|trade)\b\s*/i, '').trim();
 			queryStr = queryStr.replace(/\$\s*\d+(?:\.\d{1,2})?/, '').trim();
 			queryStr = queryStr.replace(/\b\d+(?:\.\d{1,2})?\s*\$(?!\w)/, '').trim();
 			queryStr = queryStr.replace(/\b\d+(?:\.\d{1,2})?\s*(dollars?|usd|bucks?)\b/i, '').trim();

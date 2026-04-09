@@ -14,7 +14,7 @@ const GAMMA_API_BASE = 'https://gamma-api.polymarket.com';
  */
 const DEFAULT_PAGE_LIMIT = 50;
 const SEARCH_PAGE_LIMIT = 200;
-const MAX_SEARCH_PAGES = 50; // safety cap to avoid unbounded requests
+const MAX_SEARCH_PAGES = 25; // safety cap to avoid unbounded requests
 
 /**
  * Sports metadata cache — the /sports list rarely changes.
@@ -79,13 +79,7 @@ const SPORT_ALIASES: Record<string, string[]> = {
 		'1win', 'yakutou', 'team yandex', 'soniqs', 'wildcard', 'hokori',
 		'virtus.pro', 'natus vincere', 'navi'],
 	val: ['valorant', 'vct', 'val', 'sentinels', 'loud', 'paper rex', 'prx', 'nrg',
-		'team heretics', 'heretics', 'leviatán', 'mibr', 'bleed', 'trace', 'optic',
-		// Additional VCT/VCL teams for broader detection
-		'reignite', 'qt dig', 'drx academy', 'drxa', 'arete', 'onside', 'onside gaming',
-		'dplus', 'tyloo', 'any questions gaming', 'aqg', 'gen.g', 'geng',
-		'talon esports', 'talon', 'global esports', 'ge', 'rex regum qeon', 'rrq',
-		'team secret', 'ts', 'fnatic', 'edg', 'edward gaming', 'bilibili gaming',
-		'fut esports', 'karmine corp', 'kcorp', 'giants gaming', 'vitality'],
+		'team heretics', 'heretics', 'leviatán', 'mibr', 'bleed', 'trace', 'optic'],
 	mlbb: ['mobile legends', 'mlbb'],
 	ow: ['overwatch', 'overwatch 2', 'ow2'],
 	codmw: ['call of duty', 'cod', 'warzone'],
@@ -128,9 +122,7 @@ const SPORT_ALIASES: Record<string, string[]> = {
 		'st louis blues', 'winnipeg jets', 'anaheim ducks', 'calgary flames',
 		'edmonton oilers', 'oilers', 'los angeles kings', 'san jose sharks',
 		'seattle kraken', 'vancouver canucks', 'vegas golden knights', 'golden knights',
-		'utah hockey club',
-		// Common shorthand in user matchup queries
-		'sharks', 'predators'],
+		'utah hockey club'],
 	// Hockey variants
 	khl: ['khl', 'kontinental hockey', 'russian hockey', 'kontinental league'],
 	shl: ['shl', 'swedish hockey league', 'sweden hockey'],
@@ -166,7 +158,7 @@ const SPORT_ALIASES: Record<string, string[]> = {
 		'crystal palace', 'palace', 'cpfc', 'eagles',
 		'fulham', 'ffc', 'cottagers',
 		'wolves', 'wolverhampton', 'wwfc',
-		'nottingham forest', 'nffc',
+		'nottingham forest', 'forest', 'nffc',
 		'bournemouth', 'afcb', 'cherries',
 		'everton', 'efc', 'toffees',
 		'leicester', 'leicester city', 'lcfc', 'foxes',
@@ -221,7 +213,10 @@ const SPORT_ALIASES: Record<string, string[]> = {
 	ucl: ['champions league', 'ucl', 'uefa champions'],
 	uel: ['europa league', 'uel'],
 	mls: ['mls', 'major league soccer'],
-	ipl: ['ipl', 'indian premier league', 'cricket', 'odi', 't20', 'test match'],
+	ipl: ['ipl', 'indian premier league', 'cricket', 'odi', 't20', 'test match',
+		'australia', 'aus', 'india', 'ind', 'england', 'eng', 'south africa', 'sa',
+		'new zealand', 'nz', 'pakistan', 'pak', 'sri lanka', 'sl', 'west indies', 'wi',
+		'bangladesh', 'ban', 'afghanistan', 'afg'],
 	// Cricket series/tournament codes
 	odi: ['one day cricket', 'odi cricket', 'one day international'],
 	t20: ['t20 cricket', 't20i', 'twenty20', 'twenty 20'],
@@ -244,7 +239,7 @@ const SPORT_ALIASES: Record<string, string[]> = {
 	zuffa: ['zuffa', 'ufc fight night', 'bellator', 'one championship'],
 	atp: ['atp', 'tennis', 'djokovic', 'nadal', 'federer', 'alcaraz', 'sinner'],
 	wta: ['wta', 'women tennis'],
-	ncaab: ['march madness', 'ncaa basketball', 'ncaab', 'college basketball', 'ncaa', 'tournament', 'ncaa tournament', 'ncaa mens', 'ncaa womens', 'final four', 'cbb', 'college hoops'],
+	ncaab: ['march madness', 'ncaa basketball', 'ncaab', 'college basketball', 'ncaa', 'tournament', 'ncaa tournament', 'ncaa mens', 'ncaa womens', 'final four'],
 	cfb: ['college football', 'cfb', 'ncaa football'],
 	kbo: ['kbo', 'korean baseball'],
 	// Rugby
@@ -323,7 +318,7 @@ const SPORT_ALIASES: Record<string, string[]> = {
 		'swansea', 'swansea city', 'swans', 'swa',
 		'luton', 'luton town', 'hatters', 'lut',
 		'derby', 'derby county', 'rams', 'der',
-		'hull', 'hull city', 'hull tigers', 'hul',
+		'hull', 'hull city', 'hul',
 		'blackburn', 'blackburn rovers', 'rovers', 'bla',
 		'oxford', 'oxford united', 'oxf', 'us',
 		'portsmouth', 'pompey', 'por pom',
@@ -447,11 +442,6 @@ const TEAM_ABBREVIATIONS: Record<string, string> = {
 	'flyquest': 'fly',
 	'100 thieves': '100t',
 	'shopify rebellion': 'shopify',
-	// MLB
-	'new york yankees': 'nyy',
-	'yankees': 'nyy',
-	'los angeles dodgers': 'lad',
-	'dodgers': 'lad',
 	'g2 esports': 'g2',
 	'team vitality': 'vit',
 	'mad lions': 'mad',
@@ -467,16 +457,6 @@ const TEAM_ABBREVIATIONS: Record<string, string> = {
 	'sentinels': 'sen',
 	'paper rex': 'prx',
 	'loud esports': 'loud',
-	'reignite': 'rig',
-	'qt dig': 'qtd',
-	'drx academy': 'drxa',
-	'onside gaming': 'onside',
-	'any questions gaming': 'aqg',
-	'global esports': 'ge',
-	'rex regum qeon': 'rrq',
-	'talon esports': 'talon',
-	'fut esports': 'fut',
-	'giants gaming': 'giants',
 	// General
 	'colossal gaming': 'cg',
 };
@@ -594,8 +574,6 @@ const COMMON_STOPWORDS = new Set([
 	'market', 'markets', 'odds', 'status', 'update', 'updates',
 	'current', 'live', 'going', 'this', 'that', 'it', 'its', 'any',
 	'right', 'now',
-	// Ambiguous team/entity fillers that create false positives in vs matching
-	'state', 'university', 'college', 'club', 'team',
 ]);
 
 /** Expand known abbreviations/nicknames in a query string (whole-word, case-insensitive). */
@@ -639,10 +617,6 @@ interface GammaMarketResponse {
 	readonly featured?: boolean;         // Polymarket staff-featured market
 	readonly accepting_orders?: boolean;
 	readonly events?: ReadonlyArray<{ readonly slug?: string }>; // parent event(s) — slug used for Polymarket event URLs
-	// Live order book data — used as fallback when outcomePrices is stale
-	readonly bestBid?: number;
-	readonly bestAsk?: number;
-	readonly lastTradePrice?: number;
 }
 
 /**
@@ -694,17 +668,6 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 
 			const freshPrices = parseOutcomePrices(raw.outcomePrices, market.outcomes.length);
 			if (freshPrices.length > 0) {
-				// Always prefer order book data (lastTradePrice/bestAsk) over outcomePrices
-				// for 2-outcome markets. The outcomePrices field from the Gamma API can lag
-				// behind the actual CLOB order book by minutes, causing the bot to show
-				// stale odds (e.g. 30%/70% when the real market is 34%/66%).
-				if (freshPrices.length === 2 && raw.lastTradePrice != null) {
-					const yesPrice = raw.lastTradePrice;
-					const noPrice = Math.round((1 - yesPrice) * 100) / 100;
-					const derivedPrices = [yesPrice, noPrice];
-					console.log(`[refresh] Using CLOB lastTradePrice for live odds: [${freshPrices}] → [${derivedPrices}]`);
-					return { ...market, outcomePrices: derivedPrices };
-				}
 				console.log(`[refresh] Prices updated for "${market.question}": ${market.outcomePrices} → ${freshPrices}`);
 				return { ...market, outcomePrices: freshPrices };
 			}
@@ -911,10 +874,13 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		// queries like "show me sports" skip this and go to slug/text.
 		// ──────────────────────────────────────────────────────────────────────
 		const lowerSearchTerms = searchTerms.toLowerCase();
-		const isSportsFirstCandidate = lowerSearchTerms.includes(' vs ') || lowerSearchTerms.includes(' versus ');
+            const lowerNormalized = normalized.toLowerCase();
+            const isSportsFirstCandidate =
+                    /\b(vs\.?|versus)\b/.test(lowerSearchTerms) ||
+                    /\b(vs\.?|versus)\b/.test(lowerNormalized);
 		if (isSportsFirstCandidate) {
-			console.log(`[search] Attempting sports-first search for vs-query: "${searchTerms}"`);
-			const sportsFirstResults = await this.searchSportsMarkets(searchTerms);
+			console.log(`[search] Attempting sports-first search for vs-query: "${normalized}" (ai="${searchTerms}")`);
+			const sportsFirstResults = await this.searchSportsMarkets(normalized);
 			if (sportsFirstResults.length > 0) {
 				console.log(`[search] Sports-first found ${sportsFirstResults.length} markets, returning`);
 				return sportsFirstResults;
@@ -991,53 +957,29 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 			return this.scoreAndSortEventMarkets(mergedMarkets, searchTerms);
 		}
 
-		// Sports search fallback — for non-vs queries that weren't handled by
-		// sports-first above (e.g. "NBA championship", "cricket world cup").
-		// Vs-queries already attempted sports search above, so skip for them.
-		if (!isSportsFirstCandidate) {
-			console.log(`[search] Attempting sports fallback for: "${searchTerms}"`);
-			// Pass the original normalized query (not AI-extracted keywords) so that
-			// vs-queries retain the "vs" token and searchSportsMarkets can trigger
-			// the text_query fallback when series-based search fails.
-			const sportsResults = await this.searchSportsMarkets(normalized);
-			if (sportsResults.length > 0) {
-				console.log(`[search] Sports fallback found ${sportsResults.length} markets`);
-				return sportsResults;
-			}
-		}
+		            // Sports search fallback � for non-vs queries that weren't handled by
+            // sports-first above (e.g. "NBA championship", "cricket world cup").
+            // Vs-queries already attempted sports search above, so skip for them.
+            if (!isSportsFirstCandidate) {
+                    // Use normalized/original query here so matchup tokens like "vs"
+                    // are preserved even if AI keyword extraction strips them.
+                    console.log(`[search] Attempting sports fallback for: "${normalized}" (ai="${searchTerms}")`);
+                    const sportsResults = await this.searchSportsMarkets(normalized);
+                    if (sportsResults.length > 0) {
+                            console.log(`[search] Sports fallback found ${sportsResults.length} markets`);
+                            return sportsResults;
+                    }
+            }
 
-		// ──────────────────────────────────────────────────────────────────────
-		// 5. SUB-TAG MATCHING — fuzzy-match query against Polymarket's /tags
+            // 5. SUB-TAG MATCHING — fuzzy-match query against Polymarket's /tags
 		// ──────────────────────────────────────────────────────────────────────
 		const tagMatch = await this.matchQueryToTag(searchTerms);
 		if (tagMatch) {
 			console.log(`[search] Tag match: "${searchTerms}" → tag "${tagMatch}"`);
 			const tagResults = await this.fetchEventsByTag(tagMatch, 15);
 			if (tagResults.length > 0) {
-				const tagFilterKeywords = searchTerms
-					.toLowerCase()
-					.replace(/[^a-z0-9\s]/g, ' ')
-					.split(/\s+/)
-					.filter((w) => w.length >= 3 && !COMMON_STOPWORDS.has(w))
-					.filter((w) => !new Set([
-						'sports', 'sport', 'esports', 'match', 'game', 'market', 'markets',
-						'who', 'what', 'when', 'where', 'why', 'how',
-					]).has(w));
-
-				const filteredTagResults = tagFilterKeywords.length > 0
-					? tagResults.filter((m) => {
-						const hay = `${m.question} ${m.slug ?? ''} ${m.eventSlug ?? ''}`.toLowerCase();
-						return tagFilterKeywords.some((kw) => hay.includes(kw));
-					})
-					: tagResults;
-
-				if (filteredTagResults.length > 0) {
-					const scored = this.scoreAndSortEventMarkets(filteredTagResults, searchTerms);
-					console.log(`[search] Returning ${scored.length} filtered markets for tag "${tagMatch}"`);
-					return scored;
-				}
-
-				console.log(`[search] Tag match "${tagMatch}" had no keyword-relevant markets, skipping`);
+				console.log(`[search] Returning ${tagResults.length} markets for tag "${tagMatch}"`);
+				return tagResults;
 			}
 		}
 
@@ -1310,22 +1252,19 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 	private async searchSportsMarkets(query: string): Promise<Market[]> {
 		let detectedSports = detectSportsFromQuery(query);
 		const lowerQuery = query.toLowerCase();
-		const isVsQuery = lowerQuery.includes(' vs ') || lowerQuery.includes(' versus ') || /[a-z]\/[a-z]/i.test(lowerQuery);
-		const isPropQuestion = (question: string): boolean => {
-			const q = question.toLowerCase();
-			return /(most sixes|top batter|top bowler|team top batter|team top bowler|toss|double chance|first goalscorer|first scorer|player to score|player prop|most points|assists|rebounds|corners|cards|shots|passing yards|rushing yards|receiving yards|touchdowns|map\s*\d+|set\s*\d+|round\s*\d+|handicap|spread|over\/under|totals?\b|runs\b)/.test(q);
-		};
+		const isVsQuery = lowerQuery.includes(' vs ') || lowerQuery.includes(' versus ');
 
 		// Fetch sports metadata (cached) — needed for dynamic detection and series search.
 		const sportsMeta = await fetchSportsMetadata();
 		if (sportsMeta.length === 0) {
-			console.log('[search] Failed to fetch /sports metadata; continuing with alias/text fallbacks');
+			console.log('[search] Failed to fetch sports metadata, skipping sports search');
+			return [];
 		}
 
 		// Dynamic fallback: match query words against sport codes from the /sports endpoint.
 		// This covers 80+ sports not in SPORT_ALIASES (rugby, lacrosse, f1, etc.) without
 		// requiring a manually maintained exhaustive alias list.
-		if (detectedSports.length === 0 && sportsMeta.length > 0) {
+		if (detectedSports.length === 0) {
 			const queryWords = lowerQuery.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length >= 2);
 			const dynamic: string[] = [];
 			for (const entry of sportsMeta) {
@@ -1346,13 +1285,10 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		// search ALL cricket-tagged sports. This catches international cricket
 		// matches whose slugs use ISO country codes (mys, bhr, etc.) that
 		// aren't in SPORT_ALIASES.
-		if ((detectedSports.length === 0 || (isVsQuery && detectedSports.length === 1 && detectedSports[0] === 'ipl')) && sportsMeta.length > 0) {
+		if (detectedSports.length === 0) {
 			const CRICKET_TAG_ID = '517';
 			const queryWords = lowerQuery.replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(w => w.length >= 2);
-			const countryNames = Object.keys(COUNTRY_TO_SLUG_CODE);
-			const hasCricketCountry =
-				queryWords.some(w => COUNTRY_TO_SLUG_CODE[w] !== undefined)
-				|| countryNames.some((name) => name.includes(' ') && lowerQuery.includes(name));
+			const hasCricketCountry = queryWords.some(w => COUNTRY_TO_SLUG_CODE[w] !== undefined);
 			if (hasCricketCountry) {
 				const cricketSports = sportsMeta
 					.filter(s => s.tags.includes(CRICKET_TAG_ID))
@@ -1413,15 +1349,7 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		const allApiCodes = sportsMeta.map(s => s.sport);
 		const remainingCodes = allApiCodes.filter(c => !PRIORITY_SPORT_CODES.has(c));
 		const COMMON_SPORT_CODES = [...PRIORITY_SPORT_CODES, ...remainingCodes];
-		const sportsToSearch = (() => {
-			if (detectedSports.length === 0) return COMMON_SPORT_CODES;
-			if (!isVsQuery) return detectedSports;
-
-			// For vs-queries, hedge against false sport detection (e.g. "Wake Forest" → EPL)
-			// by also scanning the most common matchup leagues.
-			const VS_CORE_SPORTS = ['ncaab', 'nba', 'nhl', 'nfl', 'mlb', 'cfb', 'wnba'];
-			return [...new Set([...detectedSports, ...VS_CORE_SPORTS])];
-		})();
+		const sportsToSearch = detectedSports.length > 0 ? detectedSports : COMMON_SPORT_CODES;
 
 		// Fuzzy abbreviation matcher: checks if keyword is formed by concatenating
 		// leading characters from consecutive haystack words.
@@ -1467,45 +1395,11 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 			.split(/\s+/)
 			.filter(w => w.length >= 2 && !COMMON_STOPWORDS.has(w) && !SPORTS_EXTRA_STOPWORDS.has(w));
 
-		const BASE_GENERIC_WORDS = new Set([
-			'match', 'game', 'series', 'season', 'tournament', 'league', 'cup',
-			'championship', 'winner', 'winners', 'sports', 'sport', 'esports',
-		]);
-		const baseQueryKeywords = lowerQuery
-			.replace(/[^a-z0-9\s]/g, ' ')
-			.split(/\s+/)
-			.filter((w) => w.length >= 3 && !COMMON_STOPWORDS.has(w) && !BASE_GENERIC_WORDS.has(w));
-
-		// Preserve detected sport codes and meaningful alias tokens as scoring signals.
-		// This prevents generic ranking when all user words were filtered out
-		// (e.g. "cs2 esports match"), which otherwise returns unrelated futures.
-		for (const sportCode of detectedSports) {
-			if (!queryKeywords.includes(sportCode)) {
-				queryKeywords.push(sportCode);
-			}
-			const aliases = SPORT_ALIASES[sportCode] ?? [];
-			for (const alias of aliases) {
-				const parts = alias
-					.toLowerCase()
-					.replace(/[^a-z0-9\s]/g, ' ')
-					.split(/\s+/)
-					.filter((w) => w.length >= 3 && !COMMON_STOPWORDS.has(w));
-				for (const part of parts) {
-					if (!queryKeywords.includes(part)) {
-						queryKeywords.push(part);
-					}
-				}
-			}
-		}
-
 		// Expand full team names to abbreviations (e.g., "JD Gaming" → "jdg")
 		// so keywords can match event slugs like `lol-jdg-blg-2026-03-04`.
 		for (const [fullName, abbr] of Object.entries(TEAM_ABBREVIATIONS)) {
 			if (lowerQuery.includes(fullName) && !queryKeywords.includes(abbr)) {
 				queryKeywords.push(abbr);
-			}
-			if (lowerQuery.includes(fullName) && !baseQueryKeywords.includes(abbr)) {
-				baseQueryKeywords.push(abbr);
 			}
 		}
 
@@ -1517,8 +1411,6 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 				queryKeywords.push(code);
 			}
 		}
-
-		const anchorKeywords = [...new Set(baseQueryKeywords)];
 
 		console.log(`[search] Series search keywords: ${queryKeywords.join(', ')}`);
 
@@ -1546,9 +1438,6 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 
 			const leftKws = leftRaw;
 			const rightKws = rightRaw;
-			const GEO_GENERIC_WORDS = new Set(['new', 'north', 'south', 'east', 'west', 'region', 'club']);
-			const leftStrong = leftKws.filter((w) => w.length >= 4 && !GEO_GENERIC_WORDS.has(w));
-			const rightStrong = rightKws.filter((w) => w.length >= 4 && !GEO_GENERIC_WORDS.has(w));
 			console.log(`[search] VS split — left: [${leftKws}], right: [${rightKws}]`);
 			matchEvent = (h: string) => {
 				// Use prefix-aware matching (\b at start only) so "warrior" matches "warriors",
@@ -1556,23 +1445,15 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 				// Falls back to fuzzy slug match for abbreviated team names (e.g. "chsou" → "charleston-southern").
 				const kwMatch = (kw: string, hay: string) =>
 					new RegExp('\\b' + kw).test(hay) || fuzzySlugMatch(kw, hay);
-				const lSource = leftStrong.length > 0 ? leftStrong : leftKws;
-				const rSource = rightStrong.length > 0 ? rightStrong : rightKws;
-				const lMatch = lSource.length > 0 && lSource.some(kw => kwMatch(kw, h));
-				const rMatch = rSource.length > 0 && rSource.some(kw => kwMatch(kw, h));
+				const lMatch = leftKws.length > 0 && leftKws.some(kw => kwMatch(kw, h));
+				const rMatch = rightKws.length > 0 && rightKws.some(kw => kwMatch(kw, h));
 				// Always require BOTH teams to match — prevents false positives
 				// from generic words like "gaming" matching unrelated events
 				return lMatch && rMatch;
 			};
 		} else {
-			const nonVsAnchors = anchorKeywords.length > 0
-				? anchorKeywords
-				: queryKeywords.filter((kw) => kw.length >= 3).slice(0, 6);
-			matchEvent = (h: string) => {
-				if (nonVsAnchors.length === 0) return false;
-				return nonVsAnchors.some((kw) =>
-					new RegExp('\\b' + kw).test(h) || fuzzySlugMatch(kw, h));
-			};
+			matchEvent = (h: string) => queryKeywords.every(kw =>
+				new RegExp('\\b' + kw + '\\b').test(h) || fuzzySlugMatch(kw, h));
 		}
 		// Normalize accents in haystacks before matching to prevent false positives
 		// like \btom\b matching "Tomé" (accent é is \W, creating a word boundary).
@@ -1639,8 +1520,7 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 				// Also check recent closed events in case the match just ended
 				if (seriesMarkets.length === 0) {
 					for (const seriesId of seriesIds.slice(0, 1)) {
-						const CLOSED_MAX_OFFSET = detectedSports.length > 0 ? 180 : 20;
-						for (let offset = 0; offset <= CLOSED_MAX_OFFSET; offset += 20) {
+						for (let offset = 0; offset <= 20; offset += 20) {
 							try {
 								const url = `${GAMMA_API_BASE}/events?series_id=${seriesId}&closed=true&limit=20&offset=${offset}`;
 								const resp = await fetch(url);
@@ -1690,11 +1570,6 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 					const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
 					const statusDiff = rank(a.status) - rank(b.status);
 					if (statusDiff !== 0) return statusDiff;
-					if (isVsQuery) {
-						const aProp = isPropQuestion(a.question);
-						const bProp = isPropQuestion(b.question);
-						if (aProp !== bProp) return aProp ? 1 : -1;
-					}
 					// Tiebreaker 1: most recent event first (so today's live match beats Feb 28)
 					const dateDiff = slugDate(b).localeCompare(slugDate(a));
 					if (dateDiff !== 0) return dateDiff;
@@ -1704,109 +1579,6 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 				});
 				console.log(`[search] Series search found ${seriesMarkets.length} markets for "${query}"`);
 				return seriesMarkets;
-			}
-		}
-
-		// --- Strategy 1b: text_query fallback for vs-queries ---
-		// When series-based search fails (team names not in hardcoded aliases),
-		// try the Gamma API's text_query on /events using the original team names.
-		// This dynamically finds ANY matchup without needing hardcoded team names.
-		if (isVsQuery && queryKeywords.length > 0) {
-			const vsParts = lowerQuery.split(/\s+vs\.?\s+|\s+versus\s+|\//);
-			const cleanTeam = (s: string) => s
-				.replace(/^.*?\b(?:bet|buy|sell|trade|on)\b\s*/i, '')
-				.replace(/\$\s*\d+(?:\.\d{1,2})?/, '')
-				.replace(/\b\d+(?:\.\d{1,2})?\s*(dollars?|usd|bucks?)\b/i, '')
-				.replace(/[^a-z0-9\s]/gi, ' ')
-				.replace(/\s+/g, ' ')
-				.trim();
-			const leftTeam = cleanTeam(vsParts[0] ?? '');
-			const rightTeam = cleanTeam(vsParts.slice(1).join(' '));
-			const textQuery = `${leftTeam} ${rightTeam}`.trim();
-			if (textQuery.length >= 3) {
-				console.log(`[search] Sports text_query fallback: "${textQuery}"`);
-				try {
-					let hadEventTextHit = false;
-					const leftKws = leftTeam.split(/\s+/).filter(w => w.length >= 3 && !COMMON_STOPWORDS.has(w));
-					const rightKws = rightTeam.split(/\s+/).filter(w => w.length >= 3 && !COMMON_STOPWORDS.has(w));
-					for (const [fullName, abbr] of Object.entries(TEAM_ABBREVIATIONS)) {
-						if (leftTeam.includes(fullName) && !leftKws.includes(abbr)) leftKws.push(abbr);
-						if (rightTeam.includes(fullName) && !rightKws.includes(abbr)) rightKws.push(abbr);
-					}
-					for (const closed of [false, true]) {
-						for (let offset = 0; offset <= 180; offset += 30) {
-							const url = `${GAMMA_API_BASE}/events?closed=${closed ? 'true' : 'false'}&limit=30&offset=${offset}&text_query=${encodeURIComponent(textQuery)}`;
-							const resp = await fetch(url);
-							if (!resp.ok) break;
-							const events = await resp.json() as Array<{
-								title?: string;
-								slug?: string;
-								markets?: GammaMarketResponse[];
-							}>;
-							if (!Array.isArray(events) || events.length === 0) break;
-
-							const textFallbackMarkets: Market[] = [];
-							for (const event of events) {
-								if (!Array.isArray(event.markets)) continue;
-								const title = (event.title ?? '').toLowerCase();
-								const leftMatch = leftKws.length === 0 || leftKws.some(kw => title.includes(kw));
-								const rightMatch = rightKws.length === 0 || rightKws.some(kw => title.includes(kw));
-								if (!leftMatch || !rightMatch) {
-									continue;
-								}
-								hadEventTextHit = true;
-								console.log(`[search] Sports text_query hit: "${event.title}" (${event.markets.length} markets)`);
-								for (const raw of event.markets) {
-									const m = mapGammaMarketToMarket(raw);
-									if (m) textFallbackMarkets.push(m);
-								}
-							}
-
-							if (textFallbackMarkets.length > 0) {
-								console.log(`[search] Sports text_query found ${textFallbackMarkets.length} markets (closed=${closed}, offset=${offset})`);
-								textFallbackMarkets.sort((a, b) => {
-									const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
-									const statusDiff = rank(a.status) - rank(b.status);
-									if (statusDiff !== 0) return statusDiff;
-									return (b.volume || 0) - (a.volume || 0);
-								});
-								return textFallbackMarkets;
-							}
-
-							if (events.length < 30) break;
-						}
-					}
-
-					if (!hadEventTextHit) {
-						// Last chance for historical matchup queries: direct market text search
-						// with strict team-name filtering.
-						for (const closed of [false, true]) {
-							const url = `${GAMMA_API_BASE}/markets?closed=${closed ? 'true' : 'false'}&limit=200&text_query=${encodeURIComponent(textQuery)}`;
-							const rows = await this.fetchAndMapMarkets(url);
-							if (rows.length === 0) continue;
-							const leftKws = leftTeam.split(/\s+/).filter(w => w.length >= 3 && !COMMON_STOPWORDS.has(w));
-							const rightKws = rightTeam.split(/\s+/).filter(w => w.length >= 3 && !COMMON_STOPWORDS.has(w));
-							const strict = rows.filter((m) => {
-								const q = m.question.toLowerCase();
-								const leftMatch = leftKws.length === 0 || leftKws.some((kw) => q.includes(kw));
-								const rightMatch = rightKws.length === 0 || rightKws.some((kw) => q.includes(kw));
-								return leftMatch && rightMatch;
-							});
-							if (strict.length > 0) {
-								console.log(`[search] Sports market text fallback found ${strict.length} markets (closed=${closed})`);
-								strict.sort((a, b) => {
-									const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
-									const statusDiff = rank(a.status) - rank(b.status);
-									if (statusDiff !== 0) return statusDiff;
-									return (b.volume || 0) - (a.volume || 0);
-								});
-								return strict;
-							}
-						}
-					}
-				} catch {
-					// best-effort; fall through to tag search
-				}
 			}
 		}
 
@@ -1835,66 +1607,7 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		}
 
 		if (tagIds.size === 0) {
-			console.log('[search] No specific tags found, attempting text_query fallback');
-			const fallbackTerms = queryKeywords.length > 0 ? queryKeywords.join(' ') : lowerQuery;
-			const genericSportsWords = new Set([
-				'winner', 'winners', 'team', 'teams', 'season', 'today', 'tonight', 'market', 'markets',
-				'league', 'cup', 'championship', 'tournament', 'pick', 'first',
-			]);
-			const strongFallbackKeywords = queryKeywords.filter((kw) =>
-				/[a-z]/.test(kw) && kw.length >= 4 && !genericSportsWords.has(kw),
-			);
-			if (fallbackTerms.trim().length > 0) {
-				for (const closed of [false, true]) {
-					try {
-						const url = `${GAMMA_API_BASE}/events?closed=${closed ? 'true' : 'false'}&limit=50&text_query=${encodeURIComponent(fallbackTerms)}`;
-						const resp = await fetch(url);
-						if (!resp.ok) continue;
-						const events = await resp.json() as Array<{ title?: string; slug?: string; markets?: GammaMarketResponse[] }>;
-						if (!Array.isArray(events) || events.length === 0) continue;
-						const fallbackMarkets: Market[] = [];
-						for (const event of events) {
-							if (!Array.isArray(event.markets)) continue;
-							const eventHaystack = `${(event.slug ?? '').toLowerCase()} ${(event.title ?? '').toLowerCase()}`;
-							const keywordsToUse = strongFallbackKeywords.length > 0 ? strongFallbackKeywords : queryKeywords;
-							if (keywordsToUse.length > 0 && !keywordsToUse.some((kw) => eventHaystack.includes(kw))) {
-								continue;
-							}
-							for (const raw of event.markets) {
-								const m = mapGammaMarketToMarket(raw);
-								if (!m) continue;
-								if (anchorKeywords.length > 0) {
-									const marketHaystack = `${m.question} ${m.slug ?? ''} ${m.eventSlug ?? ''}`.toLowerCase();
-									if (!anchorKeywords.some((kw) => marketHaystack.includes(kw))) {
-										continue;
-									}
-								}
-								fallbackMarkets.push(m);
-							}
-						}
-						if (fallbackMarkets.length > 0) {
-							console.log(`[search] Sports text fallback found ${fallbackMarkets.length} markets (closed=${closed})`);
-							fallbackMarkets.sort((a, b) => {
-								const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
-								const statusDiff = rank(a.status) - rank(b.status);
-								if (statusDiff !== 0) return statusDiff;
-								if (isVsQuery) {
-									const aProp = isPropQuestion(a.question);
-									const bProp = isPropQuestion(b.question);
-									if (aProp !== bProp) return aProp ? 1 : -1;
-								}
-								const scoreKeywords = strongFallbackKeywords.length > 0 ? strongFallbackKeywords : queryKeywords;
-								const scoreDiff = tfidfScore(b, scoreKeywords, fallbackMarkets) - tfidfScore(a, scoreKeywords, fallbackMarkets);
-								if (scoreDiff !== 0) return scoreDiff;
-								return (b.volume || 0) - (a.volume || 0);
-							});
-							return fallbackMarkets;
-						}
-					} catch {
-						// best-effort
-					}
-				}
-			}
+			console.log('[search] No specific tags found, skipping tag search');
 			return [];
 		}
 
@@ -1949,17 +1662,7 @@ export class PolymarketApiReadProvider implements PolymarketReadProvider {
 		const tagScoreOf = (m: Market): number => {
 			if (queryKeywords.length === 0) return 0;
 			const q = m.question.toLowerCase();
-			let score = queryKeywords.filter(kw => q.includes(kw)).length;
-			const wantsMatchStyle = /\b(vs|versus|match|game)\b/.test(lowerQuery);
-			if (wantsMatchStyle) {
-				if (q.includes(' vs ') || q.includes(' bo1') || q.includes(' bo3') || q.includes(' bo5') || q.includes(' game ')) {
-					score += 3;
-				}
-				if (q.startsWith('will ')) {
-					score -= 3;
-				}
-			}
-			return score;
+			return queryKeywords.filter(kw => q.includes(kw)).length;
 		};
 		allMarkets.sort((a, b) => {
 			const rank = (s: Market['status']): number => s === 'active' ? 0 : s === 'paused' ? 1 : 2;
@@ -2206,6 +1909,37 @@ async function fetchSportsMetadata(): Promise<SportEntry[]> {
  * against known aliases and team names.
  * Returns an array of sport codes (e.g. ['lol', 'cs2']).
  */
+
+function hasStrongVsSportSignal(query: string, sportCode: string): boolean {
+  const aliases = SPORT_ALIASES[sportCode] ?? [];
+  if (aliases.length === 0) return false;
+
+  const lower = query.toLowerCase();
+  const words = new Set(
+          lower
+                  .replace(/[^a-z0-9\s]/g, ' ')
+                  .split(/\s+/)
+                  .filter(w => w.length >= 2),
+  );
+
+  if (words.has(sportCode)) return true;
+
+  let singleWordHits = 0;
+  for (const aliasRaw of aliases) {
+          const alias = aliasRaw.toLowerCase();
+          if (alias.includes(' ')) {
+                  if (lower.includes(alias)) return true;
+                  continue;
+          }
+
+          if (words.has(alias)) {
+                  singleWordHits += 1;
+                  if (singleWordHits >= 2) return true;
+          }
+  }
+
+  return false;
+}
 function detectSportsFromQuery(query: string): string[] {
 	const lower = query.toLowerCase();
 	const words = lower.replace(/[^a-z0-9\s.]/g, ' ').split(/\s+/).filter(Boolean);
@@ -2748,3 +2482,5 @@ function parseOutcomes(outcomesValue: string | string[] | undefined): readonly O
 		return ['YES', 'NO'];
 	}
 }
+
+
